@@ -1,0 +1,5 @@
+On input, replace new lines with <br> or something the like. This is just annoying in the CSV output.
+
+Use a consistent input for special characters. (Use python-ftfy)
+
+

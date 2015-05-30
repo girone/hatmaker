@@ -1,0 +1,19 @@
+
+#masthead {
+  background: linear-gradient(45deg, #020031 0%, #6D3353 100%) repeat scroll 0% 0% transparent;
+  text-align: center;
+  color: #FFF;
+}
+
+#masthead:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background: url('bs-docs-masthead-pattern.png') repeat scroll center center transparent;
+  opacity: 0.7;
+}
+
