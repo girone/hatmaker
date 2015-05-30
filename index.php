@@ -1,14 +1,19 @@
+<?php
+$TOURNAMENT_NUMBER = "26th";
+$YEAR = "2015";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>25th MischMasch HAT Player Information</title>
+  <title><?php echo $TOURNAMENT_NUMBER; ?> MischMasch HAT Player Information</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 <div id="masthead" class="jumbotron masthead">
-  <h1>25th MischMasch Player Information</h1>
+  <h1><?php echo $TOURNAMENT_NUMBER; ?> MischMasch Player Information</h1>
 </div>
 <div class="container">
   <div class="row">
@@ -67,7 +72,7 @@ if (!$_POST['sent']) {
     }
   }
 
-  $sql="INSERT INTO MischMasch25 (name, origin, gender, team, num_tournaments, position, throwing_skill, fitness, arrival, notes, time)
+  $sql="INSERT INTO MischMasch (name, origin, gender, team, num_tournaments, position, throwing_skill, fitness, arrival, notes, time)
     VALUES ('$name', '$origin', '$gender', '$team', '$num_tournaments', '$position', '$throwing_skill', '$fitness', '$arrival', '$notes', '$time')";
 
   if (!$con->query($sql)) {
@@ -128,7 +133,7 @@ if (!$_POST['sent']) {
           </div>
         </div>
         <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">How many tournaments have you played in 2014?</label>
+          <label class="col-md-4 control-label" for="inputXYZ">How many tournaments have you played in <?php echo $YEAR; ?>?</label>
           <div class="col-md-8">
             <select id="numTournaments" class="form-control" name="num_tournaments">
               <option>None</option>
@@ -163,11 +168,11 @@ if (!$_POST['sent']) {
           <label class="col-md-4 control-label" for="inputXYZ">How do you rate your current fitness and athletic condition?</label>
           <div class="col-md-8">
             <select id="fitness" class="form-control" name="fitness">
-              <option>Panda: Uh...I used to be in better shape, though!</option>
-              <option>Hedgehog: Advantage comes from cunningness.</option>
-              <option>Gnu: I am not the fastest, but can run for hours.</option>
-              <option>Cheetah: Fast, but poor stamina.</option>
-              <option>Road Runner: I am super fast and super fit.</option>
+              <option>Miss Marple (Why run when you can read the game?)</option>
+              <option>Columbo (More positioning, less running)</option>
+              <option>Mr. X (I run –when they are chasing me! Or use a black ticket)</option>
+              <option>Jason Bourne (Fast escapes are my specialty! But my stamina  is poor)</option>
+              <option>Ethan Hunt (Running jumping running jumping- have you seen my films? I do nothing else for 2:30h)</option>
             </select>
           </div>
         </div>
@@ -199,7 +204,7 @@ if (!$_POST['sent']) {
     </div>
     <div class="col-md-4">
       <!-- flyer -->
-      <img class="img-responsive" src="flyer.png" alt="flyer 2014" />
+      <img class="img-responsive" src="logo_2015_A4.png" alt="flyer <?php echo $YEAR; ?>" />
     </div>
   </div>
 </div>
