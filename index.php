@@ -37,17 +37,18 @@ if (!$_POST['sent']) {
   } else {
     //echo "Connection to DB established.";
   }
+  $con->query("SET NAMES 'utf8'");
 
-  $name             = $con->real_escape_string($_POST['name']);
-  $origin           = $con->real_escape_string($_POST['origin']);
-  $gender           = $con->real_escape_string($_POST['gender']);
-  $team             = $con->real_escape_string($_POST['team']);
-  $num_tournaments  = $con->real_escape_string($_POST['num_tournaments']);
-  $position         = $con->real_escape_string($_POST['position']);
-  $throwing_skill   = $con->real_escape_string($_POST['throwing_skill']);
-  $fitness          = $con->real_escape_string($_POST['fitness']);
-  $arrival          = $con->real_escape_string($_POST['arrival']);
-  $notes            = $con->real_escape_string($_POST['notes']);
+  $name             = $con->real_escape_string(utf8_encode($_POST['name']));
+  $origin           = $con->real_escape_string(utf8_encode($_POST['origin']));
+  $gender           = $con->real_escape_string(utf8_encode($_POST['gender']));
+  $team             = $con->real_escape_string(utf8_encode($_POST['team']));
+  $num_tournaments  = $con->real_escape_string(utf8_encode($_POST['num_tournaments']));
+  $position         = $con->real_escape_string(utf8_encode($_POST['position']));
+  $throwing_skill   = $con->real_escape_string(utf8_encode($_POST['throwing_skill']));
+  $fitness          = $con->real_escape_string(utf8_encode($_POST['fitness']));
+  $arrival          = $con->real_escape_string(utf8_encode($_POST['arrival']));
+  $notes            = $con->real_escape_string(utf8_encode($_POST['notes']));
   $time             = date('l jS \of F Y h:i:s A');
 
   /* Make sure the required fields are filled. */
@@ -170,9 +171,9 @@ if (!$_POST['sent']) {
             <select id="fitness" class="form-control" name="fitness">
               <option>Miss Marple (Why run when you can read the game?)</option>
               <option>Columbo (More positioning, less running)</option>
-              <option>Mr. X (I run –when they are chasing me! Or use a black ticket)</option>
+              <option>Mr. X (I run -- when they are chasing me! Or use a black ticket)</option>
               <option>Jason Bourne (Fast escapes are my specialty! But my stamina  is poor)</option>
-              <option>Ethan Hunt (Running jumping running jumping- have you seen my films? I do nothing else for 2:30h)</option>
+              <option>Ethan Hunt (Running jumping running jumping -- have you seen my films? I do nothing else for 2:30h)</option>
             </select>
           </div>
         </div>

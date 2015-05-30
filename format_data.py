@@ -2,8 +2,15 @@
 
 This script takes a CSV file with player information as input and formats it in
 a neat way as HTML, which can be printed on paper.
+
+Run with 
+  python3 format_data.py CSV-file
+
+Unicode does not work with python2, so use python3.
+
 """
 import sys
+import ftfy
 
 def parse_line(csv):
     """
@@ -12,7 +19,12 @@ def parse_line(csv):
     """
     fields = csv.split("\"")
     fields = [f for f in fields if f != "," and f != "" and f != '\n']
-    return fields
+    try:
+        return [ftfy.fix_text(field) for field in fields]
+    except Exception as e:
+        print("ftfy exception: " + e)
+        print("Run this script with python3 to avoid this.")
+        return []
 
 
 def format_skill(skill):
@@ -23,7 +35,7 @@ def format_skill(skill):
     elif skill.startswith("Bas"):
         return "green"
     else:
-        print "Error: wrong skill " + skill
+        print("Error: wrong skill " + skill)
         exit(1)
 
 
@@ -46,18 +58,18 @@ def format_num_tournaments(num):
 
 def format_fitness(fitness):
     s = "<img src='"
-    if fitness.startswith("Panda"):
+    if fitness.startswith("Miss"):
         s += "panda"
-    elif fitness.startswith("Hedgehog"):
+    elif fitness.startswith("Columbo"):
         s += "hedgehog"
-    elif fitness.startswith("Gnu"):
+    elif fitness.startswith("Mr. X"):
         s += "gnu"
-    elif fitness.startswith("Cheetah"):
+    elif fitness.startswith("Jason"):
         s += "cheetah"
-    elif fitness.startswith("Road"):
+    elif fitness.startswith("Ethan"):
         s += "roadrunner"
     else:
-        print "Error: Wrong fitness " + fitness
+        print("Error: Wrong fitness " + fitness)
         exit(1)
     s += ".png' height='60px' />"
     return s
@@ -121,40 +133,40 @@ def parse_data(filename):
 
 def print_header():
     """Prints the html header."""
-    print "    <!DOCTYPE html>"
-    print "    <html lang='en'>"
-    print "    <head>"
-    print "      <meta charset='UTF-8'>"
-    print "      <title>25th MischMasch HAT Player Information</title>"
-    print "      <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'/>"
-    print "      <link rel='stylesheet' href='style.css' />"
-    print "    </head>"
-    print "    <body>"
-    print "      <div class='container'>"
+    print("    <!DOCTYPE html>")
+    print("    <html lang='en'>")
+    print("    <head>")
+    print("      <meta charset='UTF-8'>")
+    print("      <title>25th MischMasch HAT Player Information</title>")
+    print("      <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'/>")
+    print("      <link rel='stylesheet' href='style.css' />")
+    print("    </head>")
+    print("    <body>")
+    print("      <div class='container'>")
 
 
 def print_footer():
     """Prints the HTML footer."""
-    print "      </div>"
-    print "    </body>"
-    print "    </html>"
-    print ""
+    print("      </div>")
+    print("    </body>")
+    print("    </html>")
+    print("")
 
 
 def output_formatted(data):
     """Prints the data to stdout in a nice format."""
     print_header()
     for line in data:
-        print line
-        print "<hr>"
-        print ""
+        print(line)
+        print("<hr>")
+        print("")
     print_footer()
 
 
 def main():
     if len(sys.argv) < 2:
-        print "No .csv file specified. Usage is:"
-        print " python format_data.py <PlayerDataAsCSV>"
+        print("No .csv file specified. Usage is:")
+        print(" python format_data.py <PlayerDataAsCSV>")
         exit(1)
     player_data = parse_data(sys.argv[1])
     output_formatted(player_data)
