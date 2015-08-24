@@ -1,3 +1,4 @@
+#!/usr/env/python3
 """ format_data.py 
 
 This script takes a CSV file with player information as input and formats it in
@@ -17,12 +18,14 @@ def parse_line(csv):
     The data is probably enclosed with " so we cannot just split(","), since
     this would split at enclosed , as well.
     """
-    fields = csv.split("\"")
+    fields = csv.split(",")
     fields = [f for f in fields if f != "," and f != "" and f != '\n']
+    fields = [f.strip('"') for f in fields]
+    fields = [f.replace("\\#", ",") for f in fields]
     try:
         return [ftfy.fix_text(field) for field in fields]
     except Exception as e:
-        print("ftfy exception: " + e)
+        print("ftfy exception: " + str(e))
         print("Run this script with python3 to avoid this.")
         return []
 
@@ -35,7 +38,7 @@ def format_skill(skill):
     elif skill.startswith("Bas"):
         return "green"
     else:
-        print("Error: wrong skill " + skill)
+        print("Error: wrong skill '" + skill + "'")
         exit(1)
 
 
