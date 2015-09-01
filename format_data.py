@@ -23,6 +23,8 @@ def parse_line(csv):
     fields = [f.strip('"') for f in fields]
     fields = [f.replace("\\#", ",") for f in fields]
     try:
+        #print("#".join([repr(f) for f in fields]))
+        #print("#".join([ftfy.fix_text(f) for f in fields]))
         return [ftfy.fix_text(field) for field in fields]
     except Exception as e:
         print("ftfy exception: " + str(e))
@@ -140,7 +142,7 @@ def print_header():
     print("    <html lang='en'>")
     print("    <head>")
     print("      <meta charset='UTF-8'>")
-    print("      <title>25th MischMasch HAT Player Information</title>")
+    print("      <title>26th MischMasch HAT Player Information</title>")
     print("      <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'/>")
     print("      <link rel='stylesheet' href='style.css' />")
     print("    </head>")
