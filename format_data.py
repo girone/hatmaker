@@ -42,7 +42,9 @@ def parse_line(csv):
 
 
 def format_skill(skill):
-    if skill.startswith("Pro") or skill.startswith("All"):
+    if skill.startswith("All"):
+        return "magenta"
+    elif skill.startswith("Pro"):
         return "blue"
     elif skill.startswith("Adva"):
         return "red"
