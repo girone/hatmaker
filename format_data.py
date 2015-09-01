@@ -13,6 +13,15 @@ Unicode does not work with python2, so use python3.
 import sys
 import ftfy
 
+def fix(text):
+    """
+    This repairs encoding problems which have been wront before even reaching
+    the server via HTTP POST.
+
+    HACKYHACKYHACKY!
+    """
+    return text.replace("Ã?sterreich", "Österreich").replace("Ã?", "ß")
+
 def parse_line(csv):
     """
     The data is probably enclosed with " so we cannot just split(","), since
@@ -25,7 +34,7 @@ def parse_line(csv):
     try:
         #print("#".join([repr(f) for f in fields]))
         #print("#".join([ftfy.fix_text(f) for f in fields]))
-        return [ftfy.fix_text(field) for field in fields]
+        return [fix(ftfy.fix_text(field)) for field in fields]
     except Exception as e:
         print("ftfy exception: " + str(e))
         print("Run this script with python3 to avoid this.")
