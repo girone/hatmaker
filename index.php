@@ -1,6 +1,6 @@
 <?php
-$TOURNAMENT_NUMBER = "26th";
-$YEAR = "2015";
+$TOURNAMENT_NUMBER = "27th";
+$YEAR = "2016";
 
 ?>
 <!DOCTYPE html>
@@ -19,6 +19,7 @@ $YEAR = "2015";
   <div class="row">
     <div class="col-md-12">
 <?php
+
 if (!$_POST['sent']) {
   echo '
       <div class="alert alert-info">
@@ -205,7 +206,7 @@ if (!$_POST['sent']) {
     </div>
     <div class="col-md-4">
       <!-- flyer -->
-      <img class="img-responsive" src="logo_2015_A4.png" alt="flyer <?php echo $YEAR; ?>" />
+      <img class="img-responsive" src="mmLogo2016.png" alt="flyer <?php echo $YEAR; ?>" />
     </div>
   </div>
 </div>
