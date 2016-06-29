@@ -6,7 +6,7 @@ $YEAR = "2016";
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title><?php echo $TOURNAMENT_NUMBER; ?> MischMasch HAT Player Information</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
   <link rel="stylesheet" href="style.css" />
@@ -38,18 +38,17 @@ if (!$_POST['sent']) {
   } else {
     //echo "Connection to DB established.";
   }
-  $con->query("SET NAMES 'utf8'");
+  $con->set_charset("utf8");
 
-  $name             = $con->real_escape_string(utf8_encode($_POST['name']));
-  $origin           = $con->real_escape_string(utf8_encode($_POST['origin']));
-  $gender           = $con->real_escape_string(utf8_encode($_POST['gender']));
-  $team             = $con->real_escape_string(utf8_encode($_POST['team']));
-  $num_tournaments  = $con->real_escape_string(utf8_encode($_POST['num_tournaments']));
-  $position         = $con->real_escape_string(utf8_encode($_POST['position']));
-  $throwing_skill   = $con->real_escape_string(utf8_encode($_POST['throwing_skill']));
-  $fitness          = $con->real_escape_string(utf8_encode($_POST['fitness']));
-  $arrival          = $con->real_escape_string(utf8_encode($_POST['arrival']));
-  $notes            = $con->real_escape_string(utf8_encode($_POST['notes']));
+  $name             = $con->real_escape_string($_POST['name']);
+  $origin           = $con->real_escape_string($_POST['origin']);
+  $gender           = $con->real_escape_string($_POST['gender']);
+  $experience       = $con->real_escape_string($_POST['experience']);
+  $throwing_skill   = $con->real_escape_string($_POST['throwing_skill']);
+  $fitness          = $con->real_escape_string($_POST['fitness']);
+  $height           = $con->real_escape_string($_POST['height']);
+  $arrival          = $con->real_escape_string($_POST['arrival']);
+  $notes            = $con->real_escape_string($_POST['notes']);
   $time             = date('l jS \of F Y h:i:s A');
 
   /* Make sure the required fields are filled. */
