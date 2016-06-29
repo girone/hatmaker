@@ -1,10 +1,10 @@
 #!/usr/env/python3
-""" format_data.py 
+""" format_data.py
 
 This script takes a CSV file with player information as input and formats it in
 a neat way as HTML, which can be printed on paper.
 
-Run with 
+Run with
   python3 format_data.py CSV-file
 
 Unicode does not work with python2, so use python3.
@@ -14,16 +14,14 @@ import sys
 import ftfy
 
 def fix(text):
-    """
-    This repairs encoding problems which have been wront before even reaching
-    the server via HTTP POST.
-
-    HACKYHACKYHACKY!
-    """
-    return text.replace("Ã?sterreich", "Österreich").replace("Ã?", "ß")
+    """Repairs encoding problems."""
+    # NOTE(Jonas): This seems to be fixed on the PHP side for now.
+    # return ftfy.fix_text(text)
+    return text
 
 def parse_line(csv):
-    """
+    """Parses a line.
+
     The data is probably enclosed with " so we cannot just split(","), since
     this would split at enclosed , as well.
     """
@@ -32,9 +30,7 @@ def parse_line(csv):
     fields = [f.strip('"') for f in fields]
     fields = [f.replace("\\#", ",") for f in fields]
     try:
-        #print("#".join([repr(f) for f in fields]))
-        #print("#".join([ftfy.fix_text(f) for f in fields]))
-        return [fix(ftfy.fix_text(field)) for field in fields]
+        return [fix(field) for field in fields]
     except Exception as e:
         print("ftfy exception: " + str(e))
         print("Run this script with python3 to avoid this.")
@@ -42,17 +38,8 @@ def parse_line(csv):
 
 
 def format_skill(skill):
-    if skill.startswith("All"):
-        return "magenta"
-    elif skill.startswith("Pro"):
-        return "blue"
-    elif skill.startswith("Adva"):
-        return "red"
-    elif skill.startswith("Bas"):
-        return "green"
-    else:
-        print("Error: wrong skill '" + skill + "'")
-        exit(1)
+    # TOOD(Jonas) Use some color code here.
+    return skill.split(" ")[0]
 
 
 def format_gender(gender):
@@ -63,46 +50,52 @@ def format_position(pos):
     return "Position:" + pos
 
 
-def format_num_tournaments(num):
-    s = " Tournaments this year: "
-    if num.startswith("More"):
-        s += "> 5"
-    else:
-        s += num
+def format_experience(exp):
+    s = "Experience: " + exp.strip().lower()
+    if "year" not in s:
+        s += " year(s)"
     return s
 
 
 def format_fitness(fitness):
-    s = "<img src='"
-    if fitness.startswith("Miss"):
-        s += "panda"
-    elif fitness.startswith("Columbo"):
-        s += "hedgehog"
-    elif fitness.startswith("Mr. X"):
-        s += "gnu"
-    elif fitness.startswith("Jason"):
-        s += "cheetah"
-    elif fitness.startswith("Ethan"):
-        s += "roadrunner"
-    else:
-        print("Error: Wrong fitness " + fitness)
-        exit(1)
-    s += ".png' height='60px' />"
+    # TOOD(Jonas) Use some color code or image here.
+    return "Fitness: " + fitness.split(" ")[0]
+#    s = "<img src='"
+#    if fitness.startswith("Miss"):
+#        s += "panda"
+#    elif fitness.startswith("Columbo"):
+#        s += "hedgehog"
+#    elif fitness.startswith("Mr. X"):
+#        s += "gnu"
+#    elif fitness.startswith("Jason"):
+#        s += "cheetah"
+#    elif fitness.startswith("Ethan"):
+#        s += "roadrunner"
+#    else:
+#        print("Error: Wrong fitness " + fitness)
+#        exit(1)
+#    s += ".png' height='60px' />"
+#    return s
+
+
+def format_height(height):
+    s = "Height: " + height.strip().lower()
+    if not s.endswith("cm"):
+        s += " cm"
     return s
 
 
 class PlayerData(object):
     def __init__(self, csvLine):
-        (name, origin, gender, team, num_tournaments, position, throwing_skill,
-                fitness, arrival, notes, time, index) = parse_line(csvLine)
+        (name, origin, gender, experience, throwing_skill, fitness,
+             height, arrival, notes, time, index) = parse_line(csvLine)
         self.name            = name
         self.origin          = origin
         self.gender          = gender
-        self.team            = team
-        self.num_tournaments = num_tournaments
-        self.position        = position
+        self.experience      = experience
         self.throwing_skill  = throwing_skill
         self.fitness         = fitness
+        self.height          = height
         self.arrival         = arrival
         self.notes           = notes
 
@@ -124,13 +117,13 @@ class PlayerData(object):
         s.append("              " + format_gender(self.gender))
         s.append("          </span>")
         s.append("          <span class='skill'>")
-        s.append("              " + format_position(self.position))
+        s.append("              " + format_experience(self.experience) )
         s.append("          </span>")
         s.append("          <span class='skill'>")
-        s.append("              " + format_num_tournaments(self.num_tournaments) )
+        s.append("              " + format_fitness(self.fitness) )
         s.append("          </span>")
         s.append("          <span class='skill pull-right'>")
-        s.append("              " + format_fitness(self.fitness) )
+        s.append("              " + format_height(self.height) )
         s.append("          </span>")
         s.append("      </div>")
         s.append("  </div>")
@@ -153,7 +146,7 @@ def print_header():
     print("    <html lang='en'>")
     print("    <head>")
     print("      <meta charset='UTF-8'>")
-    print("      <title>26th MischMasch HAT Player Information</title>")
+    print("      <title>27th MischMasch HAT Player Information</title>")
     print("      <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'/>")
     print("      <link rel='stylesheet' href='style.css' />")
     print("    </head>")

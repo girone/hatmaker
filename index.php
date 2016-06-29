@@ -56,25 +56,26 @@ if (!$_POST['sent']) {
     "name" => $name,
     "origin" => $origin,
     "gender" => $gender,
-    "num_tournaments" => $num_tournaments,
-    "position" => $position,
+    "experience" => $experience,
     "throwing_skill" => $throwing_skill,
-    "fitness" => $fitness
+    "fitness" => $fitness,
+    "height" => $height
   );
 
   foreach ($requiredVariables as $key => $variable) {
     if ($variable == "") {
       echo '
         <div class="alert alert-danger">
-          <strong>Error: Missing input in field "<em>' . $key . '</em>". Aborted!</strong>
+          <strong>Error: Missing input in field "<em>' . $key . '</em>".</strong>
         </div>
+        <button type="button" class="btn btn-primary btn-lg center-block" onclick="history.back()">Retry, please.</button>
       ';
       die();
     }
   }
 
-  $sql="INSERT INTO MischMasch (name, origin, gender, team, num_tournaments, position, throwing_skill, fitness, arrival, notes, time)
-    VALUES ('$name', '$origin', '$gender', '$team', '$num_tournaments', '$position', '$throwing_skill', '$fitness', '$arrival', '$notes', '$time')";
+  $sql="INSERT INTO MischMasch (name,    origin,    gender,    experience,    throwing_skill,    fitness,    height,    arrival,   notes,    time)
+                        VALUES ('$name', '$origin', '$gender', '$experience', '$throwing_skill', '$fitness', '$height', '$arrival', '$notes', '$time')";
 
   if (!$con->query($sql)) {
     echo '
@@ -97,25 +98,25 @@ if (!$_POST['sent']) {
 ?>
 
     </div>
-    <div class="col-md-8">
+    <div id="form_container" class="col-md-8">
 
       <!-- formular -->
       <form class="form-horizontal" action="index.php" method="post">
         <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">Full Name</label>
+          <label class="col-md-4 control-label" for="input1">Full Name</label>
           <div class="col-md-8">
-            <input id="input1" class="form-control" type="TYPE" name="name" />
+            <input id="input1" class="form-control" type="text" name="name" />
             <input type="hidden" name="sent" value="1" />
           </div>
         </div>
         <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">Origin (City, Country)</label>
+          <label class="col-md-4 control-label" for="input2">Origin (City, Country and Team)</label>
           <div class="col-md-8">
-            <input id="input2" class="form-control" type="TYPE" name="origin" />
+            <input id="input2" class="form-control" type="text" name="origin" />
           </div>
         </div>
         <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">Gender</label>
+          <label class="col-md-4 control-label" for="gender">Gender</label>
           <div class="col-md-8">
             <select id="gender" class="form-control" name="gender">
               <option>Male</option>
@@ -124,64 +125,54 @@ if (!$_POST['sent']) {
           </div>
         </div>
 
-
         <hr/>
 
         <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">What's the name of your regular team?</label>
+          <label class="col-md-4 control-label" for="experience">For how many years do you play Ultimate?</label>
           <div class="col-md-8">
-            <input id="input3" class="form-control" type="TYPE" name="team" />
+            <input id="experience" class="form-control" type="text" name="experience" />
           </div>
         </div>
+
         <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">How many tournaments have you played in <?php echo $YEAR; ?>?</label>
-          <div class="col-md-8">
-            <select id="numTournaments" class="form-control" name="num_tournaments">
-              <option>None</option>
-              <option>1-2</option>
-              <option>3-5</option>
-              <option>More (Choose this option if you counted for more than 30 seconds.)</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">Which position is your favourite?</label>
-          <div class="col-md-8">
-            <select id="position" class="form-control" name="position">
-              <option>Receiver</option>
-              <option>Handler</option>
-              <option>Both</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">How do you rate your throwing skills?</label>
+          <label class="col-md-4 control-label" for="throwingSkill">How do you rate your throwing skills?</label>
           <div class="col-md-8">
             <select id="throwingSkill" class="form-control" name="throwing_skill">
-              <option>Basic (I can throw straight backhand and forehand.)</option>
-              <option>Advanced (I throw insides and outsides in tournament games.)</option>
-              <option>Pro (I throw inside, outside, both backhand and side-arm at variable distance with decent success.)</option>
-              <option>Allstar (There is no throw I can't throw, no matter who defends me.)</option>
+              <option>0 (Rooky)</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6 (Mastermind)</option>
             </select>
           </div>
         </div>
         <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">How do you rate your current fitness and athletic condition?</label>
+          <label class="col-md-4 control-label" for="fitness">How do you rate your current fitness and athletic condition?</label>
           <div class="col-md-8">
             <select id="fitness" class="form-control" name="fitness">
-              <option>Miss Marple (Why run when you can read the game?)</option>
-              <option>Columbo (More positioning, less running)</option>
-              <option>Mr. X (I run -- when they are chasing me! Or use a black ticket)</option>
-              <option>Jason Bourne (Fast escapes are my specialty! But my stamina  is poor)</option>
-              <option>Ethan Hunt (Running jumping running jumping -- have you seen my films? I do nothing else for 2:30h)</option>
+              <option>0 (Rooky)</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6 (Mastermind)</option>
             </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="height">How tall are you in <a href="http://www.metric-conversions.org/length/feet-to-centimeters.htm" target="_blank">cm</a>?</label>
+          <div class="col-md-8">
+            <input id="height" class="form-control" type="text" name="height" />
           </div>
         </div>
 
         <hr/>
 
         <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">When will you arrive?</label>
+          <label class="col-md-4 control-label" for="arrival">When will you arrive?</label>
           <div class="col-md-8">
             <select id="arrival" class="form-control" name="arrival">
               <option>On Friday, in time for the team announcement and get-together (about 8.30pm).</option>
@@ -191,7 +182,13 @@ if (!$_POST['sent']) {
           </div>
         </div>
         <div class="form-group">
-          <label class="col-md-4 control-label" for="inputXYZ">Notes, questions and suggestions (add your actual arrival time here, maybe we will postpone parts of the program)</label>
+          <label class="col-md-4 control-label" for="music">Music</label>
+          <div class="col-md-8">
+            <input id="music" class="form-control" type="TYPE" name="music" placeholder="I would like to hear this track during the tournament." />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="notes">Notes, questions and suggestions (Need airport pickup?)</label>
           <div class="col-md-8">
             <textarea id="notes" class="form-control" rows="3" name="notes"></textarea>
           </div>
