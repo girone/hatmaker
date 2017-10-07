@@ -1,6 +1,61 @@
 <?php
-$TOURNAMENT_NUMBER = "27th";
-$YEAR = "2016";
+$TOURNAMENT_NUMBER = "28th";
+$YEAR = "2017";
+$MAX_PLAYERS = 144;
+
+abstract class RegistrationPhase {
+  const OPEN = 1;
+  const FULL_BUT_WAITING_LIST_OPEN = 2;
+  const CLOSED = 3;
+}
+
+function create_connection() {
+  /* Open and check connection */
+  $con = mysqli_connect("dd16322.kasserver.com", "d01b650f", "zngowffmurMVw5Zo", "d01b650f");
+  if (mysqli_connect_errno()) {
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  } else {
+    //echo "Connection to DB established.";
+  }
+  $con->set_charset("utf8");
+  return $con;
+}
+
+function get_player_count() {
+  $con = create_connection();
+  $sql = "SELECT COUNT(*) FROM MischMasch";
+  $res = $con->query($sql);
+
+  if (!$res) {
+    echo format_error(mysqli_error($con));
+    die();
+  }
+
+  $tmp = $res->fetch_all();
+  $count = $tmp[0][0];
+
+  $con->close();
+
+  return $count;
+}
+
+$registrationPhase = RegistrationPhase::OPEN;
+
+// $playerCount = get_player_count();
+// if ($playerCount > $MAX_PLAYERS) {
+//   if ($playerCount < $MAX_PLAYERS + 20) {
+//     $registrationPhase = RegistrationPhase::FULL_BUT_WAITING_LIST_OPEN;
+//   }
+//   $registrationPhase = RegistrationPhase::CLOSED;
+// }
+
+function format_error($err_msg) {
+  return '
+      <div class="alert alert-danger">
+        <strong>Error: <em>' . $err_msg . '</em>". Aborted! Please contact jonas (.) sternisko (@) gmail (.) com and report this error message.</strong>
+      </div>
+    ';
+}
 
 ?>
 <!DOCTYPE html>
@@ -10,6 +65,8 @@ $YEAR = "2016";
   <title><?php echo $TOURNAMENT_NUMBER; ?> MischMasch HAT Player Information</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
   <link rel="stylesheet" href="style.css" />
+  <!--<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="967fs58zsni4mpz"></script>-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 <div id="masthead" class="jumbotron masthead">
@@ -20,27 +77,71 @@ $YEAR = "2016";
     <div class="col-md-12">
 <?php
 
-if (!$_POST['sent']) {
+if (!$_POST['sent']) { 
+
+  if ($registrationPhase != RegistrationPhase::OPEN) {
+    echo '
+      <div class="alert alert-warning">
+        <strong>
+          Unfortunately, we have already reached the maximum number of players. ';
+          if ($registrationPhase == RegistrationPhase::FULL_BUT_WAITING_LIST_OPEN) {
+            echo 'Nevertheless, you may register for the waiting list.';
+          }
+    echo '
+        </strong>
+      </div>
+       ';
+  }
   echo '
       <div class="alert alert-info">
         <p>
-          <strong>Welcome!</strong> Please fill in the fields below and click on submit. We will use this information to set up the teams.
+          <strong>Welcome!</strong> Please fill in the fields below. We will use this information to contact you and set up the teams. 
         </p>
+        <ul>
+          <li>Note that this year, the whole registration process is done on this page. You no longer need to register both here and on Ultimate Central, respectively.</li>
+          <li>The first 144 players are automatically acknowledged. Further players will be put on the waiting list.</li>
+          <li>We will send you payment information come the end of July. The playersfee has to be payed at least two weeks before the tournament. If you do not pay in time, you might loose your spot.</li>
+          <li>If you already payed and cannot make it for whatever reason, we can reimburse your playersfee if you inform us until two weeks before the tournament. Later cancelations are not guaranteed to get the playersfee back.</li>
+        </ul>
       </div>
        ';
 } else {
   error_reporting(E_ALL);
 
-  /* Open and check connection */
-  $con = mysqli_connect("dd16322.kasserver.com", "d01b650f", "zngowffmurMVw5Zo", "d01b650f");
-  if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  } else {
-    //echo "Connection to DB established.";
-  }
-  $con->set_charset("utf8");
+  //$music_file = $_POST['music_file'];
+
+    // TODO(Jonas):
+    // 1. Use this in the code. Get the filepath from the Users selection.
+    // 2. Check the file size. Should not allow more than 10 MB.
+    // 3. Test against my dropbox.
+
+/*
+        $binary_content = file_get_contents('/path/to/file');
+
+        $ch = curl_init();
+
+        // set url
+        curl_setopt($ch, CURLOPT_URL, "https://content.dropboxapi.com/2/files/upload");
+
+        // return the transfer as a string
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 'Authorization: Bearer qAjrwutbQegAAAAAAAAcM899ozoTPNAmqcOLSdQ3T8LSjghQE9QQU_WWrwfhlnG5');
+        curl_setopt($ch, CURLOPT_HEADER, 'Content-Type: application/octet-stream');
+        curl_setopt($ch, CURLOPT_HEADER, 'Dropbox-API-Arg: {"path":"/username","mode":{".tag":"overwrite"},"mute":true}');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $binary_content);
+
+        // $output contains the output string
+        $output = curl_exec($ch);
+
+        // close curl resource to free up system resources
+        curl_close($ch);*/
+
+
+  $con = create_connection();
 
   $name             = $con->real_escape_string($_POST['name']);
+  $email            = $con->real_escape_string($_POST['email']);
   $origin           = $con->real_escape_string($_POST['origin']);
   $gender           = $con->real_escape_string($_POST['gender']);
   $experience       = $con->real_escape_string($_POST['experience']);
@@ -54,6 +155,7 @@ if (!$_POST['sent']) {
   /* Make sure the required fields are filled. */
   $requiredVariables = array(
     "name" => $name,
+    "email" => $email,
     "origin" => $origin,
     "gender" => $gender,
     "experience" => $experience,
@@ -74,31 +176,43 @@ if (!$_POST['sent']) {
     }
   }
 
-  $sql="INSERT INTO MischMasch (name,    origin,    gender,    experience,    throwing_skill,    fitness,    height,    arrival,   notes,    time)
-                        VALUES ('$name', '$origin', '$gender', '$experience', '$throwing_skill', '$fitness', '$height', '$arrival', '$notes', '$time')";
-
+  $sql = "INSERT INTO MischMasch (name,    email,    origin,    gender,    experience,    throwing_skill,    fitness,    height,    arrival,    notes,    time)
+                          VALUES ('$name', '$email', '$origin', '$gender', '$experience', '$throwing_skill', '$fitness', '$height', '$arrival', '$notes', '$time')";
   if (!$con->query($sql)) {
-    echo '
-      <div class="alert alert-danger">
-        <strong>Error: <em>' . mysqli_error($con) . '</em>". Aborted!</strong>
-      </div>
-    ';
+    echo format_error(mysqli_error($con));
     die();
   }
+  $con->close();
 
+  if ($registrationPhase != RegistrationPhase::CLOSED) {  // TODO(Jonas): Reword the registration phase stuff.
+    echo '
+        <div class="alert alert-success">
+          <strong>Player added. Thank you and see you in Freiburg!</strong> 
+        </div>
+    ';
+  } else {
+    echo '
+        <div class="alert alert-warning">
+          <strong>We have already reached the maximum number of players. You have been added to the waiting list. Expect to hear from us about two weeks before the tournament.</strong> 
+        </div>
+    ';
+  }
   echo '
-      <div class="alert alert-success">
-        <strong>Player added. Thank you and see you in Freiburg!</strong>
+      <div class="alert alert-info">
+        <p>Note that there will be no automatic confirmation email, whatsoever. Just trust into this message :)</p> 
       </div>
   ';
-
-  mysqli_close($con);
 }
 
 ?>
 
     </div>
+
     <div id="form_container" class="col-md-8">
+
+<?php
+if (!$_POST['sent']) {
+?>
 
       <!-- formular -->
       <form class="form-horizontal" action="index.php" method="post">
@@ -107,6 +221,12 @@ if (!$_POST['sent']) {
           <div class="col-md-8">
             <input id="input1" class="form-control" type="text" name="name" />
             <input type="hidden" name="sent" value="1" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="input1">Email</label>
+          <div class="col-md-8">
+            <input id="input1" class="form-control" type="text" name="email" />
           </div>
         </div>
         <div class="form-group">
@@ -128,7 +248,7 @@ if (!$_POST['sent']) {
         <hr/>
 
         <div class="form-group">
-          <label class="col-md-4 control-label" for="experience">For how many years do you play Ultimate?</label>
+          <label class="col-md-4 control-label" for="experience">For how many years are you playing Ultimate?</label>
           <div class="col-md-8">
             <input id="experience" class="form-control" type="text" name="experience" />
           </div>
@@ -182,9 +302,11 @@ if (!$_POST['sent']) {
           </div>
         </div>
         <div class="form-group">
-          <label class="col-md-4 control-label" for="music">Music</label>
+          <label class="col-md-4 control-label" for="music_file">Music</label>
           <div class="col-md-8">
-            <input id="music" class="form-control" type="TYPE" name="music" placeholder="I would like to hear this track during the tournament." />
+            <input id="music_file" class="form-control" type="TYPE" name="music_file" placeholder="Participate in the Misch Masch playlist &dash; TBA." disabled/>
+            <!--<input id="music_file" type="file" name="music_file">
+            <p class="help-block">I would like to hear this track during the tournament.</p>-->
           </div>
         </div>
         <div class="form-group">
@@ -195,18 +317,69 @@ if (!$_POST['sent']) {
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg center-block">Submit</button>
+            <button id="submit_button" type="submit" class="btn btn-primary btn-lg center-block">Submit</button>
         </div>
       </form>
-
+<?php
+  if ($registrationPhase == RegistrationPhase::CLOSED) {
+    echo "<script>
+      $(document).ready(function() {
+        $('input').attr('disabled', 'disabled');
+        $('select').attr('disabled', 'disabled');
+        $('textarea').attr('disabled', 'disabled');
+        $('#submit_button').attr('disabled', 'disabled');
+      });
+      </script>";
+  }
+}
+?>
     </div>
     <div class="col-md-4">
       <!-- flyer -->
-      <img class="img-responsive" src="mmLogo2016.png" alt="flyer <?php echo $YEAR; ?>" />
+      <img class="img-responsive" src="sticker_small.png" alt="flyer <?php echo $YEAR; ?>" />
     </div>
   </div>
 </div>
 <hr>
+
+<?php
+
+      /*<script>
+var options = {
+    files: [
+        // You can specify up to 100 files.
+        {'url': '...', 'filename': '...'},
+        //{'url': '...', 'filename': '...'},
+        // ...
+    ],
+
+    // Success is called once all files have been successfully added to the user's
+    // Dropbox, although they may not have synced to the user's devices yet.
+    success: function () {
+        // Indicate to the user that the files have been saved.
+        alert("Success! Files saved to your Dropbox.");
+    },
+
+    // Progress is called periodically to update the application on the progress
+    // of the user's downloads. The value passed to this callback is a float
+    // between 0 and 1. The progress callback is guaranteed to be called at least
+    // once with the value 1.
+    progress: function (progress) {},
+
+    // Cancel is called if the user presses the Cancel button or closes the Saver.
+    cancel: function () {},
+
+    // Error is called in the event of an unexpected response from the server
+    // hosting the files, such as not being able to find a file. This callback is
+    // also called if there is an error on Dropbox or if the user is over quota.
+    error: function (errorMessage) {
+        alert("Error: The following internal error occured:" + errorMessage);
+    }
+};
+var button = Dropbox.createSaveButton(options);
+document.getElementById("form_container").appendChild(button);
+      </script>*/
+?>
 
 </body>
 </html>

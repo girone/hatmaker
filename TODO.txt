@@ -1,5 +1,6 @@
-On input, replace new lines with <br> or something the like. This is just annoying in the CSV output.
-
-Use a consistent input for special characters. (Use python-ftfy)
-
-
+* The database list should be the single source of truth. We need some simple frontend which can be accessed by normal users to set information like "deleted", "payment received" etc.. Use a new table for each edition, and use a soft delete strategy.
+* After submitting a new player, show a link under which he/she can review and change their information later on. This page is identified by a new "secret" hash made from the name, team and or email of the player and stored along the other information within the database. Optionally, this link should be sent with a registration confirmation email (allthough we would need a real mailserver for this)
+* The confirmation email should also contain the bank account and payment information, so we wont need to do this again, later on.
+* Get the $registrationPhase right. Code is very spaghetti now.
+* Create a github repo.
+* Setup some automatic team making.
