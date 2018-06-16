@@ -151,7 +151,6 @@ if (!$_POST['sent']) {
   $height           = $con->real_escape_string($_POST['height']);
   $arrival          = $con->real_escape_string($_POST['arrival']);
   $notes            = $con->real_escape_string($_POST['notes']);
-  $time             = date('l jS \of F Y h:i:s A');
 
   /* Make sure the required fields are filled. */
   $requiredVariables = array(
@@ -177,8 +176,8 @@ if (!$_POST['sent']) {
     }
   }
 
-  $sql = "INSERT INTO MischMasch (name,    email,    origin,    gender,    experience,    throwing_skill,    fitness,    height,    arrival,    notes,    time)
-                          VALUES ('$name', '$email', '$origin', '$gender', '$experience', '$throwing_skill', '$fitness', '$height', '$arrival', '$notes', '$time')";
+  $sql = "INSERT INTO MischMasch (name,    email,    origin,    gender,    experience,    throwing_skill,    fitness,    height,    arrival,    notes)
+                          VALUES ('$name', '$email', '$origin', '$gender', '$experience', '$throwing_skill', '$fitness', '$height', '$arrival', '$notes')";
   if (!$con->query($sql)) {
     echo format_error(mysqli_error($con));
     die();
