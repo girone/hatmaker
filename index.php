@@ -111,36 +111,6 @@ if (!$_POST['sent']) {
 } else {
   error_reporting(E_ALL);
 
-  //$music_file = $_POST['music_file'];
-
-    // TODO(Jonas):
-    // 1. Use this in the code. Get the filepath from the Users selection.
-    // 2. Check the file size. Should not allow more than 10 MB.
-    // 3. Test against my dropbox.
-
-/*
-        $binary_content = file_get_contents('/path/to/file');
-
-        $ch = curl_init();
-
-        // set url
-        curl_setopt($ch, CURLOPT_URL, "https://content.dropboxapi.com/2/files/upload");
-
-        // return the transfer as a string
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 'Authorization: Bearer qAjrwutbQegAAAAAAAAcM899ozoTPNAmqcOLSdQ3T8LSjghQE9QQU_WWrwfhlnG5');
-        curl_setopt($ch, CURLOPT_HEADER, 'Content-Type: application/octet-stream');
-        curl_setopt($ch, CURLOPT_HEADER, 'Dropbox-API-Arg: {"path":"/username","mode":{".tag":"overwrite"},"mute":true}');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $binary_content);
-
-        // $output contains the output string
-        $output = curl_exec($ch);
-
-        // close curl resource to free up system resources
-        curl_close($ch);*/
-
-
   $con = create_connection();
 
   $name             = $con->real_escape_string($_POST['name']);
@@ -334,50 +304,11 @@ if (!$_POST['sent']) {
     </div>
     <div class="col-md-4">
       <!-- flyer -->
-      <img class="img-responsive" src="sticker_small.png" alt="flyer <?php echo $YEAR; ?>" />
+      <img class="img-responsive" src="sticker_small_2018.png" alt="flyer <?php echo $YEAR; ?>" />
     </div>
   </div>
 </div>
 <hr>
-
-<?php
-
-      /*<script>
-var options = {
-    files: [
-        // You can specify up to 100 files.
-        {'url': '...', 'filename': '...'},
-        //{'url': '...', 'filename': '...'},
-        // ...
-    ],
-
-    // Success is called once all files have been successfully added to the user's
-    // Dropbox, although they may not have synced to the user's devices yet.
-    success: function () {
-        // Indicate to the user that the files have been saved.
-        alert("Success! Files saved to your Dropbox.");
-    },
-
-    // Progress is called periodically to update the application on the progress
-    // of the user's downloads. The value passed to this callback is a float
-    // between 0 and 1. The progress callback is guaranteed to be called at least
-    // once with the value 1.
-    progress: function (progress) {},
-
-    // Cancel is called if the user presses the Cancel button or closes the Saver.
-    cancel: function () {},
-
-    // Error is called in the event of an unexpected response from the server
-    // hosting the files, such as not being able to find a file. This callback is
-    // also called if there is an error on Dropbox or if the user is over quota.
-    error: function (errorMessage) {
-        alert("Error: The following internal error occured:" + errorMessage);
-    }
-};
-var button = Dropbox.createSaveButton(options);
-document.getElementById("form_container").appendChild(button);
-      </script>*/
-?>
 
 </body>
 </html>
