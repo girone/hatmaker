@@ -78,7 +78,7 @@ function format_error($err_msg) {
     <div class="col-md-12">
 <?php
 
-if (!$_POST['sent']) { 
+if (!$_POST['sent']) {
 
   if ($registrationPhase != RegistrationPhase::OPEN) {
     echo '
@@ -96,7 +96,7 @@ if (!$_POST['sent']) {
   echo '
       <div class="alert alert-info">
         <p>
-          <strong>Welcome!</strong> Please fill in the fields below. We will use this information to contact you and set up the teams. 
+          <strong>Welcome!</strong> Please fill in the fields below. We will use this information to contact you and set up the teams.
         </p>
         <ul>
           <li>Note that this year, the whole registration process is done on this page. You no longer need to register both here and on Ultimate Central, respectively.</li>
@@ -188,19 +188,19 @@ if (!$_POST['sent']) {
   if ($registrationPhase != RegistrationPhase::CLOSED) {  // TODO(Jonas): Reword the registration phase stuff.
     echo '
         <div class="alert alert-success">
-          <strong>Player added. Thank you and see you in Freiburg!</strong> 
+          <strong>Player added. Thank you and see you in Freiburg!</strong>
         </div>
     ';
   } else {
     echo '
         <div class="alert alert-warning">
-          <strong>We have already reached the maximum number of players. You have been added to the waiting list. Expect to hear from us about two weeks before the tournament.</strong> 
+          <strong>We have already reached the maximum number of players. You have been added to the waiting list. Expect to hear from us about two weeks before the tournament.</strong>
         </div>
     ';
   }
   echo '
       <div class="alert alert-info">
-        <p>Note that there will be no automatic confirmation email, whatsoever. Just trust into this message :)</p> 
+        <p>Note that there will be no automatic confirmation email, whatsoever. Just trust into this message :)</p>
       </div>
   ';
 }
