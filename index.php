@@ -1,6 +1,6 @@
 <?php
-$TOURNAMENT_NUMBER = "28th";
-$YEAR = "2017";
+$TOURNAMENT_NUMBER = "29th";
+$YEAR = "2018";
 $MAX_PLAYERS = 144;
 
 abstract class RegistrationPhase {
@@ -99,10 +99,12 @@ if (!$_POST['sent']) {
           <strong>Welcome!</strong> Please fill in the fields below. We will use this information to contact you and set up the teams.
         </p>
         <ul>
-          <li>Note that this year, the whole registration process is done on this page. You no longer need to register both here and on Ultimate Central, respectively.</li>
           <li>The first 144 players are automatically acknowledged. Further players will be put on the waiting list.</li>
           <li>We will send you payment information come the end of July. The playersfee has to be payed at least two weeks before the tournament. If you do not pay in time, you might loose your spot.</li>
           <li>If you already payed and cannot make it for whatever reason, we can reimburse your playersfee if you inform us until two weeks before the tournament. Later cancelations are not guaranteed to get the playersfee back.</li>
+          <li>Any trouble or questions regarding the registration? Contact <a href="mailto:jonas.sternisko@gmail.com">Jonas</a>.
+          <li><em>Add your favourite music to this <a href="https://open.spotify.com/user/evelyn.friedel/playlist/3VYq0RooVTjxklmx1wdJVR?si=zCpfwuY2Qeq3bE9sEAnSXQ">spotify list</a>. We will play the list during the day and on one of our silent-disco channels at the party.</em></li>
+          <li>Your data will be treated confidently and stored in a secured database. We will not hand it over to third parties or use it for any other purpose than preparing the tournament. The data will be deleted after the tournament.</li>
         </ul>
       </div>
        ';
@@ -188,6 +190,9 @@ if (!$_POST['sent']) {
     echo '
         <div class="alert alert-success">
           <strong>Player added. Thank you and see you in Freiburg!</strong>
+        </div>
+        <div class="alert alert-info">
+          Did you already add your favourite music to the <a href="https://open.spotify.com/user/evelyn.friedel/playlist/3VYq0RooVTjxklmx1wdJVR?si=zCpfwuY2Qeq3bE9sEAnSXQ">spotify list</a>?
         </div>
     ';
   } else {
@@ -301,14 +306,7 @@ if (!$_POST['sent']) {
             </select>
           </div>
         </div>
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="music_file">Music</label>
-          <div class="col-md-8">
-            <input id="music_file" class="form-control" type="TYPE" name="music_file" placeholder="Participate in the Misch Masch playlist &dash; TBA." disabled/>
-            <!--<input id="music_file" type="file" name="music_file">
-            <p class="help-block">I would like to hear this track during the tournament.</p>-->
-          </div>
-        </div>
+
         <div class="form-group">
           <label class="col-md-4 control-label" for="notes">Notes, questions and suggestions (Need airport pickup?)</label>
           <div class="col-md-8">
