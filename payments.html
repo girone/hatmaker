@@ -9,12 +9,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="payments.css" />
-    <script src="payments.js"></script>
 </head>
 
 <body>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="payments.js"></script>
 
     <div id="masthead" class="jumbotron masthead">
         <!-- TODO(Jonas): This does not work as in earlier versions of bootstrap. Look for the replacement. -->
@@ -26,30 +27,26 @@
                 <h2>Credentials</h2>
 
                 <form class="row">
-                    <div class="form-group col-md">
-                        <!-- <label for="inputUsername">Username</label> -->
-                        <input type="email" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Enter username">
+                    <div class="form-group col-md-4">
+                        <input type="username" class="form-control" id="inputUsername" placeholder="Enter username">
                     </div>
-                    <div class="form-group col-md">
-                        <!-- <label for="inputPassword">Password</label> -->
+
+                    <div class="form-group col-md-4">
                         <input type="password" class="form-control" id="inputPassword" placeholder="Password">
                     </div>
-                    <div class="w-100"></div>
 
-                    <div class="form-group col-md">
-                        <button type="submit" class="btn btn-primary col-md">Login</button>
+                    <div class="form-group col-md-4">
+                        <button type="button" class="btn btn-primary col-md" id="loginButton">Login</button>
                     </div>
 
-                    <div class="form-group col-md">
-                        {{Acknowledgement}}
-                    </div>
+                    <!-- <div class="w-100"></div> -->
                 </form>
 
                 <h2>Search players</h2>
                 <form>
                     <div class="form-group">
-                        <!-- <label for="inputSearchPlayer">Search</label> -->
-                        <input type="email" class="form-control" id="inputSearchPlayer" aria-describedby="emailHelp" placeholder="Search for players">
+                        <input type="email" class="form-control" id="inputSearchPlayer" aria-describedby="emailHelp" placeholder="Search for players -- not yet implemented -- use browser search"
+                            disabled>
                     </div>
                 </form>
             </div>
@@ -59,72 +56,6 @@
             </div>
             <div class="col-md-12" id="player_list">
                 <h2>Players</h2>
-
-                <!-- This is a placeholder to experiment with the layout. Construct using JavaScript later on. -->
-                <div class="card">
-                    <div class="card-header" style="display:flex">
-                        <h3 class="card-title">{{Player Name}}</h3>
-                        \hfill
-                        <button type="submit" class="btn btn-success">Save changes</button>
-                        <button type="submit" class="btn btn-secondary">Changes saved</button>
-                    </div>
-                    <div class="card-body" style="display:inline-flex">
-
-                        <div class="col-md-4">
-                            <h4 class="card-subtitle mb-2 text-muted">{{Players Home Team}}</h4>
-                            <p class="card-text">Registered at {{Registration Date}}</p>
-                            <hidden>Hidden {{PlayerIndex}} or as id to the card</hidden>
-                            <p class="card-text">Last changed by {{User}} at {{Change Datetime}}</p>
-                        </div>
-
-                        <div class="col-md-4">
-                            <h4 class="card-subtitle mb-2 text-muted">Payment status</h4>
-                            <form>
-                                <!-- TODO(Jonas): Try one horizontal shaped form for all inputs in the player card. -->
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                    <label class="form-check-label" for="exampleRadios1">
-                                        Not paid
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                    <label class="form-check-label" for="exampleRadios2">
-                                        Paid \hfill {{Date}}
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
-                                    <label class="form-check-label" for="exampleRadios3">
-                                        Orga member (free of charge)
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option4">
-                                    <label class="form-check-label" for="exampleRadios4">
-                                        Payment retracted \hfill {{Date}}
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios5" value="option5">
-                                    <label class="form-check-label" for="exampleRadios5">
-                                        Unclear
-                                    </label>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="col-md-4">
-                            <h4 class="card-subtitle mb-2 text-muted">Notes</h4>
-                            <form>
-                                <div class="form-group">
-                                    <!-- <label for="exampleFormControlTextarea1">Example textarea</label> -->
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="4">{{Show Existing Notes}}</textarea>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
