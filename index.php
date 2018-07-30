@@ -201,6 +201,7 @@ if (!$_POST['sent']) {
         <div class="form-group">
           <label class="col-md-4 control-label" for="input1">Email</label>
           <div class="col-md-8">
+            <!-- TODO(Jonas): Use Bootstrap 4 with input type="email" and auto validation here. Use corresponding new types elsewhere. -->
             <input id="input1" class="form-control" type="text" name="email" />
           </div>
         </div>
