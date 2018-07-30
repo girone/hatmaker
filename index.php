@@ -42,13 +42,13 @@ function get_player_count() {
 
 $registrationPhase = RegistrationPhase::OPEN;
 
-// $playerCount = get_player_count();
-// if ($playerCount > $MAX_PLAYERS) {
-//   if ($playerCount < $MAX_PLAYERS + 20) {
-//     $registrationPhase = RegistrationPhase::FULL_BUT_WAITING_LIST_OPEN;
-//   }
-//   $registrationPhase = RegistrationPhase::CLOSED;
-// }
+$playerCount = get_player_count();
+if ($playerCount > $MAX_PLAYERS) {
+  if ($playerCount < $MAX_PLAYERS + 20) {
+    $registrationPhase = RegistrationPhase::FULL_BUT_WAITING_LIST_OPEN;
+  }
+  $registrationPhase = RegistrationPhase::CLOSED;
+}
 
 function format_error($err_msg) {
   return '
