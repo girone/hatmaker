@@ -15,6 +15,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
     <script src="payments.js"></script>
 
     <div id="masthead" class="jumbotron masthead">
@@ -42,8 +43,8 @@
                     <!-- <div class="w-100"></div> -->
                 </form>
 
-                <h2>Search players</h2>
-                <form>
+                <h2 class="initiallyHidden">Search players</h2>
+                <form class="initiallyHidden">
                     <div class="form-group">
                         <input type="email" class="form-control" id="inputSearchPlayer" aria-describedby="emailHelp" placeholder="Search for players -- not yet implemented -- use browser search"
                             disabled>
@@ -51,11 +52,11 @@
                 </form>
             </div>
             <div class="col-md-6" id="summary">
-                <h2>Summary</h2>
+                <h2 class="initiallyHidden">Summary</h2>
                 <!-- SVG below -->
             </div>
             <div class="col-md-12" id="player_list">
-                <h2>Players</h2>
+                <h2 class="initiallyHidden">Players</h2>
             </div>
         </div>
     </div>

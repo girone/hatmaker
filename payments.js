@@ -164,6 +164,42 @@ function populatePlayerList(data) {
         });
 };
 
+function updateSummary(data) {
+    // Create SVG placeholder.
+    var svg = d3.select("div#summary")
+        .append("svg")
+        .attr("class", "col-md");
+
+    // Aggregate data.
+    var nested = d3.nest()
+        .key(function (d) {
+            return d["status"];
+        })
+        .rollup(function (v) {
+            return v.length;
+        })
+        .entries(data);
+
+    console.log(nested);
+
+    var chartData = [];
+    nested.forEach(function (keyValue, index) {
+        chartData.push({ "Status": keyValue.key, "Count": keyValue.value });
+    });
+
+    // Create chart.
+    var chart = new dimple.chart(svg, chartData);
+    chart.addMeasureAxis("x", "Count");
+    chart.addCategoryAxis("y", "Status");
+    chart.addSeries("Status", dimple.plot.bar);
+    chart.draw();
+};
+
+function showInitiallyHiddenElements() {
+    d3.selectAll(".initiallyHidden")
+        .attr("class", "");
+}
+
 function triggerPlayerUpdate(player) {
     setSaveStatus(player.player_index, "progress");
 
@@ -258,8 +294,11 @@ function loadData() {
     var username = d3.select("#inputUsername").node().value;
     var password = d3.select("#inputPassword").node().value;
     d3.json("payments.php?action=fetchAll&user=" + username + "&pass=" + password)
+        // d3.json("payments.php?action=fetchAll&user=Jonas&pass=schwupp")
         .then(function (data) {
+            showInitiallyHiddenElements();
             populatePlayerList(data);
+            updateSummary(data);
         });
 };
 
