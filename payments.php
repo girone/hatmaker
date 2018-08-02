@@ -63,30 +63,8 @@ function store_player_data($player_data)
     $writeFields->add("last_change");
     $writeFields->add("last_author");
 
-    // $query = "SELECT COUNT(*) FROM payments WHERE `player_index`=" . $player_data["player_index"];
-    // print $query . "\n";
-    // $sth = $con->query($query);
-    // if (!$sth) {
-    //     echo mysqli_error($con);
-    //     die();
-    // }
-    // $rows = $sth->fetch_all();
-    // $count = $rows[0][0];
-    // if ($count != 1) {
-    //     echo "Player does not yet exist in payments table, creating initial entry.\n";
-    //     $query = "INSERT INTO `payments`(`player_index`, `status`, `last_change`) VALUES (" . $player_data["player_index"] . ", 'not paid', CURDATE())";
-    //     print $query . "\n";
-    //     $sth = $con->query($query);
-    //     if (!$sth) {
-    //         echo mysqli_error($con);
-    //         die();
-    //     }
-    // }
-
     $query = "REPLACE INTO payments SET ";
     $numFields = 0;
-    // print_r($player_data);
-    // print "\n";
     foreach ($player_data as $key => $value) {
         if ($writeFields->contains($key) and $value) {
             if ($numFields > 0) {
@@ -105,7 +83,7 @@ function store_player_data($player_data)
     print "Updated player " . $player_data["name"];
 }
 
-// Authenthication.
+// Authenthication. TODO(Jonas): Add existance check for the file.
 include("payment_users.php");  // loads $USERS
 if (!(isset($_GET["user"]) and !isset($_GET["pass"])) and
     $USERS[$_GET["user"]] !== $_GET["pass"]) {
