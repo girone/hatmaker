@@ -33,6 +33,17 @@ function JSON_to_PHP($json)
     return json_decode($json, $assoc = true);
 }
 
+// Const array modelling a set in PHP7.x. Note that the values of 1 are necessary to make isset() work.
+define('WRITE_FIELDS', array(
+    "player_index" => 1,
+    "status" => 1,
+    "confirmation_date" => 1,
+    "reimburse_date" => 1,
+    "notes" => 1,
+    "last_change" => 1,
+    "last_author" => 1,
+));
+
 function store_player_data($player_data)
 {
     $con = create_connection();
@@ -54,19 +65,10 @@ function store_player_data($player_data)
         echo "Player exists: " . $player_data["player_index"] . " " . $player_data["name"] . "\n";
     }
 
-    $writeFields = new \Ds\Set();
-    $writeFields->add("player_index");
-    $writeFields->add("status");
-    $writeFields->add("confirmation_date");
-    $writeFields->add("reimburse_date");
-    $writeFields->add("notes");
-    $writeFields->add("last_change");
-    $writeFields->add("last_author");
-
     $query = "REPLACE INTO payments SET ";
     $numFields = 0;
     foreach ($player_data as $key => $value) {
-        if ($writeFields->contains($key) and $value) {
+        if (isset(WRITE_FIELDS[$key]) and $value) {
             if ($numFields > 0) {
                 $query .= ", ";
             }
