@@ -165,7 +165,11 @@ function populatePlayerList(data) {
 };
 
 function updateSummary(data) {
-    // Create SVG placeholder.
+    // Create SVG placeholder, delete old if there is one.
+    var chart = d3.select("div#summary").select("svg");
+    if (chart) {
+        chart.remove();
+    }
     var svg = d3.select("div#summary")
         .append("svg")
         .attr("class", "col-md");
