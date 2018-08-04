@@ -33,8 +33,9 @@ $playerCount = get_player_count();
 if ($playerCount > MAX_PLAYERS) {
   if ($playerCount < MAX_PLAYERS + 20) {
     $registrationPhase = RegistrationPhase::FULL_BUT_WAITING_LIST_OPEN;
+  } else {
+    $registrationPhase = RegistrationPhase::CLOSED;
   }
-  $registrationPhase = RegistrationPhase::CLOSED;
 }
 
 function format_error($err_msg) {
@@ -74,7 +75,9 @@ if (!$_POST['sent']) {
         <strong>
           Unfortunately, we have already reached the maximum number of players. ';
           if ($registrationPhase == RegistrationPhase::FULL_BUT_WAITING_LIST_OPEN) {
-            echo 'Nevertheless, you may register for the waiting list.';
+            echo 'Nevertheless, you may register for the waiting list. But the odds are good! Please contact the organizers about your chance to get a spot.';
+          } else if ($registrationPhase == RegistrationPhase::CLOSED) {
+            echo 'Registration is closed, because the waiting list is already too long.';
           }
     echo '
         </strong>
