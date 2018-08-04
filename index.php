@@ -296,10 +296,12 @@ if (!$_POST['sent']) {
           $('#submit_button').attr('disabled', 'disabled');
     ";
   }
-}
 ?>
         });
       </script>
+<?php
+}  // if (POST["sent"])
+?>
     </div>
     <div class="col-md-4">
       <!-- flyer -->
