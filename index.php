@@ -206,8 +206,8 @@ if (!$_POST['sent']) {
           <label class="col-md-4 control-label" for="gender">Gender</label>
           <div class="col-md-8">
             <select id="gender" class="form-control" name="gender">
-              <option>Male</option>
-              <option>Female</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
             </select>
           </div>
         </div>
@@ -225,13 +225,14 @@ if (!$_POST['sent']) {
           <label class="col-md-4 control-label" for="throwingSkill">How do you rate your throwing skills?</label>
           <div class="col-md-8">
             <select id="throwingSkill" class="form-control" name="throwing_skill">
-              <option>0 (Rooky)</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6 (Mastermind)</option>
+              <option value="0">0 (Rooky)</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <!-- TODO(Jonas): Next edition, specify what a Mastermind can do -->
+              <option value="6">6 (Mastermind)</option>
             </select>
           </div>
         </div>
@@ -239,13 +240,14 @@ if (!$_POST['sent']) {
           <label class="col-md-4 control-label" for="fitness">How do you rate your current fitness and athletic condition?</label>
           <div class="col-md-8">
             <select id="fitness" class="form-control" name="fitness">
-              <option>0 (Rooky)</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6 (Mastermind)</option>
+              <option value="0">0 (Rooky)</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <!-- TODO(Jonas): Next edition, specify how fit a Mastermind is -->
+              <option value="6">6 (Mastermind)</option>
             </select>
           </div>
         </div>
@@ -262,9 +264,9 @@ if (!$_POST['sent']) {
           <label class="col-md-4 control-label" for="arrival">When will you arrive?</label>
           <div class="col-md-8">
             <select id="arrival" class="form-control" name="arrival">
-              <option>On Friday, in time for the team announcement and get-together (about 8.30pm).</option>
-              <option>On Friday, later the night.</option>
-              <option>On Saturday, for the famous MischMasch breakfast.</option>
+              <option value="Friday, on time">On Friday, in time for the team announcement and get-together (about 8.30pm).</option>
+              <option value="Friday, late">On Friday, later the night.</option>
+              <option value="Saturday">On Saturday, for the famous MischMasch breakfast.</option>
             </select>
           </div>
         </div>
