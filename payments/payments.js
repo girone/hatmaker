@@ -14,8 +14,7 @@ function populatePlayerList(data) {
             .attr("class", "card mb-2")
             .attr("id", function (d) {
                 return "player_" + d["player_index"];
-            })
-
+            });
 
     var card_body =
         card.append("div")
@@ -258,8 +257,6 @@ function now() {
 function extractPlayerData(player) {
     var cardID = "player_" + player.player_index;
     var card = d3.select("div.card#" + cardID);
-    // var id = cardID.match(/player_(\d+)/)[1];
-    // var name = card.select(".card-title").text();
     var newStatus = card.select("#selectPaymentStatus_" + player.player_index).node().value;
     var newNotes = card.select("#notes_" + player.player_index).node().value;
     var newPlayer = {

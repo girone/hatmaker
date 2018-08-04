@@ -1,7 +1,5 @@
 <?php
-$TOURNAMENT_NUMBER = "29th";
-$YEAR = "2018";
-$MAX_PLAYERS = 144;
+DEFINE("MAX_PLAYERS", 144);
 
 abstract class RegistrationPhase {
   const OPEN = 1;
@@ -32,8 +30,8 @@ function get_player_count() {
 $registrationPhase = RegistrationPhase::OPEN;
 
 $playerCount = get_player_count();
-if ($playerCount > $MAX_PLAYERS) {
-  if ($playerCount < $MAX_PLAYERS + 20) {
+if ($playerCount > MAX_PLAYERS) {
+  if ($playerCount < MAX_PLAYERS + 20) {
     $registrationPhase = RegistrationPhase::FULL_BUT_WAITING_LIST_OPEN;
   }
   $registrationPhase = RegistrationPhase::CLOSED;
@@ -52,15 +50,16 @@ function format_error($err_msg) {
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title><?php echo $TOURNAMENT_NUMBER; ?> MischMasch HAT Player Information</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
   <link rel="stylesheet" href="style.css" />
   <!--<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="967fs58zsni4mpz"></script>-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="globals.js"></script>
+  <title></title>
 </head>
 <body>
 <div id="masthead" class="jumbotron masthead">
-  <h1><?php echo $TOURNAMENT_NUMBER; ?> MischMasch Player Information</h1>
+  <h1></h1>
 </div>
 <div class="container">
   <div class="row">
@@ -278,23 +277,28 @@ if (!$_POST['sent']) {
             <button id="submit_button" type="submit" class="btn btn-primary btn-lg center-block">Submit</button>
         </div>
       </form>
+      <script>
+        "use strict";
+        $(document).ready(function() {
+          $("title").text(getTitle());
+          $("h1").text(getTitle());
 <?php
   if ($registrationPhase == RegistrationPhase::CLOSED) {
-    echo "<script>
-      $(document).ready(function() {
-        $('input').attr('disabled', 'disabled');
-        $('select').attr('disabled', 'disabled');
-        $('textarea').attr('disabled', 'disabled');
-        $('#submit_button').attr('disabled', 'disabled');
-      });
-      </script>";
+    echo "
+          $('input').attr('disabled', 'disabled');
+          $('select').attr('disabled', 'disabled');
+          $('textarea').attr('disabled', 'disabled');
+          $('#submit_button').attr('disabled', 'disabled');
+    ";
   }
 }
 ?>
+        });
+      </script>
     </div>
     <div class="col-md-4">
       <!-- flyer -->
-      <img class="img-responsive" src="sticker_small_2018.png" alt="flyer <?php echo $YEAR; ?>" />
+      <img class="img-responsive" src="sticker_small_2018.png" alt="flyer mischmasch" />
     </div>
   </div>
 </div>
