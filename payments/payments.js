@@ -284,7 +284,7 @@ function storeData(playerData) {
     console.log(playerData);
     var username = d3.select("#inputUsername").node().value;
     var password = d3.select("#inputPassword").node().value;
-    var request = d3.text("payments.php?action=store&user=" + username + "&pass=" + password, {
+    var request = d3.text("backend.php?action=store&user=" + username + "&pass=" + password, {
         method: "POST",
         body: "entry=" + JSON.stringify(playerData),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
@@ -297,8 +297,7 @@ function storeData(playerData) {
 function loadData() {
     var username = d3.select("#inputUsername").node().value;
     var password = d3.select("#inputPassword").node().value;
-    d3.json("payments.php?action=fetchAll&user=" + username + "&pass=" + password)
-        // d3.json("payments.php?action=fetchAll&user=Jonas&pass=schwupp")
+    d3.json("backend.php?action=fetchAll&user=" + username + "&pass=" + password)
         .then(function (data) {
             showInitiallyHiddenElements();
             populatePlayerList(data);
