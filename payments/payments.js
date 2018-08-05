@@ -99,6 +99,10 @@ function populatePlayerList(data) {
     select.on("change", function (player) {
         triggerPlayerUpdate(player);
         // TODO(Jonas): Update summary accordingly.
+        // updateSummary(data) -- I guess this is way easier if the whole thing
+        // is more data driven (e.g. single player updates update the data,
+        // not the view directly.)
+        // Workaround: Set Login-Button to "Refresh Summary" after login.
     });
 
     center_part.append("div")
@@ -295,11 +299,16 @@ function storeData(playerData) {
 function loadData() {
     var username = d3.select("#inputUsername").node().value;
     var password = d3.select("#inputPassword").node().value;
-    d3.json("backend.php?action=fetchAll&user=" + username + "&pass=" + password)
+    return d3.json("backend.php?action=fetchAll&user=" + username + "&pass=" + password)
         .then(function (data) {
+            if (data.error && data.error === "Not authenticated.") {
+                alert("Error: " + data.error);
+                return false;
+            }
             showInitiallyHiddenElements();
             populatePlayerList(data);
             updateSummary(data);
+            return true;
         });
 };
 
@@ -309,7 +318,11 @@ function getTitle() {
 
 function registerEventHandlers() {
     d3.select("#loginButton").on("click", function () {
-        loadData();
+        if (loadData()) {
+            d3.select("#inputUsername").property("disabled", true);
+            d3.select("#inputPassword").property("disabled", true);
+            d3.select(this).text("Refresh Summary");
+        }
     });
 };
 

@@ -89,7 +89,7 @@ function store_player_data($player_data)
 include("users.php");  // loads $USERS
 if (!(isset($_GET["user"]) and !isset($_GET["pass"])) and
     $USERS[$_GET["user"]] !== $_GET["pass"]) {
-    print "Not authenticated.";
+    print "{ \"error\": \"Not authenticated.\" }";
     return;
 }
 
