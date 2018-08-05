@@ -302,6 +302,10 @@ function loadData() {
         });
 };
 
+function getTitle() {
+    return "HATMaker (" + TOURNAMENT_TITLE + ") Payments Management";
+};
+
 function registerEventHandlers() {
     d3.select("#loginButton").on("click", function () {
         loadData();
@@ -309,5 +313,7 @@ function registerEventHandlers() {
 };
 
 $(document).ready(function () {
+    $("title").text(getTitle());
+    $("h1").text(getTitle());
     registerEventHandlers();
 });

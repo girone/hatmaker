@@ -1,5 +1,3 @@
 var TOURNAMENT_NUMBER = "29th";
-
-function getTitle() {
-    return TOURNAMENT_NUMBER + " MischMasch HAT Player Registration";
-}
+var TOURNAMENT_NAME = "MischMasch"
+var TOURNAMENT_TITLE = TOURNAMENT_NUMBER + " " + TOURNAMENT_NAME;

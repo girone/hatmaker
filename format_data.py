@@ -326,7 +326,7 @@ def print_header():
     print("      <meta charset='UTF-8'>")
     print("      <title>27th MischMasch HAT Player Information</title>")
     print("      <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'/>")
-    print("      <link rel='stylesheet' href='style.css' />")
+    print("      <link rel='stylesheet' href='hatmaker.css' />")
     print("    </head>")
     print("    <body>")
     print("      <div class='container'>")
@@ -364,4 +364,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -52,8 +52,7 @@ function format_error($err_msg) {
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="style.css" />
-  <!--<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="967fs58zsni4mpz"></script>-->
+  <link rel="stylesheet" href="hatmaker.css" />
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="globals.js"></script>
   <title></title>
@@ -284,6 +283,9 @@ if (!$_POST['sent']) {
       </form>
       <script>
         "use strict";
+        function getTitle() {
+            return TOURNAMENT_NUMBER + " " + TOURNAMENT_NAME + " HAT Player Registration";
+        };
         $(document).ready(function() {
           $("title").text(getTitle());
           $("h1").text(getTitle());
