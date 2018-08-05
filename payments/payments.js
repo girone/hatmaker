@@ -98,6 +98,7 @@ function populatePlayerList(data) {
 
     select.on("change", function (player) {
         triggerPlayerUpdate(player);
+        // TODO(Jonas): Update summary accordingly.
     });
 
     center_part.append("div")

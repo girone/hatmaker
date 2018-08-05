@@ -6,6 +6,8 @@ Python3 to handle european special characters.
 
 ## Usage
 
+***TODO(Jonas):** Document payments management and other new features.*
+
 1. Fetch the data from the registration database by running the bash script
 ```
 ./get_data.sh  # creates data.csv
@@ -21,4 +23,3 @@ TODO(girone): Use jquery and/or bootstrap to make the list sortable by
 different attributes.
 
 3. Open the generated HTML file in a web browser of you choice.
-

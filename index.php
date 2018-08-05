@@ -146,7 +146,7 @@ if (!$_POST['sent']) {
   }
   $con->close();
 
-  if ($registrationPhase != RegistrationPhase::CLOSED) {  // TODO(Jonas): Reword the registration phase stuff.
+  if ($registrationPhase != RegistrationPhase::CLOSED) {
     echo '
         <div class="alert alert-success">
           <strong>Player added. Thank you and see you in Freiburg!</strong>
