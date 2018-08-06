@@ -206,7 +206,13 @@ function updateSummary(data) {
 function showInitiallyHiddenElements() {
     d3.selectAll(".initiallyHidden")
         .attr("class", "");
-}
+};
+
+function deactivateLoginControls() {
+    d3.select("#inputUsername").property("disabled", true);
+    d3.select("#inputPassword").property("disabled", true);
+    d3.select("#loginButton").text("Refresh Summary");
+};
 
 function triggerPlayerUpdate(player) {
     setSaveStatus(player.player_index, "progress");
@@ -299,16 +305,18 @@ function storeData(playerData) {
 function loadData() {
     var username = d3.select("#inputUsername").node().value;
     var password = d3.select("#inputPassword").node().value;
-    return d3.json("backend.php?action=fetchAll&user=" + username + "&pass=" + password)
+    d3.json("backend.php?action=fetchAll&user=" + username + "&pass=" + password)
         .then(function (data) {
             if (data.error && data.error === "Not authenticated.") {
                 alert("Error: " + data.error);
-                return false;
+            } else {
+                showInitiallyHiddenElements();
+                populatePlayerList(data);
+                updateSummary(data);
+                deactivateLoginControls();
             }
-            showInitiallyHiddenElements();
-            populatePlayerList(data);
-            updateSummary(data);
-            return true;
+        }, function (error) {
+            alert("Unexpected error: " + error);
         });
 };
 
@@ -318,11 +326,7 @@ function getTitle() {
 
 function registerEventHandlers() {
     d3.select("#loginButton").on("click", function () {
-        if (loadData()) {
-            d3.select("#inputUsername").property("disabled", true);
-            d3.select("#inputPassword").property("disabled", true);
-            d3.select(this).text("Refresh Summary");
-        }
+        loadData();
     });
 };
 
