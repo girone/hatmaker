@@ -50,7 +50,7 @@ function store_player_data($player_data)
 
     // Ensure the player exists.
     $query = "SELECT COUNT(*) FROM MischMasch WHERE `index`=" . $player_data["player_index"];
-    print $query . "\n";
+    // print $query . "\n";
     $sth = $con->query($query);
     if (!$sth) {
         echo mysqli_error($con);
@@ -76,13 +76,14 @@ function store_player_data($player_data)
             $numFields++;
         }
     }
-    print $query . "\n";
+    // print $query . "\n";
     $sth = $con->query($query);
     if (!$sth) {
         echo mysqli_error($con);
         die();
     }
     print "Updated player " . $player_data["name"];
+    // TODO(Jonas): Send back JSON as acknowledgement.
 }
 
 // Authenthication. TODO(Jonas): Add existance check for the file.
