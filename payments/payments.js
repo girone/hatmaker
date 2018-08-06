@@ -19,11 +19,12 @@ function populatePlayerList(data) {
     var card_body =
         card.append("div")
             .attr("class", "card-body")
-            .style("display", "inline-flex");
+            .append("div")
+            .attr("class", "row");
 
     var left_part =
         card_body.append("div")
-            .attr("class", "col-4");
+            .attr("class", "col");
 
     var header =
         left_part.append("h3")
@@ -45,10 +46,10 @@ function populatePlayerList(data) {
 
     var center_part =
         card_body.append("div")
-            .attr("class", "col-4");
+            .attr("class", "col");
 
     var status_input_group = center_part.append("div")
-        .attr("class", "input-group mb-3");
+        .attr("class", "input-group");
 
     status_input_group.append("div")
         .attr("class", "input-group-prepend")
@@ -123,7 +124,7 @@ function populatePlayerList(data) {
 
     var right_part =
         card_body.append("div")
-            .attr("class", "col-4");
+            .attr("class", "col");
 
     right_part.append("p")
         .attr("style", "display: none")
