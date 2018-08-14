@@ -4,3 +4,5 @@
 * Get the $registrationPhase right. Code is very spaghetti now.
 * Create a github repo.
 * Setup some automatic team making.
+
+* _Confirmation Mail_: In 2018, many players did not read the email because gmx et al. put them into the spam folder. We need a confirmation mail, which players need to click on to confirm their registration. Searching for that mail will ensure that follow up emails will not land in their spam folder.
