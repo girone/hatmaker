@@ -204,17 +204,6 @@ function updateSummary(data) {
     chart.draw();
 };
 
-function showInitiallyHiddenElements() {
-    d3.selectAll(".initiallyHidden")
-        .attr("class", "");
-};
-
-function deactivateLoginControls() {
-    d3.select("#inputUsername").property("disabled", true);
-    d3.select("#inputPassword").property("disabled", true);
-    d3.select("#loginButton").text("Refresh Summary");
-};
-
 function triggerPlayerUpdate(player) {
     setSaveStatus(player.player_index, "progress");
 

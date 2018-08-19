@@ -23,16 +23,6 @@ function fetch_all_data()
     return $rows;
 }
 
-function PHP_to_JSON($rows)
-{
-    return json_encode($rows, JSON_NUMERIC_CHECK);
-}
-
-function JSON_to_PHP($json)
-{
-    return json_decode($json, $assoc = true);
-}
-
 // Const array modelling a set in PHP7.x. Note that the values of 1 are necessary to make isset() work.
 define('WRITE_FIELDS', array(
     "player_index" => 1,
@@ -87,7 +77,7 @@ function store_player_data($player_data)
 }
 
 // Authenthication. TODO(Jonas): Add existance check for the file.
-include("users.php");  // loads $USERS
+include("../users.php");  // loads $USERS
 if (!(isset($_GET["user"]) and !isset($_GET["pass"])) and
     $USERS[$_GET["user"]] !== $_GET["pass"]) {
     print "{ \"error\": \"Not authenticated.\" }";
