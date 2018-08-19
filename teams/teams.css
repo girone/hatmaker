@@ -1,0 +1,96 @@
+#credentials {
+    display: block;
+    margin: 15px 15px 0 15px;
+}
+
+.team-column {
+    margin: 0px 0px 0px 0px;
+    padding: 2px;
+    min-height: 600px;
+    /* border: 1px solid rgba(0, 0, 0, 0.5); */
+    opacity: 0.5 inherit;
+}
+
+.player-card {
+    zoom: 1.0;
+    -moz-transform: scale(1.0);
+    padding: 0.7rem;
+    opacity: 2;
+}
+
+.male {
+    background-color: lightcyan;
+}
+
+.female {
+    background-color: lavenderblush;
+}
+
+.player-name {
+    font-size: 12pt;
+}
+
+.home-team {
+    font-size: 12pt;
+}
+
+.skill {
+    padding: 0;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    /* padding: .375rem .75rem; */
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+}
+
+.skill:hover {
+    cursor: pointer;
+}
+
+.skill-experience {
+    border-color: #007bff;
+    color: #007bff;
+}
+
+.skill-throwing {
+    border-color: #ffc107;
+    color: #ffc107;
+}
+
+.skill-fitness {
+    border-color: #17a2b8;
+    color: #17a2b8;
+}
+
+.skill-height {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.skill-value-1 {
+    background-color: #33cc3383;
+}
+.skill-value-2 {
+    background-color: #33ccff83;
+}
+.skill-value-3 {
+    background-color: #0066ff83;
+}
+.skill-value-4 {
+    background-color: #cc66ff83;
+}
+.skill-value-5 {
+    background-color: #ff666683;
+}
+.skill-value-6 {
+    background-color: #ff990083;
+}
