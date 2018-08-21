@@ -109,6 +109,7 @@ function populateTeamColumn(index, data) {
         .attr("class", function (d) {
             return "col skill skill-experience skill-experience-value-" + classifyExperience(d["experience"]);
         })
+        .attr("title", "experience")
         .style("color", function (d) {
             return decideFontColor(classifyExperience(d.experience));
         })
@@ -122,6 +123,7 @@ function populateTeamColumn(index, data) {
         .style("color", function (d) {
             return decideFontColor(d.throwing_skill);
         })
+        .attr("title", "throwing skill")
         .text(function (d) {
             return d["throwing_skill"];
         });
@@ -132,6 +134,7 @@ function populateTeamColumn(index, data) {
         .style("color", function (d) {
             return decideFontColor(d.fitness);
         })
+        .attr("title", "fitness")
         .text(function (d) {
             return d["fitness"];
         });
@@ -139,6 +142,7 @@ function populateTeamColumn(index, data) {
         .attr("class", function (d) {
             return "col skill skill-height skill-height-value-" + classifyHeight(d["height"], d["gender"]);
         })
+        .attr("title", "height")
         .style("color", function (d) {
             return decideFontColor(classifyHeight(d.height));
         })
