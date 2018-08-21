@@ -53,48 +53,114 @@
     /* padding: .375rem .75rem; */
     font-size: 1rem;
     line-height: 1.5;
-    border-radius: .25rem;
+    border-radius: .5rem;
 }
 
 .skill:hover {
     cursor: pointer;
 }
 
-.skill-experience {
+/* .skill-experience {
     border-color: #007bff;
-    color: #007bff;
 }
 
 .skill-throwing {
     border-color: #ffc107;
-    color: #ffc107;
 }
 
 .skill-fitness {
     border-color: #17a2b8;
-    color: #17a2b8;
 }
 
 .skill-height {
     border-color: #6c757d;
-    color: #6c757d;
+} */
+
+.skill-experience-value-0 {
+    background-color: #ffffd4;
+}
+.skill-experience-value-1 {
+    background-color: #fee391;
+}
+.skill-experience-value-2 {
+    background-color: #fec44f;
+}
+.skill-experience-value-3 {
+    background-color: #fe9929;
+}
+.skill-experience-value-4 {
+    background-color: #ec7014;
+}
+.skill-experience-value-5 {
+    background-color: #cc4c02;
+}
+.skill-experience-value-6 {
+    background-color: #8c2d04;
 }
 
-.skill-value-1 {
-    background-color: #33cc3383;
+.skill-throwing-value-0 {
+    background-color: #f2f0f7;
 }
-.skill-value-2 {
-    background-color: #33ccff83;
+.skill-throwing-value-1 {
+    background-color: #dadaeb;
 }
-.skill-value-3 {
-    background-color: #0066ff83;
+.skill-throwing-value-2 {
+    background-color: #bcbddc;
 }
-.skill-value-4 {
-    background-color: #cc66ff83;
+.skill-throwing-value-3 {
+    background-color: #9e9ac8;
 }
-.skill-value-5 {
-    background-color: #ff666683;
+.skill-throwing-value-4 {
+    background-color: #807dba;
 }
-.skill-value-6 {
-    background-color: #ff990083;
+.skill-throwing-value-5 {
+    background-color: #6a51a3;
+}
+.skill-throwing-value-6 {
+    background-color: #4a1486;
+}
+
+.skill-fitness-value-0 {
+    background-color: #ffffcc;
+}
+.skill-fitness-value-1 {
+    background-color: #d9f0a3;
+}
+.skill-fitness-value-2 {
+    background-color: #addd8e;
+}
+.skill-fitness-value-3 {
+    background-color: #78c679;
+}
+.skill-fitness-value-4 {
+    background-color: #41ab5d;
+}
+.skill-fitness-value-5 {
+    background-color: #238443;
+}
+.skill-fitness-value-6 {
+    background-color: #005a32;
+}
+
+
+.skill-height-value-0 {
+    background-color: #f0f9e8;
+}
+.skill-height-value-1 {
+    background-color: #ccebc5;
+}
+.skill-height-value-2 {
+    background-color: #a8ddb5;
+}
+.skill-height-value-3 {
+    background-color: #7bccc4;
+}
+.skill-height-value-4 {
+    background-color: #4eb3d3;
+}
+.skill-height-value-5 {
+    background-color: #2b8cbe;
+}
+.skill-height-value-6 {
+    background-color: #08589e;
 }

@@ -52,6 +52,14 @@ function classifyHeight(heightInCms, gender) {
     return level;
 };
 
+function decideFontColor(value) {
+    if (value > 3) {
+        return "#efefef";
+    } else {
+        return "#4f4f4f";
+    }
+};
+
 function populateTeamAssignmentTable(data) {
     for (var i = 0; i <= 12; ++i) {
         populateTeamColumn(i, data);
@@ -99,28 +107,40 @@ function populateTeamColumn(index, data) {
         .attr("class", "row");
     skills.append("div")
         .attr("class", function (d) {
-            return "col skill skill-experience skill-value-" + classifyExperience(d["experience"]);
+            return "col skill skill-experience skill-experience-value-" + classifyExperience(d["experience"]);
+        })
+        .style("color", function (d) {
+            return decideFontColor(classifyExperience(d.experience));
         })
         .text(function (d) {
             return d["experience"];
         });
     skills.append("div")
         .attr("class", function (d) {
-            return "col skill skill-throwing skill-value-" + d["throwing_skill"];
+            return "col skill skill-throwing skill-throwing-value-" + d["throwing_skill"];
+        })
+        .style("color", function (d) {
+            return decideFontColor(d.throwing_skill);
         })
         .text(function (d) {
             return d["throwing_skill"];
         });
     skills.append("div")
         .attr("class", function (d) {
-            return "col skill skill-fitness skill-value-" + d["fitness"];
+            return "col skill skill-fitness skill-fitness-value-" + d["fitness"];
+        })
+        .style("color", function (d) {
+            return decideFontColor(d.fitness);
         })
         .text(function (d) {
             return d["fitness"];
         });
     skills.append("div")
         .attr("class", function (d) {
-            return "col skill skill-height skill-value-" + classifyHeight(d["height"], d["gender"]);
+            return "col skill skill-height skill-height-value-" + classifyHeight(d["height"], d["gender"]);
+        })
+        .style("color", function (d) {
+            return decideFontColor(classifyHeight(d.height));
         })
         .text(function (d) {
             return d["height"];
