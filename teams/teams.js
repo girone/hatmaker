@@ -1,11 +1,55 @@
 
 
-function classifyExperience(experience) {
-    return 0;
+function classifyExperience(experienceInYears) {
+    var level = 0;
+    if (experienceInYears <= 1) {
+        level = 1;
+    } else if (experienceInYears <= 2) {
+        level = 2;
+    } else if (experienceInYears <= 3) {
+        level = 3;
+    } else if (experienceInYears <= 5) {
+        level = 4;
+    } else if (experienceInYears <= 8) {
+        level = 5;
+    } else {
+        level = 6;
+    }
+    return level;
 };
 
-function classifyHeight(height) {
-    return 0;
+function classifyHeight(heightInCms, gender) {
+    var level = 0;
+    if (gender == "Female") {
+        if (heightInCms > 180) {
+            level = 6;
+        } else if (heightInCms > 175) {
+            level = 5;
+        } else if (heightInCms > 170) {
+            level = 4;
+        } else if (heightInCms > 165) {
+            level = 3;
+        } else if (heightInCms > 160) {
+            level = 2;
+        } else {
+            level = 1;
+        }
+    } else {  // "Male"
+        if (heightInCms > 200) {
+            level = 6;
+        } else if (heightInCms > 188) {
+            level = 5;
+        } else if (heightInCms > 182) {
+            level = 4;
+        } else if (heightInCms > 176) {
+            level = 3;
+        } else if (heightInCms > 170) {
+            level = 2;
+        } else {
+            level = 1;
+        }
+    }
+    return level;
 };
 
 function populateTeamAssignmentTable(data) {
@@ -76,7 +120,7 @@ function populateTeamColumn(index, data) {
         });
     skills.append("div")
         .attr("class", function (d) {
-            return "col skill skill-height skill-value-" + classifyHeight(d["height"]);
+            return "col skill skill-height skill-value-" + classifyHeight(d["height"], d["gender"]);
         })
         .text(function (d) {
             return d["height"];
