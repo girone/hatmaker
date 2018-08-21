@@ -1,6 +1,7 @@
 "use strict";
 
 // TODO(Jonas): Rewrite this even more data driven: On input, change the data and redraw(), instead of chaning the HTML.
+// See https://github.com/d3/d3-selection#selection_datum for a starting point.
 
 var timeFormat = d3.timeFormat("%Y-%m-%d %H:%M:%S");
 

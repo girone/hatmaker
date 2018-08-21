@@ -9,14 +9,29 @@ function classifyHeight(height) {
 };
 
 function populateTeamAssignmentTable(data) {
-    var card = d3.select("#team-container-0")
+    for (var i = 0; i <= 12; ++i) {
+        populateTeamColumn(i, data);
+    }
+};
+
+function populateTeamColumn(index, data) {
+    var card = d3.select("#team-container-" + index)
         .selectAll("div.player-card")
         .data(data)
         .enter()
+        .filter(function (d) {
+            return d["team"] == index;
+        })
         .append("div")
         .attr("class", function (d) {
             return "card card-body player-card " + d["gender"].toLowerCase();
-        });
+        })
+        .attr("id", function (d) {
+            return "player" + d["player_index"];
+        })
+        .sort(function (a, b) {  // NOTE: d3.sort must be called after appending/inserting a DOM node.
+            return a.team_position - b.team_position;
+        })
     card.append("h2")
         .attr("class", "player-name")
         .text(function (d) {
@@ -26,6 +41,15 @@ function populateTeamAssignmentTable(data) {
         .attr("class", "home-team")
         .text(function (d) {
             return d["origin"];
+        });
+    card.append("div")
+        .attr("class", "hidden-team-position")
+        .text(function (d) {
+            var position = d["team_position"];
+            if (position === null) {
+                position = 0;
+            }
+            return position;
         });
     var skills = card.append("div")
         .attr("class", "row");

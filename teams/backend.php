@@ -18,63 +18,47 @@ function fetch_all_data()
         if (!isset($r["team"])) {
             $r["team"] = 0;
         }
+        if (!isset($r["team_position"])) {
+            $r["team_position"] = 0;
+        }
         $rows[] = $r;
     }
     return $rows;
 }
 
 // Const array modelling a set in PHP7.x. Note that the values of 1 are necessary to make isset() work.
-define('WRITE_FIELDS', array(
-    "player_index" => 1,
-    "gender" => 1,
-    "experience" => 1,
-    "throwing_skill" => 1,
-    "fitness" => 1,
-    "height" => 1,
-    "team" => 1,
-    "team_position" => 1,
-));
+// define('WRITE_FIELDS', array(
+//     "player_index" => 1,
+//     "gender" => 1,
+//     "experience" => 1,
+//     "throwing_skill" => 1,
+//     "fitness" => 1,
+//     "height" => 1,
+//     "team" => 1,
+//     "team_position" => 1,
+// ));
 
-// function store_player_data($player_data)
-// {
-//     $con = create_connection();
+function update_team_assignments($players)
+{
+    $con = create_connection();
 
-//     // Ensure the player exists.
-//     $query = "SELECT COUNT(*) FROM MischMasch WHERE `index`=" . $player_data["player_index"];
-//     print $query . "\n";
-//     $sth = $con->query($query);
-//     if (!$sth) {
-//         echo mysqli_error($con);
-//         die();
-//     }
-//     $rows = $sth->fetch_all();
-//     $count = $rows[0][0];
-//     if ($count != 1) {
-//         echo "Player does not exist! " . $player_data["player_index"] . "\n";
-//         die();
-//     } else {
-//         echo "Player exists: " . $player_data["player_index"] . " " . $player_data["name"] . "\n";
-//     }
-
-//     $query = "REPLACE INTO payments SET ";
-//     $numFields = 0;
-//     foreach ($player_data as $key => $value) {
-//         if (isset(WRITE_FIELDS[$key]) and $value) {
-//             if ($numFields > 0) {
-//                 $query .= ", ";
-//             }
-//             $query = $query . $con->real_escape_string($key) . "='" . $con->real_escape_string($value) . "'";
-//             $numFields++;
-//         }
-//     }
-//     print $query . "\n";
-//     $sth = $con->query($query);
-//     if (!$sth) {
-//         echo mysqli_error($con);
-//         die();
-//     }
-//     print "Updated player " . $player_data["name"];
-// }
+    $query = "REPLACE INTO team_assignment VALUES ";
+    $numFields = 0;
+    foreach ($players as $index => $player_data) {
+        if ($numFields > 0) {
+            $query .= ", ";
+        }
+        $query .= "(" . $player_data["player_index"] . ", " . $player_data["team"] . ", " . $player_data["team_position"] . ")";
+        $numFields++;
+    }
+    print $query . "\n";
+    $sth = $con->query($query);
+    if (!$sth) {
+        echo mysqli_error($con);
+        die();
+    }
+    print "Updated team assignment for " . $numFields . " player(s).";
+}
 
 // Authenthication. TODO(Jonas): Add existance check for the file.
 include("../users.php");  // loads $USERS
@@ -85,9 +69,11 @@ if (!(isset($_GET["user"]) and !isset($_GET["pass"])) and
 }
 
 if (isset($_GET["action"])) {
-    if ($_GET["action"] === "store") {
+    // TODO(Jonas): Use one backend to rule them all (merge with payments backend)..
+    if ($_GET["action"] === "updateTeamAssignment") {
         $data = JSON_to_PHP($_POST["entry"]);
-        store_player_data($data);
+        print_r($data);
+        update_team_assignments($data);
     }
     if ($_GET["action"] === "fetchAll") {
         $data = fetch_all_data();

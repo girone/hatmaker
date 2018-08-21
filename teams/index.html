@@ -45,40 +45,6 @@
         <div class="row">
             <div class="col-1 team-column" id="team-container-1">
                 <h2 class="undraggable">Team 1</h2>
-                <div class="card card-body player-card male">
-                    <h3 class="player-name">Jonas Sternisko</h3>
-                    <div class="home-team">Disconnection</div>
-                    <div class="row">
-                        <div class="col skill skill-experience skill-value-5">6</div>
-                        <div class="col skill skill-throwing skill-value-4">4</div>
-                        <div class="col skill skill-fitness skill-value-5">5</div>
-                        <div class="col skill skill-height skill-value-6">191</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body player-card male">
-                        <h3 class="player-name">Felix Zirkel</h3>
-                        <div class="home-team">Disconnection</div>
-                        <div class="row">
-                            <div class="col skill-experience">6</div>
-                            <div class="col skill-throwing">4</div>
-                            <div class="col skill-fitness">5</div>
-                            <div class="col skill-height">191</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body player-card female">
-                        <h3 class="player-name">Evelyn Friedel</h3>
-                        <div class="home-team">Disconnection</div>
-                        <div class="row">
-                            <div class="col skill-experience">6</div>
-                            <div class="col skill-throwing">4</div>
-                            <div class="col skill-fitness">5</div>
-                            <div class="col skill-height">191</div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="col-1 team-column" id="team-container-2">
                 <h2 class="undraggable">Team 2</h2>
@@ -123,6 +89,42 @@
     </div>
 
     <script type="application/javascript">
+    // TODO(Jonas): Code belongs to a .js I guess.
+
+    function updateTeamAndPosition(players) {
+        console.log(players);
+        var username = d3.select("#inputUsername").node().value;
+        var password = d3.select("#inputPassword").node().value;
+        d3.text("backend.php?action=updateTeamAssignment&user=Jonas&pass=schwuppi", {
+            method: "POST",
+            body: "entry=" + JSON.stringify(players),
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        }).then(function (data) {
+            console.log(data);
+        });
+    };
+
+    function storeAssignmentFromTeamColumn(teamColumn) {
+        var teamID = /team-container-([0-9]+)/.exec(teamColumn.id)[1];
+        // For now, ignore changes of the team 0 aka unassigned.
+        if (teamID == 0) {
+            return;
+        }
+        var players = [];
+        var position = 0;
+        d3.select(teamColumn).selectAll(".player-card").each(function() {
+            var playerIndex = /player([0-9]+)/.exec(this.id)[1];
+            players.push({
+                player_index: playerIndex,
+                team: teamID,
+                team_position: position,
+            });
+            position++;
+        });
+
+        updateTeamAndPosition(players);
+    };
+
     // Register containers. Everything inside can be dragged between them. So disable this for class "undraggable".
     var arrayLike = document.getElementsByClassName("team-column");
     var containers = Array.prototype.slice.call(arrayLike);
@@ -133,7 +135,29 @@
 
     var drake = dragula(containers, {invalid: doNotDragThis, revertOnSpill: true});
 
-    // Register event handlers below. For example:
+    // Register event handlers below.
+    drake.on("drop", function (el, target, source, sibling) {
+        // @el was dropped into @target before a @sibling element, and originally came from @source"
+        // Get team from target team container id.
+        var oldTeamID = /team-container-([0-9]+)/.exec(source.id)[1];
+        var newTeamID = /team-container-([0-9]+)/.exec(target.id)[1];
+        // Get position from sibling, update all following siblings. If no sibling, it's position 0.
+        // var positionWithinTeam = 0;
+        // if (sibling) {
+        //     positionWithinTeam = Number(sibling.getElementsByClassName("hidden-team-position")[0].textContent);
+        // }
+        storeAssignmentFromTeamColumn(target);
+        if (source != target)
+        {
+            storeAssignmentFromTeamColumn(source);
+        }
+        // Update positions of players in source.
+        // ...
+
+        // TODO(Jonas): What if a player is moved to team 0? Still have positions?
+        // TODO(Jonas): Only update source when source != target.
+    });
+    // For example:
     // drake.on('drag', function (el) {
     //     el.className = el.className.replace('ex-moved', '');
     // }).on('drop', function (el) {
