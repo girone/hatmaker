@@ -90,6 +90,8 @@ function populateTeamColumn(index, data, gender) {
 
     cards.exit().remove();
 
+    var sortOrder = d3.select("#sort-order-select").node().value;
+
     var card = cards.enter()
         .filter(function (d) {
             if (!gender) {
@@ -112,6 +114,17 @@ function populateTeamColumn(index, data, gender) {
             }
         })
         .sort(function (a, b) {  // NOTE: d3.sort must be called after appending/inserting a DOM node.
+            // Skills: Descending.
+            if (sortOrder === "experience") {
+                return b.experience - a.experience;
+            } else if (sortOrder === "throwing_skill") {
+                return b.throwing_skill - a.throwing_skill;
+            } else if (sortOrder === "fitness") {
+                return b.fitness - a.fitness;
+            } else if (sortOrder === "height") {
+                return b.height - a.height;
+            }
+            // Position: Ascending.
             return a.team_position - b.team_position;
         })
     card.append("h2")
@@ -268,7 +281,6 @@ function auditHeight(player) {
     if (!VALID_HEIGHT_FORMAT.exec(player.height)) {
         console.log("Strange height for player " + player.name + ": " + player.height);
     }
-
 };
 
 function loadData(username, password) {
