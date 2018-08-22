@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.css"
+    />
     <link rel="stylesheet" type="text/css" media="screen" href="teams.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="../hatmaker.css" />
 </head>
@@ -82,100 +83,102 @@
         </div>
     </div>
 
-    <div>
-        <div class="col-1 team-column" id="team-container-0">
+    <div class="row">
+        <div class="col-8 team-column" id="team-container-0-male">
+            <h2 class="undraggable">Unassigned</h2>
+        </div>
+        <div class="col-4 team-column" id="team-container-0-female">
             <h2 class="undraggable">Unassigned</h2>
         </div>
     </div>
 
     <script type="application/javascript">
-    // TODO(Jonas): Code belongs to a .js I guess.
+        // TODO(Jonas): Code belongs to a .js I guess.
 
-    function updateTeamAndPosition(players) {
-        console.log(players);
-        var username = d3.select("#inputUsername").node().value;
-        var password = d3.select("#inputPassword").node().value;
-        d3.text("backend.php?action=updateTeamAssignment&user=Jonas&pass=schwuppi", {
-            method: "POST",
-            body: "entry=" + JSON.stringify(players),
-            headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        }).then(function (data) {
-            console.log(data);
-        });
-    };
-
-    function storeAssignmentFromTeamColumn(teamColumn) {
-        var teamID = /team-container-([0-9]+)/.exec(teamColumn.id)[1];
-        // For now, ignore changes of the team 0 aka unassigned.
-        if (teamID == 0) {
-            return;
-        }
-        var players = [];
-        var position = 0;
-        d3.select(teamColumn).selectAll(".player-card").each(function() {
-            var playerIndex = /player([0-9]+)/.exec(this.id)[1];
-            var isCaptain = d3.select(this).datum().is_captain;
-            if (!isCaptain) {
-                isCaptain = 0;
-            }
-            players.push({
-                player_index: playerIndex,
-                team: teamID,
-                team_position: position,
-                is_captain: isCaptain,
+        function updateTeamAndPosition(players) {
+            console.log(players);
+            var username = d3.select("#inputUsername").node().value;
+            var password = d3.select("#inputPassword").node().value;
+            d3.text("backend.php?action=updateTeamAssignment&user=Jonas&pass=schwuppi", {
+                method: "POST",
+                body: "entry=" + JSON.stringify(players),
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            }).then(function (data) {
+                console.log(data);
             });
-            position++;
-        });
+        };
 
-        updateTeamAndPosition(players);
-    };
-
-    // Register containers. Everything inside can be dragged between them. So disable this for class "undraggable".
-    var arrayLike = document.getElementsByClassName("team-column");
-    var containers = Array.prototype.slice.call(arrayLike);
-
-    function doNotDragThis(element, handle) {
-        return element.classList.contains("undraggable");
-    };
-
-    var drake;
-    function enableDragAndDrop() {
-    //     debugger;
-        drake = dragula(containers, {invalid: doNotDragThis, revertOnSpill: true});
-
-        // Register event handlers below.
-        drake.on("drop", function (el, target, source, sibling) {
-            // @el was dropped into @target before a @sibling element, and originally came from @source"
-            // Get team from target team container id.
-            var oldTeamID = /team-container-([0-9]+)/.exec(source.id)[1];
-            var newTeamID = /team-container-([0-9]+)/.exec(target.id)[1];
-            // Get position from sibling, update all following siblings. If no sibling, it's position 0.
-            // var positionWithinTeam = 0;
-            // if (sibling) {
-            //     positionWithinTeam = Number(sibling.getElementsByClassName("hidden-team-position")[0].textContent);
-            // }
-            storeAssignmentFromTeamColumn(target);
-            if (source != target)
-            {
-                storeAssignmentFromTeamColumn(source);
+        function storeAssignmentFromTeamColumn(teamColumn) {
+            var teamID = /team-container-([0-9]+)/.exec(teamColumn.id)[1];
+            // For now, ignore changes of the team 0 aka unassigned.
+            if (teamID == 0) {
+                return;
             }
-            // Update positions of players in source.
-            // ...
+            var players = [];
+            var position = 0;
+            d3.select(teamColumn).selectAll(".player-card").each(function () {
+                var playerIndex = /player([0-9]+)/.exec(this.id)[1];
+                var isCaptain = d3.select(this).datum().is_captain;
+                if (!isCaptain) {
+                    isCaptain = 0;
+                }
+                players.push({
+                    player_index: playerIndex,
+                    team: teamID,
+                    team_position: position,
+                    is_captain: isCaptain,
+                });
+                position++;
+            });
 
-            // TODO(Jonas): What if a player is moved to team 0? Still have positions?
-        });
-        // For example:
-        // drake.on('drag', function (el) {
-        //     el.className = el.className.replace('ex-moved', '');
-        // }).on('drop', function (el) {
-        //     el.className += ' ex-moved';
-        // }).on('over', function (el, container) {
-        //     container.className += ' ex-over';
-        // }).on('out', function (el, container) {
-        //     container.className = container.className.replace('ex-over', '');
-        // });
-        return true;
-    }
+            updateTeamAndPosition(players);
+        };
+
+        // Register containers. Everything inside can be dragged between them. So disable this for class "undraggable".
+        var arrayLike = document.getElementsByClassName("team-column");
+        var containers = Array.prototype.slice.call(arrayLike);
+
+        function doNotDragThis(element, handle) {
+            return element.classList.contains("undraggable");
+        };
+
+        var drake;
+        function enableDragAndDrop() {
+            //     debugger;
+            drake = dragula(containers, { invalid: doNotDragThis, revertOnSpill: true });
+
+            // Register event handlers below.
+            drake.on("drop", function (el, target, source, sibling) {
+                // @el was dropped into @target before a @sibling element, and originally came from @source"
+                // Get team from target team container id.
+                var oldTeamID = /team-container-([0-9]+)/.exec(source.id)[1];
+                var newTeamID = /team-container-([0-9]+)/.exec(target.id)[1];
+                // Get position from sibling, update all following siblings. If no sibling, it's position 0.
+                // var positionWithinTeam = 0;
+                // if (sibling) {
+                //     positionWithinTeam = Number(sibling.getElementsByClassName("hidden-team-position")[0].textContent);
+                // }
+                storeAssignmentFromTeamColumn(target);
+                if (source != target) {
+                    storeAssignmentFromTeamColumn(source);
+                }
+                // Update positions of players in source.
+                // ...
+
+                // TODO(Jonas): What if a player is moved to team 0? Still have positions?
+            });
+            // For example:
+            // drake.on('drag', function (el) {
+            //     el.className = el.className.replace('ex-moved', '');
+            // }).on('drop', function (el) {
+            //     el.className += ' ex-moved';
+            // }).on('over', function (el, container) {
+            //     container.className += ' ex-over';
+            // }).on('out', function (el, container) {
+            //     container.className = container.className.replace('ex-over', '');
+            // });
+            return true;
+        }
     </script>
 
 </body>

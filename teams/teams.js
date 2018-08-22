@@ -189,8 +189,7 @@ var VALID_HEIGHT_FORMAT = /^[1-2][0-9][0-9]$/;
 var WICKED_FLOAT_PATTERN = /(\d+ )?(\d)\/(\d)/i;
 
 function customParseFloat(value) {
-    if (typeof value === "string" || value instanceof String)
-    {
+    if (typeof value === "string" || value instanceof String) {
         value = value.replace(",", ".");
         var res = WICKED_FLOAT_PATTERN.exec(value);
         if (res) {
@@ -205,8 +204,7 @@ function parseNumber(value) {
 };
 
 function applyGeneralFormatAudit(value) {
-    if (typeof value === "string" || value instanceof String)
-    {
+    if (typeof value === "string" || value instanceof String) {
         value = value.replace(/\((Rooky|Mastermind)\)/, "");
         value = value.trim();
         value = parseNumber(value);
