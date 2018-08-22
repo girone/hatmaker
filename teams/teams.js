@@ -150,11 +150,98 @@ function populateTeamColumn(index, data) {
         })
         .attr("title", "height")
         .style("color", function (d) {
-            return decideFontColor(classifyHeight(d.height));
+            return decideFontColor(classifyHeight(d.height, d.gender));
         })
         .text(function (d) {
             return d["height"];
         });
+};
+
+// TODO(Jonas): Use the audit functions to correct input in bootstrap at registration time.
+function auditPlayers(data) {
+    data.forEach(function (player) {
+        auditGender(player);
+        auditExperience(player);
+        auditThrowingSkill(player);
+        auditFitness(player);
+        auditHeight(player);
+    });
+    return data;
+};
+
+var VALID_GENDER_FORMAT = /(fe)?male/i;
+var VALID_EXPERIENCE_FORMAT = /^[0-9]+(.[0-9]+)?$/;
+var VALID_SKILL_FORMAT = /^[0-6]$/;
+var VALID_HEIGHT_FORMAT = /^[1-2][0-9][0-9]$/;
+var WICKED_FLOAT_PATTERN = /(\d+ )?(\d)\/(\d)/i;
+
+function customParseFloat(value) {
+    if (typeof value === "string" || value instanceof String)
+    {
+        value = value.replace(",", ".");
+        var res = WICKED_FLOAT_PATTERN.exec(value);
+        if (res) {
+            value = parseFloat(res[1]) + parseFloat(res[2]) / parseFloat(res[3]);
+        }
+    }
+    return parseFloat(value);
+};
+
+function parseNumber(value) {
+    return customParseFloat(value);
+};
+
+function applyGeneralFormatAudit(value) {
+    if (typeof value === "string" || value instanceof String)
+    {
+        value = value.replace(/\((Rooky|Mastermind)\)/, "");
+        value = value.trim();
+        value = parseNumber(value);
+    }
+    return value;
+};
+
+function auditGender(player) {
+    var res = VALID_GENDER_FORMAT.exec(player.gender);
+    if (!res) {
+        console.log("Strange gender of player " + player.name + ": " + player.gender);
+    }
+};
+
+function auditExperience(player) {
+    player.experience = applyGeneralFormatAudit(player.experience);
+    if (!VALID_EXPERIENCE_FORMAT.exec(player.experience)) {
+        console.log("Strange experience for player " + player.name + ": " + player.experience);
+    }
+};
+
+function auditThrowingSkill(player) {
+    player.throwing_skill = applyGeneralFormatAudit(player.throwing_skill);
+    if (!Number.isInteger(player.throwing_skill) || !VALID_SKILL_FORMAT.exec(player.throwing_skill)) {
+        console.log("Strange throwing_skill for player " + player.name + ": " + player.throwing_skill);
+    }
+};
+
+function auditFitness(player) {
+    player.fitness = applyGeneralFormatAudit(player.fitness);
+    if (!Number.isInteger(player.fitness) || !VALID_SKILL_FORMAT.exec(player.fitness)) {
+        console.log("Strange fitness for player " + player.name + ": " + player.fitness);
+    }
+};
+
+function auditHeight(player) {
+    player.height = applyGeneralFormatAudit(player.height);
+    var res = /[1-2],[0-9]{2}/.exec(player.height);
+    if (res) {
+        player.height = player.height.replace(",", ".") * 100;
+    }
+    if (player.height < 2.30 && 140 < player.height * 100 < 230) {
+        player.height *= 100;
+    }
+    if (!VALID_HEIGHT_FORMAT.exec(player.height)) {
+        console.log("Strange height for player " + player.name + ": " + player.height);
+    }
+
 };
 
 function loadData() {
@@ -166,6 +253,7 @@ function loadData() {
                 alert("Error: " + data.error);
                 return false;
             }
+            data = auditPlayers(data);
             showInitiallyHiddenElements();
             populateTeamAssignmentTable(data);
             // updateSummary(data);
