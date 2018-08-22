@@ -40,6 +40,9 @@ function fetch_all_data()
 
 function update_team_assignments($players)
 {
+    if (count($players) == 0) {
+        return;
+    }
     $con = create_connection();
 
     $query = "REPLACE INTO team_assignment VALUES ";
@@ -60,22 +63,30 @@ function update_team_assignments($players)
     print "Updated team assignment for " . $numFields . " player(s).";
 }
 
-// Authenthication. TODO(Jonas): Add existance check for the file.
+// Authenthication. TODO(Jonas): Add existence check for the file.
 include("../users.php");  // loads $USERS
-if (!(isset($_GET["user"]) and !isset($_GET["pass"])) and
+$read = 0;
+$write = 0;
+if (isset($_GET["user"]) and $_GET["user"] == "readonly") {
+    $read = 1;
+}
+else if (!(isset($_GET["user"]) and !isset($_GET["pass"])) and
     $USERS[$_GET["user"]] !== $_GET["pass"]) {
     print "{ \"error\": \"Not authenticated.\" }";
     return;
+} else {
+    $read = 1;
+    $write = 1;
 }
 
 if (isset($_GET["action"])) {
     // TODO(Jonas): Use one backend to rule them all (merge with payments backend)..
-    if ($_GET["action"] === "updateTeamAssignment") {
+    if ($_GET["action"] === "updateTeamAssignment" and $write) {
         $data = JSON_to_PHP($_POST["entry"]);
         print_r($data);
         update_team_assignments($data);
     }
-    if ($_GET["action"] === "fetchAll") {
+    if ($_GET["action"] === "fetchAll" and $read) {
         $data = fetch_all_data();
         print PHP_to_JSON($data);
     }

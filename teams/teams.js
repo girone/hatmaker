@@ -60,18 +60,31 @@ function decideFontColor(value) {
     }
 };
 
+function key_func(d) {
+    return d.player_index;
+}
+
 function populateTeamAssignmentTable(data) {
-    // NOTE(Jonas): Alternatively, use d3.nest() here.
+    // NOTE(Jonas): Alternatively, use d3.nest() here and/or d3.data(data, key_func), see Udacity examples.
     for (var i = 0; i <= 12; ++i) {
         populateTeamColumn(i, data);
     }
 };
 
 function populateTeamColumn(index, data) {
-    var card = d3.select("#team-container-" + index)
+    // NOTE(Jonas): There is some indexing glitch here, exit() is always empty below.
+    // Thus moved players are not removed. Maybe this is related to d3.filter() usage.
+    // Workaround: Always clear the team column before binding data.
+    var cards = d3.select("#team-container-" + index)
         .selectAll("div.player-card")
-        .data(data)
-        .enter()
+        .remove();
+    var cards = d3.select("#team-container-" + index)
+        .selectAll("div.player-card")
+        .data(data, key_func);
+
+    cards.exit().remove();
+
+    var card = cards.enter()
         .filter(function (d) {
             return d["team"] == index;
         })
@@ -244,9 +257,11 @@ function auditHeight(player) {
 
 };
 
-function loadData() {
-    var username = d3.select("#inputUsername").node().value;
-    var password = d3.select("#inputPassword").node().value;
+function loadData(username, password) {
+    if (!username) {
+        username = d3.select("#inputUsername").node().value;
+        password = d3.select("#inputPassword").node().value;
+    }
     return d3.json("backend.php?action=fetchAll&user=" + username + "&pass=" + password)
         .then(function (data) {
             if (data.error && data.error === "Not authenticated.") {
@@ -265,12 +280,15 @@ function getTitle() {
     return "HATMaker (" + TOURNAMENT_TITLE + ") Team Assignment";
 };
 
+var liveStreamEnabled = true;
+
 function registerEventHandlers() {
     d3.select("#loginButton").on("click", function () {
-        if (loadData()) {
+        if (enableDragAndDrop() && loadData()) {
+            liveStreamEnabled = false;
             d3.select("#inputUsername").property("disabled", true);
             d3.select("#inputPassword").property("disabled", true);
-            d3.select(this).text("Refresh Summary");
+            // d3.select(this).text("Refresh Summary");
         }
     });
 };
@@ -281,5 +299,11 @@ $(document).ready(function () {
     registerEventHandlers();
 
     // Debug, remove later on:
-    loadData();
+    // loadData();
+
+    d3.interval(function () {
+        if (liveStreamEnabled) {
+            loadData("readonly");
+        }
+    }, 2000);
 });

@@ -138,40 +138,44 @@
         return element.classList.contains("undraggable");
     };
 
-    var drake = dragula(containers, {invalid: doNotDragThis, revertOnSpill: true});
+    var drake;
+    function enableDragAndDrop() {
+    //     debugger;
+        drake = dragula(containers, {invalid: doNotDragThis, revertOnSpill: true});
 
-    // Register event handlers below.
-    drake.on("drop", function (el, target, source, sibling) {
-        // @el was dropped into @target before a @sibling element, and originally came from @source"
-        // Get team from target team container id.
-        var oldTeamID = /team-container-([0-9]+)/.exec(source.id)[1];
-        var newTeamID = /team-container-([0-9]+)/.exec(target.id)[1];
-        // Get position from sibling, update all following siblings. If no sibling, it's position 0.
-        // var positionWithinTeam = 0;
-        // if (sibling) {
-        //     positionWithinTeam = Number(sibling.getElementsByClassName("hidden-team-position")[0].textContent);
-        // }
-        storeAssignmentFromTeamColumn(target);
-        if (source != target)
-        {
-            storeAssignmentFromTeamColumn(source);
-        }
-        // Update positions of players in source.
-        // ...
+        // Register event handlers below.
+        drake.on("drop", function (el, target, source, sibling) {
+            // @el was dropped into @target before a @sibling element, and originally came from @source"
+            // Get team from target team container id.
+            var oldTeamID = /team-container-([0-9]+)/.exec(source.id)[1];
+            var newTeamID = /team-container-([0-9]+)/.exec(target.id)[1];
+            // Get position from sibling, update all following siblings. If no sibling, it's position 0.
+            // var positionWithinTeam = 0;
+            // if (sibling) {
+            //     positionWithinTeam = Number(sibling.getElementsByClassName("hidden-team-position")[0].textContent);
+            // }
+            storeAssignmentFromTeamColumn(target);
+            if (source != target)
+            {
+                storeAssignmentFromTeamColumn(source);
+            }
+            // Update positions of players in source.
+            // ...
 
-        // TODO(Jonas): What if a player is moved to team 0? Still have positions?
-        // TODO(Jonas): Only update source when source != target.
-    });
-    // For example:
-    // drake.on('drag', function (el) {
-    //     el.className = el.className.replace('ex-moved', '');
-    // }).on('drop', function (el) {
-    //     el.className += ' ex-moved';
-    // }).on('over', function (el, container) {
-    //     container.className += ' ex-over';
-    // }).on('out', function (el, container) {
-    //     container.className = container.className.replace('ex-over', '');
-    // });
+            // TODO(Jonas): What if a player is moved to team 0? Still have positions?
+        });
+        // For example:
+        // drake.on('drag', function (el) {
+        //     el.className = el.className.replace('ex-moved', '');
+        // }).on('drop', function (el) {
+        //     el.className += ' ex-moved';
+        // }).on('over', function (el, container) {
+        //     container.className += ' ex-over';
+        // }).on('out', function (el, container) {
+        //     container.className = container.className.replace('ex-over', '');
+        // });
+        return true;
+    }
     </script>
 
 </body>
