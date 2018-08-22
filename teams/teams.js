@@ -61,6 +61,7 @@ function decideFontColor(value) {
 };
 
 function populateTeamAssignmentTable(data) {
+    // NOTE(Jonas): Alternatively, use d3.nest() here.
     for (var i = 0; i <= 12; ++i) {
         populateTeamColumn(i, data);
     }
@@ -86,8 +87,13 @@ function populateTeamColumn(index, data) {
         })
     card.append("h2")
         .attr("class", "player-name")
+        .attr("style", function (d) {
+            if (d.is_captain) {
+                return "font-style: italic; color: cornflowerblue;";
+            }
+        })
         .text(function (d) {
-            return d["name"];
+            return d.name;
         });
     card.append("div")
         .attr("class", "home-team")

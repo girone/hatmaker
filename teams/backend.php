@@ -48,7 +48,7 @@ function update_team_assignments($players)
         if ($numFields > 0) {
             $query .= ", ";
         }
-        $query .= "(" . $player_data["player_index"] . ", " . $player_data["team"] . ", " . $player_data["team_position"] . ")";
+        $query .= "(" . $player_data["player_index"] . ", " . $player_data["team"] . ", " . $player_data["team_position"] . ", " . $player_data["is_captain"] . ")";
         $numFields++;
     }
     print $query . "\n";

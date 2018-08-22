@@ -114,10 +114,15 @@
         var position = 0;
         d3.select(teamColumn).selectAll(".player-card").each(function() {
             var playerIndex = /player([0-9]+)/.exec(this.id)[1];
+            var isCaptain = d3.select(this).datum().is_captain;
+            if (!isCaptain) {
+                isCaptain = 0;
+            }
             players.push({
                 player_index: playerIndex,
                 team: teamID,
                 team_position: position,
+                is_captain: isCaptain,
             });
             position++;
         });
