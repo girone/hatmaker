@@ -1,5 +1,4 @@
 
-
 function classifyExperience(experienceInYears) {
     var level = 0;
     if (experienceInYears <= 1) {

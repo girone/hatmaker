@@ -24,6 +24,25 @@
     <script src="../globals.js"></script>
     <script src="teams.js"></script>
 
+    <div class="row float-md-left form-group" id="view-controls" style="margin-left: 20px;">
+        <form class="form-group">
+            <div class="col">
+                <input type="checkbox" class="form-check-input" type="checkbox" id="show-team-name-checkbox" onclick="toggleShowTeamName(this);">
+                <label class="form-check-label" for="show-team-name-checkbox" style="color: white;">Show team name</label>
+            </div>
+
+            <div class="col">
+                <label for="order-select" class="col-form-label" style="color: white;">Order by</label>
+                <select class="form-control form-control-sm" id="order-select">
+                    <option>Position, player_index</option>
+                    <option>experience</option>
+                    <option>throwing_skill</option>
+                    <option>fitness</option>
+                    <option>height</option>
+                </select>
+            </div>
+        </form>
+    </div>
     <div class="row float-md-right" id="credentials">
         <form class="">
             <div class="form-group col-md">
@@ -96,6 +115,16 @@
 
     <script type="application/javascript">
         // TODO(Jonas): Code belongs to a .js I guess.
+
+        function toggleShowTeamName(checkbox) {
+            d3.selectAll("div.home-team").attr("style", function () {
+                if (checkbox.checked) {
+                    return null;
+                } else {
+                    return "display: none;";
+                }
+            });
+        };
 
         function updateTeamAndPosition(players) {
             console.log(players);
