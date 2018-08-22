@@ -123,10 +123,10 @@ function populateTeamColumn(index, data) {
             return position;
         });
     var skills = card.append("div")
-        .attr("class", "row");
+        .attr("class", "row-fluid");
     skills.append("div")
         .attr("class", function (d) {
-            return "col skill skill-experience skill-experience-value-" + classifyExperience(d["experience"]);
+            return "col-3 skill skill-experience skill-experience-value-" + classifyExperience(d["experience"]);
         })
         .attr("title", "experience")
         .style("color", function (d) {
@@ -137,7 +137,7 @@ function populateTeamColumn(index, data) {
         });
     skills.append("div")
         .attr("class", function (d) {
-            return "col skill skill-throwing skill-throwing-value-" + d["throwing_skill"];
+            return "col-3 skill skill-throwing skill-throwing-value-" + d["throwing_skill"];
         })
         .style("color", function (d) {
             return decideFontColor(d.throwing_skill);
@@ -148,7 +148,7 @@ function populateTeamColumn(index, data) {
         });
     skills.append("div")
         .attr("class", function (d) {
-            return "col skill skill-fitness skill-fitness-value-" + d["fitness"];
+            return "col-3 skill skill-fitness skill-fitness-value-" + d["fitness"];
         })
         .style("color", function (d) {
             return decideFontColor(d.fitness);
@@ -159,7 +159,7 @@ function populateTeamColumn(index, data) {
         });
     skills.append("div")
         .attr("class", function (d) {
-            return "col skill skill-height skill-height-value-" + classifyHeight(d["height"], d["gender"]);
+            return "col-3 skill skill-height skill-height-value-" + classifyHeight(d["height"], d["gender"]);
         })
         .attr("title", "height")
         .style("color", function (d) {
