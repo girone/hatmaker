@@ -295,7 +295,6 @@ function loadData(username, password) {
                 return false;
             }
             data = auditPlayers(data);
-            showInitiallyHiddenElements();
             populateTeamAssignmentTable(data);
             // updateSummary(data);
             return true;
@@ -314,7 +313,8 @@ function registerEventHandlers() {
             liveStreamEnabled = false;
             d3.select("#inputUsername").property("disabled", true);
             d3.select("#inputPassword").property("disabled", true);
-            // d3.select(this).text("Refresh Summary");
+            d3.select(this).text("Drag&Drop unlocked");
+            showInitiallyHiddenElements();
         }
     });
 };

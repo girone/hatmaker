@@ -1,6 +1,6 @@
 function showInitiallyHiddenElements() {
     d3.selectAll(".initially-hidden")
-        .attr("class", "");
+        .classed("initially-hidden", false);
 };
 
 function deactivateLoginControls() {
