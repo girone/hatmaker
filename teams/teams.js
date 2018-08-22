@@ -66,19 +66,26 @@ function key_func(d) {
 
 function populateTeamAssignmentTable(data) {
     // NOTE(Jonas): Alternatively, use d3.nest() here and/or d3.data(data, key_func), see Udacity examples.
-    for (var i = 0; i <= 12; ++i) {
+    for (var i = 1; i <= 12; ++i) {
         populateTeamColumn(i, data);
     }
+    populateTeamColumn(0, data, "male");
+    populateTeamColumn(0, data, "female");
 };
 
-function populateTeamColumn(index, data) {
+function populateTeamColumn(index, data, gender) {
+    var columnID = index;
+    if (index == 0 && gender) {
+        columnID += "-" + gender;
+    }
+
     // NOTE(Jonas): There is some indexing glitch here, exit() is always empty below.
     // Thus moved players are not removed. Maybe this is related to d3.filter() usage.
     // Workaround: Always clear the team column before binding data.
-    var cards = d3.select("#team-container-" + index)
+    var cards = d3.select("#team-container-" + columnID)
         .selectAll("div.player-card")
         .remove();
-    var cards = d3.select("#team-container-" + index)
+    var cards = d3.select("#team-container-" + columnID)
         .selectAll("div.player-card")
         .data(data, key_func);
 
@@ -86,14 +93,24 @@ function populateTeamColumn(index, data) {
 
     var card = cards.enter()
         .filter(function (d) {
-            return d["team"] == index;
+            if (!gender) {
+                return d.team == index;
+            }
+            else {
+                return d.team == index && d.gender.toLowerCase() == gender;
+            }
         })
         .append("div")
         .attr("class", function (d) {
-            return "card card-body player-card " + d["gender"].toLowerCase();
+            return "card card-body player-card " + d.gender.toLowerCase();
         })
         .attr("id", function (d) {
             return "player" + d["player_index"];
+        })
+        .attr("style", function () {
+            if (index == 0) {
+                return getCustomUnassignedStyle();
+            }
         })
         .sort(function (a, b) {  // NOTE: d3.sort must be called after appending/inserting a DOM node.
             return a.team_position - b.team_position;

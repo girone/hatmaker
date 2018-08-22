@@ -83,12 +83,14 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-8 team-column" id="team-container-0-male">
-            <h2 class="undraggable">Unassigned</h2>
-        </div>
-        <div class="col-4 team-column" id="team-container-0-female">
-            <h2 class="undraggable">Unassigned</h2>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8 team-column" id="team-container-0-male" style="display: block;">
+                <h2 class="undraggable">Unassigned (male)</h2>
+            </div>
+            <div class="col-4 team-column" id="team-container-0-female">
+                <h2 class="undraggable">Unassigned (female)</h2>
+            </div>
         </div>
     </div>
 
@@ -142,6 +144,14 @@
             return element.classList.contains("undraggable");
         };
 
+        function resetCustomStyle(element) {
+            d3.select(element).attr("style", "");
+        };
+
+        function getCustomUnassignedStyle() {
+            return "display: inline-block; max-width: 16.666666%";
+        }
+
         var drake;
         function enableDragAndDrop() {
             //     debugger;
@@ -162,10 +172,23 @@
                 if (source != target) {
                     storeAssignmentFromTeamColumn(source);
                 }
-                // Update positions of players in source.
-                // ...
 
                 // TODO(Jonas): What if a player is moved to team 0? Still have positions?
+
+                // Reset special styling for unassigned players.
+                if (oldTeamID == 0) {
+                    resetCustomStyle(el);
+                }
+                if (newTeamID == 0) {
+                    d3.select(el).attr("style", getCustomUnassignedStyle());
+                }
+            }).on("over", function (el, container) {
+                var teamID = /team-container-([0-9]+)/.exec(container.id)[1];
+                if (teamID != 0) {
+                    resetCustomStyle(el);
+                } else {
+                    d3.select(el).attr("style", getCustomUnassignedStyle());
+                }
             });
             // For example:
             // drake.on('drag', function (el) {
