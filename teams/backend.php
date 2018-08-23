@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 function fetch_all_data()
 {
     $con = create_connection();
-    $sth = $con->query("SELECT * FROM MischMasch AS t1 LEFT JOIN team_assignment AS t2 ON t1.index=t2.player_index ORDER BY `index`");
+    $sth = $con->query("SELECT * FROM MischMasch AS t1 LEFT JOIN team_assignment AS t2 ON t1.index=t2.player_index WHERE t1.deleted IS NULL ORDER BY `index`");
     if (!$sth) {
         echo mysqli_error($con);
         die();
