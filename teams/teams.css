@@ -6,9 +6,13 @@
 .team-column {
     margin: 0px 0px 0px 0px;
     padding: 2px;
-    min-height: 600px;
+    /* min-height: 600px; */
     /* border: 1px solid rgba(0, 0, 0, 0.5); */
     opacity: 0.5 inherit;
+}
+
+.summary-container {
+    margin: 0px 0px;
 }
 
 .player-card {
@@ -27,12 +31,20 @@
     background-color: lavenderblush;
 }
 
+.summary-male {
+    color: cornflowerblue;
+}
+
+.summary-female {
+    color: coral;
+}
+
 .player-name {
     font-size: 12pt;
 }
 
 .home-team {
-    font-size: 12pt;
+    font-size: 11pt;
 }
 
 .hidden {

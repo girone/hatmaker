@@ -7,7 +7,12 @@ error_reporting(E_ALL);
 function fetch_all_data()
 {
     $con = create_connection();
-    $sth = $con->query("SELECT * FROM MischMasch AS t1 LEFT JOIN team_assignment AS t2 ON t1.index=t2.player_index WHERE t1.deleted IS NULL ORDER BY `index`");
+    $query = "SELECT * FROM MischMasch AS t1 LEFT JOIN team_assignment AS t2 ON t1.index=t2.player_index WHERE t1.deleted IS NULL";
+    if (isset($_GET["team"])) {
+        $query .= " AND team=" . $_GET["team"];
+    }
+    $query .=" ORDER BY `index`";
+    $sth = $con->query($query);
     if (!$sth) {
         echo mysqli_error($con);
         die();
@@ -69,8 +74,7 @@ $read = 0;
 $write = 0;
 if (isset($_GET["user"]) and $_GET["user"] == "readonly") {
     $read = 1;
-}
-else if (!(isset($_GET["user"]) and !isset($_GET["pass"])) and
+} elseif (!(isset($_GET["user"]) and !isset($_GET["pass"])) and
     $USERS[$_GET["user"]] !== $_GET["pass"]) {
     print "{ \"error\": \"Not authenticated.\" }";
     return;

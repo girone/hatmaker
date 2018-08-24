@@ -104,6 +104,47 @@
 
     <div class="container-fluid">
         <div class="row">
+            <div class="col-1 summary-container" id="summary-container-1">
+                <h2 class="undraggable">Team 1</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-2">
+                <h2 class="undraggable">Team 2</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-3">
+                <h2 class="undraggable">Team 3</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-4">
+                <h2 class="undraggable">Team 4</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-5">
+                <h2 class="undraggable">Team 5</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-6">
+                <h2 class="undraggable">Team 6</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-7">
+                <h2 class="undraggable">Team 7</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-8">
+                <h2 class="undraggable">Team 8</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-9">
+                <h2 class="undraggable">Team 9</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-10">
+                <h2 class="undraggable">Team 10</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-11">
+                <h2 class="undraggable">Team 11</h2>
+            </div>
+            <div class="col-1 summary-container" id="summary-container-12">
+                <h2 class="undraggable">Team 12</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
             <div class="col-8 team-column" id="team-container-0-male" style="display: block;">
                 <h2 class="undraggable">Unassigned (male)</h2>
             </div>
@@ -191,14 +232,12 @@
                 // Get team from target team container id.
                 var oldTeamID = /team-container-([0-9]+)/.exec(source.id)[1];
                 var newTeamID = /team-container-([0-9]+)/.exec(target.id)[1];
-                // Get position from sibling, update all following siblings. If no sibling, it's position 0.
-                // var positionWithinTeam = 0;
-                // if (sibling) {
-                //     positionWithinTeam = Number(sibling.getElementsByClassName("hidden-team-position")[0].textContent);
-                // }
+
                 storeAssignmentFromTeamColumn(target);
                 if (source != target) {
                     storeAssignmentFromTeamColumn(source);
+                    updateSummary(oldTeamID);
+                    updateSummary(newTeamID);
                 }
 
                 // TODO(Jonas): What if a player is moved to team 0? Still have positions?
