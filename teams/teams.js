@@ -139,11 +139,12 @@ function populateTeamColumn(index, data, gender) {
         });
     card.append("div")
         .attr("class", "home-team")
+        .classed("hidden", true)
         .text(function (d) {
             return d["origin"];
         });
     card.append("div")
-        .attr("class", "hidden-team-position")
+        .attr("class", "hidden")
         .text(function (d) {
             var position = d["team_position"];
             if (position === null) {

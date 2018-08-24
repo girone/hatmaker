@@ -117,11 +117,11 @@
         // TODO(Jonas): Code belongs to a .js I guess.
 
         function toggleShowTeamName(checkbox) {
-            d3.selectAll("div.home-team").attr("style", function () {
+            d3.selectAll("div.home-team").classed("hidden", function () {
                 if (checkbox.checked) {
-                    return null;
+                    return false;
                 } else {
-                    return "display: none;";
+                    return true;
                 }
             });
         };
@@ -183,7 +183,6 @@
 
         var drake;
         function enableDragAndDrop() {
-            //     debugger;
             drake = dragula(containers, { invalid: doNotDragThis, revertOnSpill: true });
 
             // Register event handlers below.
