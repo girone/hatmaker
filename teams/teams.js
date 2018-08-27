@@ -1,3 +1,15 @@
+// Create hash of data. From
+// https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
+String.prototype.hashCode = function () {
+    var hash = 0, i, chr;
+    if (this.length === 0) return hash;
+    for (i = 0; i < this.length; i++) {
+        chr = this.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        hash |= 0;  // Convert to 32bit integer
+    }
+    return hash;
+};
 
 function updateSummary(teamID) {
     if (teamID === 0) {
@@ -108,6 +120,7 @@ function key_func(d) {
 
 function populateSummary() {
     // NOTE(Jonas): Alternatively, use d3.nest() here and/or d3.data(data, key_func), see Udacity examples.
+    // This would save networking and computation time.
     for (var i = 1; i <= 12; ++i) {
         updateSummary(i);
     }
@@ -345,6 +358,11 @@ function loadData(username, password) {
                 alert("Error: " + data.error);
                 return false;
             }
+            var newHash = JSON.stringify(data).hashCode();
+            if (newHash === lastDataHash) {
+                return true;
+            }
+            lastDataHash = newHash;
             data = auditPlayers(data);
             populateTeamAssignmentTable(data);
             populateSummary();
@@ -357,6 +375,7 @@ function getTitle() {
 };
 
 var liveStreamEnabled = true;
+var lastDataHash = 0;
 
 function registerEventHandlers() {
     d3.select("#loginButton").on("click", function () {
