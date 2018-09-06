@@ -43,6 +43,7 @@
                 </select>
             </div>
         </form>
+        <a href="" onclick="openSummaryWindow();" class="btn btn-primary">Show summary</a>
     </div>
     <div class="row float-md-right" id="credentials">
         <form class="">
@@ -269,7 +270,11 @@
             //     container.className = container.className.replace('ex-over', '');
             // });
             return true;
-        }
+        };
+
+        function openSummaryWindow() {
+            window.open("summary.html", "window", "toolbar=no, menubar=no, resizable=yes");
+        };
     </script>
 
 </body>
