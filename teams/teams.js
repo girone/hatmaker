@@ -32,7 +32,7 @@ function updateSummary(teamID) {
                 })
                 .entries(data)
                 .sort(function (a, b) {
-                    return a.key < b.key;
+                    return a.key - b.key;
                 });
             console.log(nested);
 
