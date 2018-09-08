@@ -40,13 +40,13 @@ function updateSummaryScreen() {
             data = auditPlayers(data);
 
             // TODO(Jonas): Clear old graphs, or use enter() etc. to update.
-            var width = 960, height = 500, rowHeight = 100, barWidth = 10, heightScale = 10;
+            var width = 960, height = 500, rowHeight = 100, barWidth = 10, heightScale = 10, marginLeft = 40;
             barHeight = function (skill) {
                 return (skill.max - skill.min) * heightScale;
             };
-            createAvgMarkerPath = function (d, skill, i) {
-                var x0 = 40 + 24 * i;
-                if (d.key === "male") {
+            createAvgMarkerPath = function (gender, skill, i) {
+                var x0 = marginLeft + 24 * i;
+                if (gender === "male") {
                     x0 += barWidth + 1;
                 }
                 var x1 = x0 + barWidth;
@@ -73,10 +73,10 @@ function updateSummaryScreen() {
                 });
             console.log(nested);
 
+            var skillGroup = svg.append("g")
+                .attr("class", "blub");
 
-            svg.append("g")
-                .attr("class", "blub")
-                .selectAll("g")
+            skillGroup.selectAll("g")
                 .data(nested, function(d) {
                     return d.key;
                 })
@@ -92,7 +92,7 @@ function updateSummaryScreen() {
                         .append("circle")
                         .attr("cx", function (d) {
                             // debugger;
-                            return 40 + 25 * i;
+                            return marginLeft + 25 * i;
                         })
                         .attr("cy", function (d) {
                             // debugger;
@@ -112,25 +112,27 @@ function updateSummaryScreen() {
                         });
 
                     // Fitness
+                    var skill = "fitness";
+
                     d3.select(this)
-                        .selectAll("rect.bar-fitness")
+                        .selectAll("rect.bar-" + skill)
                         .data(d.values)
                         .enter()
                         .append("rect")
-                        .attr("class", "bar-fitness")
+                        .attr("class", "bar-" + skill)
                         .attr("height", function (d) {
-                            return barHeight(d.value.fitness);
+                            return barHeight(d.value[skill]);
                         })
                         .attr("width", barWidth)
                         .attr("x", function (d) {
-                            var offset = 40 + 24 * i;
+                            var offset = marginLeft + 24 * i;
                             if (d.key === "male") {
                                 offset += barWidth + 1;
                             }
                             return offset;
                         })
                         .attr("y", function (d) {
-                            return rowHeight - barHeight(d.value.fitness) - d.value.fitness.min * heightScale;
+                            return rowHeight - barHeight(d.value[skill]) - d.value[skill].min * heightScale;
                         });
                         // Draw line for avg.
                         d3.select(this)
@@ -139,39 +141,26 @@ function updateSummaryScreen() {
                             .enter()
                             .append("path")
                             .attr("d", function (d) {
-                                return createAvgMarkerPath(d, d.value.fitness, i);
+                                return createAvgMarkerPath(d.key, d.value[skill], i);
                             })
                             .attr("stroke", "red");
-                        // svg.append("path")
-                        //     .attr("d", "M 0 100 L 500 100")
-                        //     .attr("stroke", "blue");
-                        // svg.append("path")
-                        //     .attr("d", "M 0 0 L 500 0")
-                        //     .attr("stroke", "blue");
 
                     // TODO(Jonas): Generalize, repeat for the other three skills.
                     // TODO(Jonas): Align columns.
                 });
-                // .filter(function (d) {
-                //     return d.key === "male";
-                // })
 
+            // Skill axis.
+            // TODO(Jonas): Could use this to scale the whole thingy, instead of doing it manually.
+            var skillScale = d3.scaleLinear()
+                .domain([0, 6])
+                .range([rowHeight, rowHeight - 6 * heightScale]);
+            var skillAxis = d3.axisLeft(skillScale)
+                .ticks(7);
+            skillGroup.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(" + marginLeft + ", 0)")
+                .call(skillAxis);
 
-            // var summary = d3.select("div#summary-" + teamID);
-            // if (summary) {
-            //     summary.remove();
-            // }
-            // summary = d3.select("div#summary-container-" + teamID)
-            //     .append("div")
-            //     .attr("id", "summary-" + teamID)
-            //     .attr("class", "row");
-            // summary.append("div")
-            //     .attr("class", "col summary-male male")
-            //     .text(nested[0].value);
-            // summary.append("div")
-            //     .attr("class", "col summary-female female")
-            //     .text(nested[1].value);
-            // return true;
         });
 };
 
