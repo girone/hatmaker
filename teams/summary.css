@@ -5,3 +5,16 @@
 .male {
     fill: cornflowerblue;
 }
+
+.bar-experience {
+    fill: #ec7014;
+}
+.bar-throwing {
+    fill: #807dba;
+}
+.bar-fitness {
+    fill: #78c679;
+}
+.bar-height {
+    fill: #4eb3d3;
+}
