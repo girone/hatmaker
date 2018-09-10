@@ -40,12 +40,12 @@ function updateSummaryScreen() {
             data = auditPlayers(data);
 
             // TODO(Jonas): Clear old graphs, or use enter() etc. to update.
-            var width = 960, height = 500, rowHeight = 100, barWidth = 10, heightScale = 10, marginLeft = 40;
+            var width = 960, height = 200, rowHeight = 100, barWidth = 10, heightScale = 10, margin = { left: 40, };
             barHeight = function (skill) {
                 return (skill.max - skill.min) * heightScale;
             };
             createAvgMarkerPath = function (gender, skill, i) {
-                var x0 = marginLeft + 24 * i;
+                var x0 = margin.left + 24 * i;
                 if (gender === "male") {
                     x0 += barWidth + 1;
                 }
@@ -91,14 +91,14 @@ function updateSummaryScreen() {
                         .append("circle")
                         .attr("cx", function (d) {
                             // debugger;
-                            return marginLeft + 25 * i;
+                            return margin.left + 25 * i;
                         })
                         .attr("cy", function (d) {
                             // debugger;
                             if (d.key === "male") {
-                                return 200;
+                                return 20;
                             } else {
-                                return 200 + 50;
+                                return 20 + 50;
                             }
                         })
                         .attr("r", function (d) {
@@ -111,59 +111,77 @@ function updateSummaryScreen() {
                         });
                 });
 
-            var skill = "fitness";
-            var skillGroup = svg.append("g")
-                .attr("class", "skill-" + skill + "-overview")
-                .selectAll("g")
-                .data(nested, function (d) {
-                    return d.key;
-                })
-                .enter()
-                .append("g")
-                .each(function (d, i) {
-                    d3.select(this)
-                        .selectAll("rect.bar-" + skill)
-                        .data(d.values)
-                        .enter()
-                        .append("rect")
-                        .attr("class", "bar-" + skill)
-                        .attr("height", function (d) {
-                            return barHeight(d.value[skill]);
-                        })
-                        .attr("width", barWidth)
-                        .attr("x", function (d) {
-                            var offset = marginLeft + 24 * i;
-                            if (d.key === "male") {
-                                offset += barWidth + 1;
-                            }
-                            return offset;
-                        })
-                        .attr("y", function (d) {
-                            return rowHeight - barHeight(d.value[skill]) - d.value[skill].min * heightScale;
-                        });
+            function drawSkillSummaryGraph(skill) {
+                var svg = d3.select("body")
+                    .append("div")
+                    .attr("class", "skill-summary-container container-" + skill)
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .append("g");
+                var skillGroup = svg.selectAll("g")
+                    .data(nested, function (d) {
+                        return d.key;
+                    })
+                    .enter()
+                    .append("g")
+                    .each(function (d, i) {
+                        d3.select(this)
+                            .selectAll("rect.bar-" + skill)
+                            .data(d.values)
+                            .enter()
+                            .append("rect")
+                            .attr("class", "bar-" + skill)
+                            .attr("height", function (d) {
+                                return barHeight(d.value[skill]);
+                            })
+                            .attr("width", barWidth)
+                            .attr("x", function (d) {
+                                var offset = margin.left + 24 * i;
+                                if (d.key === "male") {
+                                    offset += barWidth + 1;
+                                }
+                                return offset;
+                            })
+                            .attr("y", function (d) {
+                                return rowHeight - barHeight(d.value[skill]) - d.value[skill].min * heightScale;
+                            });
 
-                    // Draw line for avg.
-                    d3.select(this)
-                        .selectAll("path")
-                        .data(d.values)
-                        .enter()
-                        .append("path")
-                        .attr("d", function (d) {
-                            return createAvgMarkerPath(d.key, d.value[skill], i);
-                        })
-                        .attr("stroke", "red");
-                });
-            // Skill axis.
-            // TODO(Jonas): Could use this to scale the whole thingy, instead of doing it manually above.
-            var skillScale = d3.scaleLinear()
-                .domain([0, 6])
-                .range([rowHeight, rowHeight - 6 * heightScale]);
-            var skillAxis = d3.axisLeft(skillScale)
-                .ticks(7);
-            skillGroup.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(" + marginLeft + ", 0)")
-                .call(skillAxis);
+                        // Draw line for avg.
+                        d3.select(this)
+                            .selectAll("path")
+                            .data(d.values)
+                            .enter()
+                            .append("path")
+                            .attr("d", function (d) {
+                                return createAvgMarkerPath(d.key, d.value[skill], i);
+                            })
+                            .attr("stroke", "red");
+                    });
+                // Skill axis.
+                // TODO(Jonas): Could use this to scale the whole thingy, instead of doing it manually above.
+                var skillScale = d3.scaleLinear()
+                    .domain([0, 6])
+                    .range([rowHeight, rowHeight - 6 * heightScale]);
+                var skillAxis = d3.axisLeft(skillScale)
+                    .ticks(7);
+                skillGroup.append("g")
+                    .attr("class", "y axis")
+                    .attr("transform", "translate(" + margin.left + ", 0)")
+                    .call(skillAxis);
+                // Text label for the y axis.
+                skillGroup.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0)
+                    .attr("x", -70)
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text(skill);
+            };
+            drawSkillSummaryGraph("experience");
+            drawSkillSummaryGraph("throwing_skill");
+            drawSkillSummaryGraph("fitness");
+            // drawSkillSummaryGraph("height");
         });
 
     // TODO(Jonas): Align columns.
