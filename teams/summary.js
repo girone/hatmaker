@@ -67,46 +67,7 @@ function updateSummaryScreen() {
                 });
             console.log(nested);
 
-            var svg = d3.select("body")
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height)
-                .append("g");
-
-            // Gender
-            // TODO(Jonas): Redo this: Make it a dot histogram, aligned witht the respective skill columns.
-            var skillGroup = svg.append("g")
-                .attr("class", "gender-overview")
-                .selectAll("g")
-                .data(nested, function (d) {
-                    return d.key;
-                })
-                .enter()
-                .append("g")
-                .each(function (d, i) {
-
-                    d3.select(this)
-                        .selectAll("circle")
-                        .data(d.values)
-                        .enter()
-                        .append("circle")
-                        .attr("cx", function (d) {
-                            return margin.left + 25 * i;
-                        })
-                        .attr("cy", function (d) {
-                            if (d.key === "male") {
-                                return 20;
-                            } else {
-                                return 20 + 50;
-                            }
-                        })
-                        .attr("r", function (d) {
-                            return d.value.count;  // TODO(Jonas): consider area
-                        })
-                        .attr("class", function (d) {
-                            return d.key;
-                        });
-                });
+            // TODO(Jonas): Add team number as headlines, and some hover background highlight, and color background lightly according to gender.
 
             function drawSkillSummaryGraph(skill) {
 
@@ -125,7 +86,6 @@ function updateSummaryScreen() {
                     }
                     var x2 = x1 + barWidth;
                     var y = skillScale(skill.avg);
-                    console.log("M " + x1 + " " + y + " L " + x2 + " " + y);
                     return "M " + x1 + " " + y + " L " + x2 + " " + y;
                 };
 
@@ -174,7 +134,7 @@ function updateSummaryScreen() {
                             .attr("d", function (d) {
                                 return createAvgMarkerPath(d.key, d.value[skill], i);
                             })
-                            .attr("stroke", "red");
+                            .attr("stroke", "#333333");
                     });
                 // Skill axis.
                 var skillAxis = d3.axisLeft(skillScale)
@@ -196,6 +156,44 @@ function updateSummaryScreen() {
             drawSkillSummaryGraph("throwing_skill");
             drawSkillSummaryGraph("fitness");
             drawSkillSummaryGraph("height");
+
+            // Gender
+            var svg = d3.select("body")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("class", "gender-overview")
+                .selectAll("g")
+                .data(nested, function (d) {
+                    return d.key;
+                })
+                .enter()
+                .append("g")
+                .each(function (d, i) {
+                    d3.select(this)
+                        .selectAll("circle")
+                        .data(d.values)
+                        .enter()
+                        .each(function (d, j) {
+                            for (var player = 0; player < d.value.count; ++player) {
+                                d3.select(this)
+                                    .append("circle")
+                                    .attr("class", function (d) {
+                                        return d.key;
+                                    })
+                                    .attr("cx", function (d) {
+                                        return margin.left + 25 * i + (d.key === "male" ? barWidth : 0);
+                                    })
+                                    .attr("cy", function () {
+                                        return 20 + player * 10;
+                                    })
+                                    .attr("r", function () {
+                                        return 5;
+                                    });
+                            }
+                        });
+                });
         });
 
     // TODO(Jonas): Align columns.
