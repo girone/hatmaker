@@ -389,6 +389,7 @@ function registerEventHandlers() {
     });
 };
 
+// TODO(Jonas): Move to .html, because otherwise the .js cannot be loaded in other files without steadily updating.
 $(document).ready(function () {
     $("title").text(getTitle());
     $("h1").text(getTitle());

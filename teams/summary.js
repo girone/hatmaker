@@ -1,14 +1,14 @@
 function computeSkillMetrics(leaves, skillName) {
-    var sum = d3.sum(leaves, function(d) {
+    var sum = d3.sum(leaves, function (d) {
         return d[skillName];
     });
-    var avg = d3.mean(leaves, function(d) {
+    var avg = d3.mean(leaves, function (d) {
         return d[skillName];
     });
-    var min = d3.min(leaves, function(d) {
+    var min = d3.min(leaves, function (d) {
         return d[skillName];
     });
-    var max = d3.max(leaves, function(d) {
+    var max = d3.max(leaves, function (d) {
         return d[skillName];
     });
 
@@ -63,7 +63,7 @@ function updateSummaryScreen() {
                 .key(function (d) {
                     return d.team;
                 })
-                .key(function(d) {
+                .key(function (d) {
                     return d.gender.toLowerCase();
                 })
                 .rollup(aggregate_skills)
@@ -74,10 +74,9 @@ function updateSummaryScreen() {
             console.log(nested);
 
             var skillGroup = svg.append("g")
-                .attr("class", "blub");
-
-            skillGroup.selectAll("g")
-                .data(nested, function(d) {
+                .attr("class", "gender-overview")
+                .selectAll("g")
+                .data(nested, function (d) {
                     return d.key;
                 })
                 .enter()
@@ -98,10 +97,10 @@ function updateSummaryScreen() {
                             // debugger;
                             if (d.key === "male") {
                                 return 200;
-                             } else {
-                                 return 200 + 50;
-                             }
-                            })
+                            } else {
+                                return 200 + 50;
+                            }
+                        })
                         .attr("r", function (d) {
                             // debugger;
                             return d.value.count;  // TODO(Jonas): consider area
@@ -110,10 +109,18 @@ function updateSummaryScreen() {
                             // debugger;
                             return d.key;
                         });
+                });
 
-                    // Fitness
-                    var skill = "fitness";
-
+            var skill = "fitness";
+            var skillGroup = svg.append("g")
+                .attr("class", "skill-" + skill + "-overview")
+                .selectAll("g")
+                .data(nested, function (d) {
+                    return d.key;
+                })
+                .enter()
+                .append("g")
+                .each(function (d, i) {
                     d3.select(this)
                         .selectAll("rect.bar-" + skill)
                         .data(d.values)
@@ -134,23 +141,20 @@ function updateSummaryScreen() {
                         .attr("y", function (d) {
                             return rowHeight - barHeight(d.value[skill]) - d.value[skill].min * heightScale;
                         });
-                        // Draw line for avg.
-                        d3.select(this)
-                            .selectAll("path")
-                            .data(d.values)
-                            .enter()
-                            .append("path")
-                            .attr("d", function (d) {
-                                return createAvgMarkerPath(d.key, d.value[skill], i);
-                            })
-                            .attr("stroke", "red");
 
-                    // TODO(Jonas): Generalize, repeat for the other three skills.
-                    // TODO(Jonas): Align columns.
+                    // Draw line for avg.
+                    d3.select(this)
+                        .selectAll("path")
+                        .data(d.values)
+                        .enter()
+                        .append("path")
+                        .attr("d", function (d) {
+                            return createAvgMarkerPath(d.key, d.value[skill], i);
+                        })
+                        .attr("stroke", "red");
                 });
-
             // Skill axis.
-            // TODO(Jonas): Could use this to scale the whole thingy, instead of doing it manually.
+            // TODO(Jonas): Could use this to scale the whole thingy, instead of doing it manually above.
             var skillScale = d3.scaleLinear()
                 .domain([0, 6])
                 .range([rowHeight, rowHeight - 6 * heightScale]);
@@ -160,8 +164,9 @@ function updateSummaryScreen() {
                 .attr("class", "x axis")
                 .attr("transform", "translate(" + marginLeft + ", 0)")
                 .call(skillAxis);
-
         });
+
+    // TODO(Jonas): Align columns.
 };
 
 $(document).ready(function () {
