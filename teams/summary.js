@@ -51,7 +51,11 @@ function updateSummaryScreen() {
             };
 
             // TODO(Jonas): Clear old graphs, or use enter() etc. to update.
-            var width = 960, height = 120, rowHeight = 100, barWidth = 10, heightScale = 10, margin = { left: 50, }, rowPadding = { top: 5, };
+            var width = 960, height = 120, rowHeight = 100,
+                bar = { width: 10, offset: 2, groupPadding: 4 },
+                margin = { left: 50, },
+                rowPadding = { top: 5, },
+                circle = { radius: 5 };
 
             var nested = d3.nest()
                 .key(function (d) {
@@ -67,7 +71,33 @@ function updateSummaryScreen() {
                 });
             console.log(nested);
 
-            // TODO(Jonas): Add team number as headlines, and some hover background highlight, and color background lightly according to gender.
+            function horizontalOffset(teamIndex) {
+                return teamIndex * (2 * (bar.width + bar.offset) + bar.groupPadding);
+            }
+
+            // TODO(Jonas): Some hover background highlight, and color background lightly according to gender.
+            function drawTeamNames() {
+                var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height / 3)
+                    .append("g");
+
+                svg.selectAll("g")
+                    .data(nested)
+                    .enter()
+                    .append("text")
+                    .attr("x", function (d) {
+                        return margin.left + horizontalOffset(d.key - 1) + 3;
+                    })
+                    .attr("dy", "1em")
+                    .text(function (d) {
+                        return d.key;
+                    })
+            }
+
+            // Add head labels.
+            drawTeamNames();
 
             function drawSkillSummaryGraph(skill) {
 
@@ -76,15 +106,15 @@ function updateSummaryScreen() {
                     .range([rowHeight, 0 + rowPadding.top]);
 
                 barHeight = function (skill) {
-
                     return skillScale(skill.min) - skillScale(skill.max);
                 };
+
                 createAvgMarkerPath = function (gender, skill, i) {
-                    var x1 = margin.left + 24 * i;
+                    var x1 = margin.left + horizontalOffset(i);
                     if (gender === "male") {
-                        x1 += barWidth + 1;
+                        x1 += bar.width + bar.offset;
                     }
-                    var x2 = x1 + barWidth;
+                    var x2 = x1 + bar.width;
                     var y = skillScale(skill.avg);
                     return "M " + x1 + " " + y + " L " + x2 + " " + y;
                 };
@@ -113,11 +143,11 @@ function updateSummaryScreen() {
                             .attr("height", function (d) {
                                 return barHeight(d.value[skill]);
                             })
-                            .attr("width", barWidth)
+                            .attr("width", bar.width)
                             .attr("x", function (d) {
-                                var offset = margin.left + 24 * i;
+                                var offset = margin.left + horizontalOffset(i);
                                 if (d.key === "male") {
-                                    offset += barWidth + 1;
+                                    offset += bar.width + bar.offset;
                                 }
                                 return offset;
                             })
@@ -183,20 +213,21 @@ function updateSummaryScreen() {
                                         return d.key;
                                     })
                                     .attr("cx", function (d) {
-                                        return margin.left + 25 * i + (d.key === "male" ? barWidth : 0);
+                                        return margin.left + horizontalOffset(i) + (d.key === "male" ? (bar.width + bar.offset) : 0) + circle.radius;
                                     })
                                     .attr("cy", function () {
-                                        return 20 + player * 10;
+                                        return 20 + player * (circle.radius * 2 + bar.offset);
                                     })
                                     .attr("r", function () {
-                                        return 5;
+                                        return circle.radius;
                                     });
                             }
                         });
                 });
-        });
 
-    // TODO(Jonas): Align columns.
+            // Add trailing labels.
+            drawTeamNames();
+        });
 };
 
 $(document).ready(function () {
