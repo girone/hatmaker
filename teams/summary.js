@@ -77,11 +77,10 @@ function updateSummaryScreen() {
 
             // TODO(Jonas): Some hover background highlight, and color background lightly according to gender.
             function drawTeamNames() {
-                var svg = d3.select("body")
-                    .append("svg")
-                    .attr("width", width)
-                    .attr("height", height / 3)
-                    .append("g");
+                var svg = d3.selectAll("svg.team-names");
+                svg.selectAll("g").remove();  // Clear old content.
+                svg.attr("width", width)
+                    .attr("height", height / 3);
 
                 svg.selectAll("g")
                     .data(nested)
@@ -96,7 +95,7 @@ function updateSummaryScreen() {
                     })
             }
 
-            // Add head labels.
+            // Add team labels.
             drawTeamNames();
 
             function drawSkillSummaryGraph(skill) {
@@ -119,13 +118,12 @@ function updateSummaryScreen() {
                     return "M " + x1 + " " + y + " L " + x2 + " " + y;
                 };
 
-                var svg = d3.select("body")
-                    .append("div")
-                    .attr("class", "skill-summary-container container-" + skill)
-                    .append("svg")
+                var svg = d3.select("svg#container-" + skill)
+                    .attr("class", "skill-summary-container")
                     .attr("width", width)
-                    .attr("height", height)
-                    .append("g");
+                    .attr("height", height);
+                svg.selectAll("g").remove();  // Clear existing content.
+                svg = svg.append("g");
 
                 var skillGroup = svg.selectAll("g")
                     .data(nested, function (d) {
@@ -188,11 +186,11 @@ function updateSummaryScreen() {
             drawSkillSummaryGraph("height");
 
             // Gender
-            var svg = d3.select("body")
-                .append("svg")
+            var svg = d3.select("svg#gender-histogram")
                 .attr("width", width)
-                .attr("height", height)
-                .append("g")
+                .attr("height", height);
+            svg.selectAll("g").remove();  // Clear existing content.
+            svg.append("g")
                 .attr("class", "gender-overview")
                 .selectAll("g")
                 .data(nested, function (d) {
@@ -224,9 +222,6 @@ function updateSummaryScreen() {
                             }
                         });
                 });
-
-            // Add trailing labels.
-            drawTeamNames();
         });
 };
 
