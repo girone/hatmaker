@@ -228,8 +228,7 @@ function updateSummaryScreen() {
 $(document).ready(function () {
     // registerEventHandlers();
 
-    // TODO(Jonas): Enable periodic updates before going live.
-    // d3.interval(function () {
-    updateSummaryScreen();
-    // }, 2000);
+    d3.interval(function () {
+        updateSummaryScreen();
+    }, 1000);
 });
