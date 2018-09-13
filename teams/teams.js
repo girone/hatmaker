@@ -34,7 +34,6 @@ function updateSummary(teamID) {
                 .sort(function (a, b) {
                     return a.key - b.key;
                 });
-            console.log(nested);
 
             var summary = d3.select("div#summary-" + teamID);
             if (summary) {
@@ -135,6 +134,10 @@ function populateTeamAssignmentTable(data) {
     populateTeamColumn(0, data, "female");
 };
 
+function getSortOrder() {
+    return d3.select("#sort-order-select").node().value;
+};
+
 function populateTeamColumn(index, data, gender) {
     var columnID = index;
     if (index == 0 && gender) {
@@ -153,7 +156,7 @@ function populateTeamColumn(index, data, gender) {
 
     cards.exit().remove();
 
-    var sortOrder = d3.select("#sort-order-select").node().value;
+    var sortOrder = getSortOrder();
 
     var card = cards.enter()
         .filter(function (d) {
@@ -359,10 +362,12 @@ function loadData(username, password) {
                 return false;
             }
             var newHash = JSON.stringify(data).hashCode();
-            if (newHash === lastDataHash) {
+            var newSortOrder = getSortOrder();
+            if (newHash === lastDataHash && newSortOrder === lastSortOrder) {
                 return true;
             }
             lastDataHash = newHash;
+            lastSortOrder = newSortOrder;
             data = auditPlayers(data);
             populateTeamAssignmentTable(data);
             populateSummary();
@@ -376,6 +381,7 @@ function getTitle() {
 
 var liveStreamEnabled = true;
 var lastDataHash = 0;
+var lastSortOrder = "";
 
 function registerEventHandlers() {
     d3.select("#loginButton").on("click", function () {

@@ -8,8 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.css"
-    />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="teams.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="../hatmaker.css" />
 </head>
@@ -43,12 +42,15 @@
                 </select>
             </div>
         </form>
-        <a href="" onclick="openSummaryWindow();" class="btn btn-primary">Show summary</a>
+        <div class="col">
+            <a href="" onclick="openSummaryWindow();" class="btn btn-primary">Show summary</a>
+        </div>
     </div>
     <div class="row float-md-right" id="credentials">
         <form class="">
             <div class="form-group col-md">
-                <input type="username" class="form-control" id="inputUsername" placeholder="Enter username" autocomplete="section-payments username">
+                <input type="username" class="form-control" id="inputUsername" placeholder="Enter username"
+                    autocomplete="section-payments username">
             </div>
 
             <div class="form-group col-md">
