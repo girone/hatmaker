@@ -50,7 +50,6 @@ function updateSummaryScreen() {
                 fitness: [0, 6],
             };
 
-            // TODO(Jonas): Clear old graphs, or use enter() etc. to update.
             var width = 960, height = 120, rowHeight = 100,
                 bar = { width: 10, offset: 2, groupPadding: 4 },
                 margin = { left: 50, },
@@ -69,7 +68,6 @@ function updateSummaryScreen() {
                 .sort(function (a, b) {
                     return a.key - b.key;
                 });
-            console.log(nested);
 
             function horizontalOffset(teamIndex) {
                 return teamIndex * (2 * (bar.width + bar.offset) + bar.groupPadding);

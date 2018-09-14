@@ -375,11 +375,70 @@ function loadData(username, password) {
         });
 };
 
+function toggleShowTeamName(checkbox) {
+    d3.selectAll("div.home-team").classed("hidden", function () {
+        if (checkbox.checked) {
+            return false;
+        } else {
+            return true;
+        }
+    });
+};
+
+function updateTeamAndPosition(players) {
+    var username = d3.select("#inputUsername").node().value;
+    var password = d3.select("#inputPassword").node().value;
+    d3.text("backend.php?action=updateTeamAssignment&user=" + username + "&pass=" + password, {
+        method: "POST",
+        body: "entry=" + JSON.stringify(players),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }).then(function (data) {
+        // console.log(data);
+    });
+};
+
+function storeAssignmentFromTeamColumn(teamColumn) {
+    var teamID = /team-container-([0-9]+)/.exec(teamColumn.id)[1];
+    // For now, ignore changes of the team 0 aka unassigned.
+    if (teamID == 0) {
+        return;
+    }
+    var players = [];
+    var position = 0;
+    d3.select(teamColumn).selectAll(".player-card").each(function () {
+        var playerIndex = /player([0-9]+)/.exec(this.id)[1];
+        var isCaptain = d3.select(this).datum().is_captain;
+        if (!isCaptain) {
+            isCaptain = 0;
+        }
+        players.push({
+            player_index: playerIndex,
+            team: teamID,
+            team_position: position,
+            is_captain: isCaptain,
+        });
+        position++;
+    });
+
+    updateTeamAndPosition(players);
+};
+
+function resetCustomStyle(element) {
+    d3.select(element).attr("style", "");
+};
+
+function getCustomUnassignedStyle() {
+    return "display: inline-block; max-width: 16.666666%";
+}
+
+function openSummaryWindow() {
+    window.open("summary.html", "window", "toolbar=no, menubar=no, resizable=yes");
+};
+
 function getTitle() {
     return "HATMaker (" + TOURNAMENT_TITLE + ") Team Assignment";
 };
 
-var liveStreamEnabled = true;
 var lastDataHash = 0;
 var lastSortOrder = "";
 
@@ -394,19 +453,3 @@ function registerEventHandlers() {
         }
     });
 };
-
-// TODO(Jonas): Move to .html, because otherwise the .js cannot be loaded in other files without steadily updating.
-$(document).ready(function () {
-    $("title").text(getTitle());
-    $("h1").text(getTitle());
-    registerEventHandlers();
-
-    // Debug, remove later on:
-    // loadData();
-
-    d3.interval(function () {
-        if (liveStreamEnabled) {
-            loadData("readonly");
-        }
-    }, 2000);
-});

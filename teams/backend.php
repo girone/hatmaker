@@ -97,7 +97,7 @@ if (isset($_GET["user"]) and $_GET["user"] == "readonly") {
 }
 
 if (isset($_GET["action"])) {
-    // TODO(Jonas): Use one backend to rule them all (merge with payments backend)..
+    // TODO(Jonas): Use one backend to rule them all (merge with payments backend).
     if ($_GET["action"] === "updateTeamAssignment" and $write) {
         $data = JSON_to_PHP($_POST["entry"]);
         print_r($data);
