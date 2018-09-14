@@ -24,44 +24,49 @@
     <script src="../globals.js"></script>
     <script src="teams.js"></script>
 
-    <div class="row float-md-left form-group" id="view-controls" style="margin-left: 20px;">
-        <form class="form-group initially-hidden">
-            <div class="col">
-                <input type="checkbox" class="form-check-input" type="checkbox" id="show-team-name-checkbox" onclick="toggleShowTeamName(this);">
-                <label class="form-check-label" for="show-team-name-checkbox" style="color: white;">Show team name</label>
-            </div>
+    <div class="container-fluid">
+        <div class="row float-md-left header-controls">
+            <form class="col">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary col" onclick="openSummaryWindow()">Show summary</button>
+                </div>
 
-            <div class="col">
-                <label for="sort-order-select" class="col-form-label" style="color: white;">Order by</label>
-                <select class="form-control form-control-sm" id="sort-order-select" onchange="loadData('readonly');">
-                    <option>Position, player_index</option>
-                    <option>experience</option>
-                    <option>throwing_skill</option>
-                    <option>fitness</option>
-                    <option>height</option>
-                </select>
-            </div>
-        </form>
-        <div class="col">
-            <a href="" onclick="openSummaryWindow();" class="btn btn-primary">Show summary</a>
+                <div class="form-check initially-hidden">
+                    <input type="checkbox" class="form-check-input" type="checkbox" id="show-team-name-checkbox"
+                        onclick="toggleShowTeamName(this)">
+                    <label class="form-check-label" for="show-team-name-checkbox" style="color: white;">Show team name</label>
+                </div>
+
+                <div class="form-group initially-hidden">
+                    <label for="sort-order-select" class="col-form-label" style="color: white;">Order by</label>
+                    <select class="form-control form-control-sm" id="sort-order-select" onchange="loadData('readonly');">
+                        <option>Position, player_index</option>
+                        <option>experience</option>
+                        <option>throwing_skill</option>
+                        <option>fitness</option>
+                        <option>height</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="row float-md-right header-controls">
+            <form>
+                <div class="form-group col-md">
+                    <input type="username" class="form-control" id="inputUsername" placeholder="Enter username"
+                        autocomplete="section-payments username">
+                </div>
+
+                <div class="form-group col-md">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" autocomplete="section-payments current-password">
+                </div>
+
+                <div class="form-group col-md">
+                    <button type="button" class="btn btn-primary col-md" id="loginButton">Login</button>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="row float-md-right" id="credentials">
-        <form class="">
-            <div class="form-group col-md">
-                <input type="username" class="form-control" id="inputUsername" placeholder="Enter username"
-                    autocomplete="section-payments username">
-            </div>
 
-            <div class="form-group col-md">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password" autocomplete="section-payments current-password">
-            </div>
-
-            <div class="form-group col-md">
-                <button type="button" class="btn btn-primary col-md" id="loginButton">Login</button>
-            </div>
-        </form>
-    </div>
     <div id="masthead" class="jumbotron">
         <h1></h1>
     </div>
