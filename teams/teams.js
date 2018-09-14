@@ -16,7 +16,7 @@ function updateSummary(teamID) {
         // No summary for unassigned.
         return;
     }
-    d3.json("backend.php?action=fetchAll&user=readonly&pass=&team=" + teamID)
+    d3.json("backend.php?action=fetchAll&user=readonly&pass=&obfuscate&team=" + teamID)
         .then(function (data) {
             if (data.error) {
                 alert("Error: " + data.error);
@@ -355,7 +355,7 @@ function loadData(username, password) {
         username = d3.select("#inputUsername").node().value;
         password = d3.select("#inputPassword").node().value;
     }
-    return d3.json("backend.php?action=fetchAll&user=" + username + "&pass=" + password)
+    return d3.json("backend.php?action=fetchAll&obfuscate&user=" + username + "&pass=" + password)
         .then(function (data) {
             if (data.error && data.error === "Not authenticated.") {
                 alert("Error: " + data.error);

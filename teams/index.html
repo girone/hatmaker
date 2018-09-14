@@ -180,7 +180,7 @@
             console.log(players);
             var username = d3.select("#inputUsername").node().value;
             var password = d3.select("#inputPassword").node().value;
-            d3.text("backend.php?action=updateTeamAssignment&user=Jonas&pass=schwuppi", {
+            d3.text("backend.php?action=updateTeamAssignment&user=" + username + "&pass=" + password, {
                 method: "POST",
                 body: "entry=" + JSON.stringify(players),
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },

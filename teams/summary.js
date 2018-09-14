@@ -31,7 +31,7 @@ function aggregate_skills(leaves) {
 };
 
 function updateSummaryScreen() {
-    d3.json("backend.php?action=fetchAll&user=readonly&pass=")
+    d3.json("backend.php?action=fetchAll&user=readonly&pass=&obfuscate")
         .then(function (data) {
             if (data.error) {
                 alert("Error: " + data.error);
