@@ -56,7 +56,7 @@ function obfuscate_name($name)
 //     "team_position" => 1,
 // ));
 
-function update_team_assignments($players)
+function update_team_assignments_in_database($players)
 {
     if (count($players) == 0) {
         return;
@@ -101,7 +101,7 @@ if (isset($_GET["action"])) {
     if ($_GET["action"] === "updateTeamAssignment" and $write) {
         $data = JSON_to_PHP($_POST["entry"]);
         print_r($data);
-        update_team_assignments($data);
+        update_team_assignments_in_database($data);
     }
     if ($_GET["action"] === "fetchAll" and $read) {
         $data = fetch_all_data(isset($_GET["obfuscate"]));
