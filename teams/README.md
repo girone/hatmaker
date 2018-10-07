@@ -61,3 +61,7 @@ Finally, when reviewing the app myself after the project paused while I cleared 
 [Stackoverflow](https://stackoverflow.com/questions/51650427/send-post-request-in-d3-with-d3-fetch) as usual, was the most important source for help.
 
 [Scott Murray's Blog posts on D3](http://alignedleft.com/tutorials/d3/binding-data) and [Dashing D3js](https://www.dashingd3js.com/binding-data-to-dom-elements) helped a lot.
+
+## A note to the reviewer
+
+I am curious if the latest version of the visualization can be easily understood by someone who is not familar with the kind of tournament it is intended to help with. All my feedback so far came from experts of the field. Thus I am afraid there might be a lack of explanation. I don't know where to start without cluttering up the visualization, so I am looking forward for your feedback and any suggestions for improvement.
