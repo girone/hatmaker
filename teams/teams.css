@@ -1,3 +1,10 @@
+* {
+  transition: 200ms;
+  transition-timing-function: ease-in-out;
+  -webkit-transition: 200ms;
+  -webkit-transition-timing-function: ease-in-out;
+}
+
 .header-controls {
     margin: 15px 15px 0 15px;
 }
@@ -21,7 +28,6 @@
     zoom: 1.0;
     -moz-transform: scale(1.0);
     padding: 0.7rem;
-    opacity: 2;
     border-radius: .5rem;
 }
 
@@ -32,6 +38,15 @@
 .female {
     background-color: lavenderblush;
 }
+
+.male:hover {
+    background-color: hsl(180, 91%, 78%);
+}
+
+.female:hover {
+    background-color: rgb(252, 156, 188);
+}
+
 
 .summary-male {
     color: cornflowerblue;
