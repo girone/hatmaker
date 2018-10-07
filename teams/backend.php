@@ -77,6 +77,41 @@ function update_team_assignments_in_database($players)
     print "Updated team assignment for " . $numFields . " player(s).";
 }
 
+function update_team_assignments_in_json($updates)
+{
+    // This more or less reinvents the wheel and provides a database with json backend.
+    $filename = "data/players.json";
+
+    // Read players.
+    $handle = fopen($filename, "r");
+    $contents = fread($handle, filesize($filename));
+    $players = JSON_TO_PHP($contents);
+    fclose($handle);
+
+    // Incorporate updates. Should really use an index here. However, this is just a quick-win solution to pass the Udacity requirements.
+    foreach ($updates as $update) {
+        // Search matching entry in $players.
+        for ($i = 0; $i < count($players); $i++) {
+            if ($players[$i]["player_index"] == $update["player_index"]) {
+                echo "player_index: ";
+                print_r($players[$i]);
+                echo " update: ";
+                print_r($update);
+                // Update.
+                foreach ($update as $key => $newValue) {
+                    $players[$i][$key] = $newValue;
+                }
+                break;
+            }
+        }
+    }
+
+    // Write updated players.
+    $handle = fopen($filename, "w");
+    fwrite($handle, PHP_TO_JSON($players));
+    fclose($handle);
+}
+
 // Authenthication. TODO(Jonas): Add existence check for the file.
 include("../users.php");  // loads $USERS
 $read = 0;
@@ -97,7 +132,8 @@ if (isset($_GET["action"])) {
     if ($_GET["action"] === "updateTeamAssignment" and $write) {
         $data = JSON_to_PHP($_POST["entry"]);
         print_r($data);
-        update_team_assignments_in_database($data);
+        update_team_assignments_in_json($data);
+        // update_team_assignments_in_database($data);
     }
     if ($_GET["action"] === "fetchAll" and $read) {
         $data = fetch_all_data(isset($_GET["obfuscate"]));

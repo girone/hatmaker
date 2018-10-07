@@ -342,7 +342,8 @@ function loadData(username, password) {
         username = d3.select("#inputUsername").node().value;
         password = d3.select("#inputPassword").node().value;
     }
-    return d3.json("backend.php?action=fetchAll&obfuscate&user=" + username + "&pass=" + password)
+    // return d3.json("backend.php?action=fetchAll&obfuscate&user=" + username + "&pass=" + password)
+    return d3.json("data/players.json")
         .then(function (data) {
             if (data.error && data.error === "Not authenticated.") {
                 alert("Error: " + data.error);
