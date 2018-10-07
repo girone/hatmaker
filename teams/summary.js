@@ -224,8 +224,6 @@ function updateSummaryScreen() {
 };
 
 $(document).ready(function () {
-    // registerEventHandlers();
-
     d3.interval(function () {
         updateSummaryScreen();
     }, 1000);

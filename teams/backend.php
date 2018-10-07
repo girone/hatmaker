@@ -6,11 +6,7 @@ error_reporting(E_ALL);
 function fetch_all_data($obfuscate)
 {
     $con = create_connection();
-    $query = "SELECT * FROM MischMasch AS t1 LEFT JOIN team_assignment AS t2 ON t1.index=t2.player_index WHERE t1.deleted IS NULL";
-    if (isset($_GET["team"])) {
-        $query .= " AND team=" . $_GET["team"];
-    }
-    $query .=" ORDER BY `index`";
+    $query = "SELECT * FROM MischMasch AS t1 LEFT JOIN team_assignment AS t2 ON t1.index=t2.player_index WHERE t1.deleted IS NULL ORDER BY `index`";
     $sth = $con->query($query);
     if (!$sth) {
         echo mysqli_error($con);

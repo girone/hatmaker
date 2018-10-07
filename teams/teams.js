@@ -11,46 +11,41 @@ String.prototype.hashCode = function () {
     return hash;
 };
 
-function updateSummary(teamID) {
-    if (teamID === 0) {
-        // No summary for unassigned.
-        return;
-    }
-    d3.json("backend.php?action=fetchAll&user=readonly&pass=&obfuscate&team=" + teamID)
-        .then(function (data) {
-            if (data.error) {
-                alert("Error: " + data.error);
-                return false;
-            }
-            data = auditPlayers(data);
-            var nested = d3.nest()
-                .key(function (d) {
-                    return d.gender.toLowerCase();
-                })
-                .rollup(function (v) {
-                    return v.length;
-                })
-                .entries(data)
-                .sort(function (a, b) {
-                    return a.key - b.key;
-                });
-
-            var summary = d3.select("div#summary-" + teamID);
-            if (summary) {
-                summary.remove();
-            }
-            summary = d3.select("div#summary-container-" + teamID)
-                .append("div")
-                .attr("id", "summary-" + teamID)
-                .attr("class", "row");
-            summary.append("div")
-                .attr("class", "col summary-male male")
-                .text(nested[0].value);
-            summary.append("div")
-                .attr("class", "col summary-female female")
-                .text(nested[1].value);
-            return true;
+function updateGenderSummary(data) {
+    // Group data by team and gender.
+    var nested = d3.nest()
+        .key(function (d) {
+            return d.team;
+        })
+        .key(function (d) {
+            return d.gender.toLowerCase();
+        })
+        .rollup(function (leaves) {
+            return leaves.length;
+        })
+        .entries(data)
+        .sort(function (a, b) {
+            return a.key - b.key;
         });
+
+    // Update number of players by gender for each team.
+    for (var teamID = 1; teamID <= 12; ++teamID) {
+        var summary = d3.select("div#summary-" + teamID);
+        if (summary) {
+            summary.remove();
+        }
+        summary = d3.select("div#summary-container-" + teamID)
+            .append("div")
+            .attr("id", "summary-" + teamID)
+            .attr("class", "row");
+        var index = teamID - 1;
+        summary.append("div")
+            .attr("class", "col summary-male male")
+            .text(nested[index].values[0].value);
+        summary.append("div")
+            .attr("class", "col summary-female female")
+            .text(nested[index].values[1].value);
+    }
 }
 
 function classifyExperience(experienceInYears) {
@@ -115,14 +110,6 @@ function decideFontColor(value) {
 
 function key_func(d) {
     return d.player_index;
-}
-
-function populateSummary() {
-    // NOTE(Jonas): Alternatively, use d3.nest() here and/or d3.data(data, key_func), see Udacity examples.
-    // This would save networking and computation time.
-    for (var i = 1; i <= 12; ++i) {
-        updateSummary(i);
-    }
 }
 
 function populateTeamAssignmentTable(data) {
@@ -370,7 +357,7 @@ function loadData(username, password) {
             lastSortOrder = newSortOrder;
             data = auditPlayers(data);
             populateTeamAssignmentTable(data);
-            populateSummary();
+            updateGenderSummary(data);
             return true;
         });
 };
