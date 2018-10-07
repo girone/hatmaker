@@ -202,6 +202,10 @@
                 } else {
                     d3.select(el).attr("style", getCustomUnassignedStyle());
                 }
+
+                d3.select(container).classed("bg-highlight", true);
+            }).on("out", function (el, container) {
+                d3.select(container).classed("bg-highlight", false);
             });
             return true;
         };
