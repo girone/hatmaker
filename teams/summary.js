@@ -50,11 +50,12 @@ function updateSummaryScreen() {
                 fitness: [0, 6],
             };
 
-            var width = 960, height = 900, rowHeight = 120,
+            var width = 960, height = 900,
                 bar = { width: 10, offset: 2, groupPadding: 4 },
                 margin = { left: 50, },
-                rowPadding = { top: 5, },
-                circle = { radius: 5 };
+                row = { height: 120, padding: { top: 25, }, },
+                circle = { radius: 5 },
+                backgroundColumn = { opacity: 0.15, highlightOpacity: 0.3 };
 
             var verticalOffset = 0;
 
@@ -76,7 +77,7 @@ function updateSummaryScreen() {
                 });
 
             function horizontalOffset(teamIndex) {
-                return teamIndex * (2 * (bar.width + bar.offset) + bar.groupPadding);
+                return bar.groupPadding + teamIndex * (2 * (bar.width + bar.offset) + bar.groupPadding);
             }
 
             // TODO(Jonas): Add some hover background highlight, and color background lightly according to gender.
@@ -84,7 +85,7 @@ function updateSummaryScreen() {
             function drawTeamNames(id) {
                 var svg = d3.selectAll("g#" + id);
                 svg.attr("width", width)
-                    .attr("height", rowHeight / 3);
+                    .attr("height", row.height / 3);
 
                 svg.selectAll("g").remove();  // Clear old content.
 
@@ -101,7 +102,7 @@ function updateSummaryScreen() {
                     });
 
                 svg.attr("transform", "translate(0 " + verticalOffset + ")");
-                verticalOffset += rowHeight / 3;
+                verticalOffset += row.height / 3;
             }
 
             // Add team labels.
@@ -111,7 +112,7 @@ function updateSummaryScreen() {
 
                 var skillScale = d3.scaleLinear()
                     .domain(extent[skill])
-                    .range([rowHeight, 0 + rowPadding.top]);
+                    .range([row.height, 0 + row.padding.top]);
 
                 barHeight = function (skill) {
                     return skillScale(skill.min) - skillScale(skill.max);
@@ -130,7 +131,7 @@ function updateSummaryScreen() {
                 var svg = d3.select("g#container-" + skill)
                     .attr("class", "skill-summary-container")
                     .attr("width", width)
-                    .attr("height", rowHeight);
+                    .attr("height", row.height);
 
                 svg.selectAll("g").remove();  // Clear existing content.
                 var content = svg.append("g");
@@ -191,7 +192,7 @@ function updateSummaryScreen() {
                     .text(skill);
 
                 svg.attr("transform", "translate(0 " + verticalOffset + ")");
-                verticalOffset += rowHeight;
+                verticalOffset += row.height + row.padding.top;
             };
             drawSkillSummaryGraph("experience");
             drawSkillSummaryGraph("throwing_skill");
@@ -201,7 +202,7 @@ function updateSummaryScreen() {
             // Gender
             var svg = d3.select("g#gender-histogram")
                 .attr("width", width)
-                .attr("height", rowHeight);
+                .attr("height", row.height);
 
             svg.selectAll("g").remove();  // Clear existing content.
             svg.append("g")
@@ -238,7 +239,7 @@ function updateSummaryScreen() {
                 });
 
             svg.attr("transform", "translate(0 " + verticalOffset + ")");
-            verticalOffset += rowHeight;
+            verticalOffset += row.height + row.padding.top;
 
             // Add bottom team labels.
             drawTeamNames("team-names-bottom");
