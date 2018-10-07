@@ -6,6 +6,17 @@
     fill: cornflowerblue;
 }
 
+rect {
+  transition: 200ms;
+  transition-timing-function: ease-in-out;
+  -webkit-transition: 200ms;
+  -webkit-transition-timing-function: ease-in-out;
+}
+
+rect.hoverbox {
+    opacity: 0;
+}
+
 .bar-experience {
     fill: #ec7014;
 }

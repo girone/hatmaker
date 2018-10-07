@@ -80,8 +80,6 @@ function updateSummaryScreen() {
                 return bar.groupPadding + teamIndex * (2 * (bar.width + bar.offset) + bar.groupPadding);
             }
 
-            // TODO(Jonas): Add some hover background highlight, and color background lightly according to gender.
-
             function drawTeamNames(id) {
                 var svg = d3.selectAll("g#" + id);
                 svg.attr("width", width)
@@ -250,8 +248,52 @@ function updateSummaryScreen() {
             svg.attr("transform", "translate(0 " + verticalOffset + ")");
             verticalOffset += row.height + row.padding.top;
 
+            function drawBackground() {
+                var enterSelection = d3.select("g#background")
+                    .selectAll("rect")
+                    .data(nested)
+                    .enter();
+
+                var rectWidth = bar.width + bar.offset;
+
+                function addRectangles(selection, cls, additionalXOffset) {
+                    selection.append("rect")
+                        .attr("x", function (d, i) {
+                            return margin.left + bar.groupPadding + i * ((2 * rectWidth) + bar.groupPadding) + additionalXOffset;
+                        })
+                        .attr("y", row.height / 3)
+                        .attr("width", rectWidth)
+                        .attr("height", verticalOffset - row.height / 3)
+                        .attr("class", function (d) {
+                            return "background-column background-column-" + d.key + " " + cls;
+                        })
+                        .attr("opacity", backgroundColumn.opacity);
+                }
+
+                addRectangles(enterSelection, "female", 0);
+                addRectangles(enterSelection, "male", rectWidth);
+
+                // Add invisible boxes in the foreground for hover detection.
+                var enterSelection = d3.select("g#hoverboxes")
+                    .selectAll("rect")
+                    .data(nested)
+                    .enter();
+
+                addRectangles(enterSelection, "hoverbox", 0);
+                addRectangles(enterSelection, "hoverbox", rectWidth);
+            }
+
+            drawBackground();
+
             // Add bottom team labels.
             drawTeamNames("team-names-bottom");
+
+            d3.select("svg").selectAll("rect.hoverbox").on("mouseover", function (d) {
+                d3.selectAll("rect.background-column-" + d.key).attr("opacity", backgroundColumn.highlightOpacity);
+            });
+            d3.select("svg").selectAll("rect.hoverbox").on("mouseout", function (d) {
+                d3.selectAll("rect.background-column-" + d.key).attr("opacity", backgroundColumn.opacity);
+            });
         });
 };
 
