@@ -186,7 +186,7 @@ function updateSummaryScreen() {
                 content.append("text")
                     .attr("transform", "rotate(-90)")
                     .attr("y", 0)
-                    .attr("x", -55)
+                    .attr("x", -75)
                     .attr("dy", "1em")
                     .style("text-anchor", "middle")
                     .text(skill);
@@ -237,6 +237,15 @@ function updateSummaryScreen() {
                             }
                         });
                 });
+
+            // Y axis label.
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0)
+                .attr("x", -75)
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .text("Players by gender");
 
             svg.attr("transform", "translate(0 " + verticalOffset + ")");
             verticalOffset += row.height + row.padding.top;
