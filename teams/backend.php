@@ -1,9 +1,10 @@
 <?php
-include("../database.php");
+// include("../database.php");
+include("../json.php");
 
 error_reporting(E_ALL);
 
-function fetch_all_data($obfuscate)
+function fetch_all_data_from_database($obfuscate)
 {
     $con = create_connection();
     $query = "SELECT * FROM MischMasch AS t1 LEFT JOIN team_assignment AS t2 ON t1.index=t2.player_index WHERE t1.deleted IS NULL ORDER BY `index`";
@@ -113,19 +114,20 @@ function update_team_assignments_in_json($updates)
 }
 
 // Authenthication. TODO(Jonas): Add existence check for the file.
-include("../users.php");  // loads $USERS
-$read = 0;
-$write = 0;
-if (isset($_GET["user"]) and $_GET["user"] == "readonly") {
-    $read = 1;
-} elseif (!(isset($_GET["user"]) and !isset($_GET["pass"])) and
-    $USERS[$_GET["user"]] !== $_GET["pass"]) {
-    print "{ \"error\": \"Not authenticated.\" }";
-    return;
-} else {
-    $read = 1;
-    $write = 1;
-}
+// NOTE(Jonas): This has been disabled. For the Udacity submission, obfuscated data will be used, so no need to protect that.
+// include("../users.php");  // loads $USERS
+$read = 1;
+$write = 1;
+// if (isset($_GET["user"]) and $_GET["user"] == "readonly") {
+//     $read = 1;
+// } elseif (!(isset($_GET["user"]) and !isset($_GET["pass"])) and
+//     $USERS[$_GET["user"]] !== $_GET["pass"]) {
+//     print "{ \"error\": \"Not authenticated.\" }";
+//     return;
+// } else {
+//     $read = 1;
+//     $write = 1;
+// }
 
 if (isset($_GET["action"])) {
     // TODO(Jonas): Use one backend to rule them all (merge with payments backend).
@@ -135,8 +137,8 @@ if (isset($_GET["action"])) {
         update_team_assignments_in_json($data);
         // update_team_assignments_in_database($data);
     }
-    if ($_GET["action"] === "fetchAll" and $read) {
-        $data = fetch_all_data(isset($_GET["obfuscate"]));
-        print PHP_to_JSON($data);
-    }
+    // if ($_GET["action"] === "fetchAll" and $read) {
+    //     $data = fetch_all_data_from_database(isset($_GET["obfuscate"]));
+    //     print PHP_to_JSON($data);
+    // }
 }

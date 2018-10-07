@@ -431,13 +431,11 @@ var lastDataHash = 0;
 var lastSortOrder = "";
 
 function registerEventHandlers() {
-    d3.select("#loginButton").on("click", function () {
-        if (enableDragAndDrop() && loadData()) {
-            liveStreamEnabled = false;
-            d3.select("#inputUsername").property("disabled", true);
-            d3.select("#inputPassword").property("disabled", true);
-            d3.select(this).text("Drag&Drop unlocked");
-            showInitiallyHiddenElements();
-        }
-    });
+    if (enableDragAndDrop() && loadData()) {
+        liveStreamEnabled = false;
+        d3.select("#inputUsername").property("disabled", true);
+        d3.select("#inputPassword").property("disabled", true);
+        d3.select(this).text("Drag&Drop unlocked");
+        showInitiallyHiddenElements();
+    }
 };
