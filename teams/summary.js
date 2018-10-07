@@ -177,12 +177,12 @@ function updateSummaryScreen() {
                 // Skill axis.
                 var skillAxis = d3.axisLeft(skillScale)
                     .ticks(7);
-                skillGroup.append("g")
+                content.append("g")
                     .attr("class", "y axis")
                     .attr("transform", "translate(" + margin.left + ", 0)")
                     .call(skillAxis);
                 // Text label for the y axis.
-                skillGroup.append("text")
+                content.append("text")
                     .attr("transform", "rotate(-90)")
                     .attr("y", 0)
                     .attr("x", -55)
