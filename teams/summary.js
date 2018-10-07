@@ -50,11 +50,17 @@ function updateSummaryScreen() {
                 fitness: [0, 6],
             };
 
-            var width = 960, height = 120, rowHeight = 100,
+            var width = 960, height = 900, rowHeight = 120,
                 bar = { width: 10, offset: 2, groupPadding: 4 },
                 margin = { left: 50, },
                 rowPadding = { top: 5, },
                 circle = { radius: 5 };
+
+            var verticalOffset = 0;
+
+            d3.select("svg")
+                .attr("width", width)
+                .attr("height", height);
 
             var nested = d3.nest()
                 .key(function (d) {
@@ -73,12 +79,14 @@ function updateSummaryScreen() {
                 return teamIndex * (2 * (bar.width + bar.offset) + bar.groupPadding);
             }
 
-            // TODO(Jonas): Some hover background highlight, and color background lightly according to gender.
-            function drawTeamNames() {
-                var svg = d3.selectAll("svg.team-names");
-                svg.selectAll("g").remove();  // Clear old content.
+            // TODO(Jonas): Add some hover background highlight, and color background lightly according to gender.
+
+            function drawTeamNames(id) {
+                var svg = d3.selectAll("g#" + id);
                 svg.attr("width", width)
-                    .attr("height", height / 3);
+                    .attr("height", rowHeight / 3);
+
+                svg.selectAll("g").remove();  // Clear old content.
 
                 svg.selectAll("g")
                     .data(nested)
@@ -90,11 +98,14 @@ function updateSummaryScreen() {
                     .attr("dy", "1em")
                     .text(function (d) {
                         return d.key;
-                    })
+                    });
+
+                svg.attr("transform", "translate(0 " + verticalOffset + ")");
+                verticalOffset += rowHeight / 3;
             }
 
             // Add team labels.
-            drawTeamNames();
+            drawTeamNames("team-names-top");
 
             function drawSkillSummaryGraph(skill) {
 
@@ -116,14 +127,15 @@ function updateSummaryScreen() {
                     return "M " + x1 + " " + y + " L " + x2 + " " + y;
                 };
 
-                var svg = d3.select("svg#container-" + skill)
+                var svg = d3.select("g#container-" + skill)
                     .attr("class", "skill-summary-container")
                     .attr("width", width)
-                    .attr("height", height);
-                svg.selectAll("g").remove();  // Clear existing content.
-                svg = svg.append("g");
+                    .attr("height", rowHeight);
 
-                var skillGroup = svg.selectAll("g")
+                svg.selectAll("g").remove();  // Clear existing content.
+                var content = svg.append("g");
+
+                var skillGroup = content.selectAll("g")
                     .data(nested, function (d) {
                         return d.key;
                     })
@@ -135,7 +147,7 @@ function updateSummaryScreen() {
                             .data(d.values)
                             .enter()
                             .append("rect")
-                            .attr("class", "bar-" + skill)
+                            .attr("class", "bar bar-" + skill)
                             .attr("height", function (d) {
                                 return barHeight(d.value[skill]);
                             })
@@ -177,6 +189,9 @@ function updateSummaryScreen() {
                     .attr("dy", "1em")
                     .style("text-anchor", "middle")
                     .text(skill);
+
+                svg.attr("transform", "translate(0 " + verticalOffset + ")");
+                verticalOffset += rowHeight;
             };
             drawSkillSummaryGraph("experience");
             drawSkillSummaryGraph("throwing_skill");
@@ -184,9 +199,10 @@ function updateSummaryScreen() {
             drawSkillSummaryGraph("height");
 
             // Gender
-            var svg = d3.select("svg#gender-histogram")
+            var svg = d3.select("g#gender-histogram")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", rowHeight);
+
             svg.selectAll("g").remove();  // Clear existing content.
             svg.append("g")
                 .attr("class", "gender-overview")
@@ -220,6 +236,12 @@ function updateSummaryScreen() {
                             }
                         });
                 });
+
+            svg.attr("transform", "translate(0 " + verticalOffset + ")");
+            verticalOffset += rowHeight;
+
+            // Add bottom team labels.
+            drawTeamNames("team-names-bottom");
         });
 };
 
