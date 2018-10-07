@@ -81,14 +81,14 @@ function updateSummaryScreen() {
             }
 
             function drawTeamNames(id) {
-                var svg = d3.selectAll("g#" + id);
-                svg.attr("width", width)
+                var container = d3.select("g#" + id);
+                container.attr("width", width)
                     .attr("height", row.height / 3);
 
-                svg.selectAll("g").remove();  // Clear old content.
-
-                svg.selectAll("g")
-                    .data(nested)
+                container.selectAll("text")
+                    .data(nested, function (d) {
+                        return d.key;
+                    })
                     .enter()
                     .append("text")
                     .attr("x", function (d) {
@@ -99,7 +99,7 @@ function updateSummaryScreen() {
                         return d.key;
                     });
 
-                svg.attr("transform", "translate(0 " + verticalOffset + ")");
+                container.attr("transform", "translate(0 " + verticalOffset + ")");
                 verticalOffset += row.height / 3;
             }
 
@@ -216,7 +216,7 @@ function updateSummaryScreen() {
                         .selectAll("circle")
                         .data(d.values)
                         .enter()
-                        .each(function (d, j) {
+                        .each(function (d) {
                             for (var player = 0; player < d.value.count; ++player) {
                                 d3.select(this)
                                     .append("circle")
@@ -237,13 +237,18 @@ function updateSummaryScreen() {
                 });
 
             // Y axis label.
-            svg.append("text")
+            svg.selectAll("text")
+                .data(["players by gender"])
+                .enter()
+                .append("text")
                 .attr("transform", "rotate(-90)")
                 .attr("y", 0)
                 .attr("x", -75)
                 .attr("dy", "1em")
                 .style("text-anchor", "middle")
-                .text("Players by gender");
+                .text(function (d) {
+                    return d;
+                });
 
             svg.attr("transform", "translate(0 " + verticalOffset + ")");
             verticalOffset += row.height + row.padding.top;
