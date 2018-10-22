@@ -420,8 +420,8 @@ function getCustomUnassignedStyle() {
     return "display: inline-block; max-width: 16.666666%";
 }
 
-function openSummaryWindow() {
-    window.open("summary.html", "window", "toolbar=no, menubar=no, resizable=yes");
+function openSummaryWindow(tutorial = false) {
+    window.open("summary.html?tutorial=" + tutorial, "window", "toolbar=no, menubar=no, resizable=yes");
 };
 
 function getTitle() {
@@ -439,6 +439,17 @@ function registerEventHandlers() {
             d3.select("#inputPassword").property("disabled", true);
             d3.select(this).text("Drag&Drop unlocked");
             showInitiallyHiddenElements();
+            //
+            setTimeout(function () {
+                startTeamsTutorial();
+            }, 1000);
         }
+//        if (enableDragAndDrop() && loadData()) {
+//            liveStreamEnabled = false;
+//            d3.select("#inputUsername").property("disabled", true);
+//            d3.select("#inputPassword").property("disabled", true);
+//            d3.select(this).text("Drag&Drop unlocked");
+//            showInitiallyHiddenElements();
+//        }
     });
 };

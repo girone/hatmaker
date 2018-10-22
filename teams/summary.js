@@ -317,4 +317,11 @@ $(document).ready(function () {
     d3.interval(function () {
         updateSummaryScreen();
     }, 1000);
+
+    let urlParams = new URLSearchParams(window.location.search);
+    var summaryTutorialIsActive = urlParams.get('tutorial') == "true";
+
+    if (summaryTutorialIsActive) {
+        startSummaryTutorial();
+    }
 });
