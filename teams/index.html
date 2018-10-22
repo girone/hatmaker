@@ -27,16 +27,16 @@
     <!-- <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script> -->
     <script src="../hatmaker.js"></script>
     <script src="../globals.js"></script>
+    <script src="popover-template.js"></script>
     <script src="teams.js"></script>
     <script src="teams-tutorial.js"></script>
 
     <div class="container-fluid">
-        <div class="row float-md-left header-controls">
+        <div class="row float-md-left header-controls" id="controlsLeft">
             <form class="col">
-
                 <div class="form-group">
-                    <button type="button" class="btn btn-primary" onclick="openSummaryWindow()">Summary</button>
-                    <button type="button" class="btn btn-primary" onclick="showTutorialStartModal()">Tutorial</button>
+                    <button id="showSummaryButton" type="button" class="btn btn-primary" onclick="openSummaryWindow()">Summary</button>
+                    <button id="startTeamsTutorialButton" type="button" class="btn btn-primary" onclick="startTeamsTutorial()">Tutorial</button>
                 </div>
 
                 <div class="form-check">
@@ -234,7 +234,7 @@
     </script>
 
     <!-- Tutorial entrypoint modal -->
-    <div class="modal fade" id="tutorialEntrypoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="teamTutorialEntrypoint" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -249,15 +249,14 @@
                     Add a "never show this again" select for skipping the screen, set a Cookie accordingly.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Skip tutorial</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="tutorialStep(1)">Start
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="endTeamsTutorial()">Skip
+                        tutorial</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="tutorialNextStep()">Start
                         tutorial</button>
                 </div>
             </div>
         </div>
     </div>
-
-
 </body>
 
 </html>
