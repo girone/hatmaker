@@ -211,7 +211,7 @@ function populateTeamColumn(index, data, gender) {
         .attr("class", function (d) {
             return "col-3 skill skill-experience skill-experience-value-" + classifyExperience(d["experience"]);
         })
-        .attr("title", "experience")
+        .attr("title", "experience (years)")
         .style("color", function (d) {
             return decideFontColor(classifyExperience(d.experience));
         })
@@ -244,7 +244,7 @@ function populateTeamColumn(index, data, gender) {
         .attr("class", function (d) {
             return "col-3 skill skill-height skill-height-value-" + classifyHeight(d["height"], d["gender"]);
         })
-        .attr("title", "height")
+        .attr("title", "height (cms)")
         .style("color", function (d) {
             return decideFontColor(classifyHeight(d.height, d.gender));
         })
