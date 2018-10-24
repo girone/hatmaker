@@ -348,6 +348,7 @@ function loadData(username, password) {
                 alert("Error: " + data.error);
                 return false;
             }
+            // Update view only if the data or the sort order changed.
             var newHash = JSON.stringify(data).hashCode();
             var newSortOrder = getSortOrder();
             if (newHash === lastDataHash && newSortOrder === lastSortOrder) {
@@ -355,6 +356,7 @@ function loadData(username, password) {
             }
             lastDataHash = newHash;
             lastSortOrder = newSortOrder;
+
             data = auditPlayers(data);
             populateTeamAssignmentTable(data);
             updateGenderSummary(data);
