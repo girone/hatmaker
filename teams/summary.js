@@ -1,3 +1,5 @@
+var lastDataHash = 0;
+
 function computeSkillMetrics(leaves, skillName) {
     var sum = d3.sum(leaves, function (d) {
         return d[skillName];
@@ -38,6 +40,14 @@ function updateSummaryScreen() {
                 alert("Error: " + data.error);
                 return false;
             }
+
+            // Update view only if the data or the sort order changed.
+            var newHash = JSON.stringify(data).hashCode();
+            if (newHash === lastDataHash) {
+                return true;
+            }
+            lastDataHash = newHash;
+
             data = auditPlayers(data);
 
             var extent = {
@@ -304,6 +314,7 @@ function updateSummaryScreen() {
 };
 
 $(document).ready(function () {
+    updateSummaryScreen();
     d3.interval(function () {
         updateSummaryScreen();
     }, 1000);
