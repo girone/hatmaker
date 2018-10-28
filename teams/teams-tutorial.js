@@ -18,7 +18,7 @@ function addPopovers() {
     popovers.push($("#player618 > div.row-fluid").popover({
         placement: "left", trigger: "manual", template: popoverTemplate,
         title: "Player cards (detail)",
-        content: "Each player assessed his own properties and skills during registration. Hover over the individual fields to see what they encode."
+        content: "Each player assessed his own properties and skills during registration. Hover over the individual fields to see what they encode. The four different skills use a color scale where higher intensity encodes higher values. The players are sorted by experience now. Note how that causes a gradient over the first skill in each team, which helps to assess the balance of the teams with regard to player experience. You will see how to order w.r.t. other skills later on."
     }));
     popovers.push($("div#player752").popover({
         placement: "bottom", trigger: "manual", template: popoverTemplate,
