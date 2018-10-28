@@ -36,6 +36,8 @@ I decided reuse the color-hue from the first visualization so that the skills ha
 
 Finally, when reviewing the app myself after the project paused while I cleared my mind during vacation, I felt that the summary visualization could be improved by adding colors to columns, so that the skill sets of each team can be visually matched with each other. Also, to improve the look and feel, I added some eye-candy like interactive hover effects and transitions which hint what effects the drag and drop actions will have.
 
+After receiving the feedback on the first submitted version, I realized that the tool and its two visualizations cannot be easily understood by someone who is not familar with the tournament format, the sport of Ultimate Frisbee and the HATMaker tool. I remembered having seem nice click-through tutorials when my favorite apps release new feature sets and found that these are called "Popovers". I restructured the HTML and Javascript so that I could include Bootstrap's Popovers into my visualizations and also added two modals for introductory information.
+
 ## Feedback
 
 ### First review (by my brother)
@@ -59,6 +61,10 @@ Finally, when reviewing the app myself after the project paused while I cleared 
 
 * The graphs are cluttered up, some more spacing or coloring of columns could help.
 * Some explanation is needed. Maybe add some effects to encourage interaction and hint effects of actions.
+
+### 5th review (Udacity tutor, in response to first submission)
+
+* "[...] looks like a web application that is not practically understandable by a layman to the terms involved. I saw some plots when clicking on the "show summary" but did not quite understand the context."
 
 ## Resources
 
