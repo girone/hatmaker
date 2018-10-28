@@ -244,7 +244,7 @@ function populateTeamColumn(index, data, gender) {
         .attr("class", function (d) {
             return "col-3 skill skill-height skill-height-value-" + classifyHeight(d["height"], d["gender"]);
         })
-        .attr("title", "height (cms)")
+        .attr("title", "height (cm)")
         .style("color", function (d) {
             return decideFontColor(classifyHeight(d.height, d.gender));
         })
