@@ -73,3 +73,7 @@ After receiving the feedback on the first submitted version, I realized that the
 [Stackoverflow](https://stackoverflow.com/questions/51650427/send-post-request-in-d3-with-d3-fetch) as usual, was the most important source for help.
 
 [Scott Murray's Blog posts on D3](http://alignedleft.com/tutorials/d3/binding-data) and [Dashing D3js](https://www.dashingd3js.com/binding-data-to-dom-elements) helped a lot.
+
+I have been using [Twitter's Bootstrap](https://getbootstrap.com/docs/4.1/getting-started/introduction/) for GUI components before and started to use version 4 and some new features for this project.
+
+The hands-on demo of [Dragula](https://bevacqua.github.io/dragula/) inspired me to use drag and drop as a core feature of the interactive visualization. To cite the author: "drag and drop so simple it hurts".
