@@ -113,7 +113,7 @@ function key_func(d) {
 }
 
 function populateTeamAssignmentTable(data) {
-    // NOTE(Jonas): Alternatively, use d3.nest() here and/or d3.data(data, key_func), see Udacity examples.
+    // NOTE(Jonas): Alternatively, use d3.nest() here and/or d3.data(data, key_func).
     for (var i = 1; i <= 12; ++i) {
         populateTeamColumn(i, data);
     }
@@ -439,17 +439,10 @@ function registerEventHandlers() {
             d3.select("#inputPassword").property("disabled", true);
             d3.select(this).text("Drag&Drop unlocked");
             showInitiallyHiddenElements();
-            //
+            // Automatically start tutorial. Assumes the data finished loading after 1 second.
             setTimeout(function () {
                 startTeamsTutorial();
             }, 1000);
         }
-//        if (enableDragAndDrop() && loadData()) {
-//            liveStreamEnabled = false;
-//            d3.select("#inputUsername").property("disabled", true);
-//            d3.select("#inputPassword").property("disabled", true);
-//            d3.select(this).text("Drag&Drop unlocked");
-//            showInitiallyHiddenElements();
-//        }
     });
 };

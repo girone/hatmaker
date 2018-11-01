@@ -38,34 +38,6 @@ Finally, when reviewing the app myself after the project paused while I cleared 
 
 After receiving the feedback on the first submitted version, I realized that the tool and its two visualizations cannot be easily understood by someone who is not familar with the tournament format, the sport of Ultimate Frisbee and the HATMaker tool. I remembered having seem nice click-through tutorials when my favorite apps release new feature sets and found that these are called "Popovers". I restructured the HTML and Javascript so that I could include Bootstrap's Popovers into my visualizations and also added two modals for introductory information.
 
-## Feedback
-
-### First review (by my brother)
-
-* Visualization is confusing, because there is so much data to grasp.
-* Equally sized cards would help.
-* Differnt skill levels should have different colors, not just numbers.
-
-### Second review (from a colleague)
-
-* Some sorting would help to see which team needs, e.g. a tall player or a strong female player.
-* Gender should be summarized separately, because when sorting by skills, the gender is not taken into account.
-
-### Third review (feedback from the assignment board)
-
-* We need some summary to compare the teams as a whole.
-* What is the average fitness of one team compared to the others? This is an important question during the assignment process and cannot yet be answered from the visualization.
-* Some legend would be helpful.
-
-### Fourth review (myself)
-
-* The graphs are cluttered up, some more spacing or coloring of columns could help.
-* Some explanation is needed. Maybe add some effects to encourage interaction and hint effects of actions.
-
-### 5th review (Udacity tutor, in response to first submission)
-
-* "[...] looks like a web application that is not practically understandable by a layman to the terms involved. I saw some plots when clicking on the "show summary" but did not quite understand the context."
-
 ## Resources
 
 [ColorBrewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) for selecting distinctive color scales for the different skills.

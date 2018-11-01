@@ -38,7 +38,7 @@ function addPopovers() {
     popovers.push($("#controlsRight").popover({
         placement: "bottom", trigger: "manual", template: popoverTemplate,
         title: "Credentials",
-        content: "Normally, only admins from the organization committee can change the player assignment. When not signed in, you would only be able to view the latest assignent. This has been used to stream the assignment process to the tournament participants. However, the credentials have been disabled for now to ease demonstration."
+        content: "Normally, only admins from the organization committee can change the player assignment. When not signed in, you are only able to view the current assignment. This can been used to stream the assignment process to via the web."
     }));
     popovers.push($("#controlsLeft").popover({
         placement: "bottom", trigger: "manual", template: popoverTemplate,
