@@ -28,6 +28,11 @@ function updateGenderSummary(data) {
             return a.key - b.key;
         });
 
+    var mapped = {};
+    for (entry of nested) {
+        mapped[entry.key] = entry;
+    }
+
     // Update number of players by gender for each team.
     for (var teamID = 1; teamID <= 12; ++teamID) {
         var summary = d3.select("div#summary-" + teamID);
@@ -38,13 +43,20 @@ function updateGenderSummary(data) {
             .append("div")
             .attr("id", "summary-" + teamID)
             .attr("class", "row");
-        var index = teamID - 1;
-        summary.append("div")
-            .attr("class", "col summary-male male")
-            .text(nested[index].values[0].value);
-        summary.append("div")
-            .attr("class", "col summary-female female")
-            .text(nested[index].values[1].value);
+        var maleCount = summary.append("div")
+            .attr("class", "col summary-male male");
+        if (teamID in mapped && mapped[teamID].values.length > 0) {
+            maleCount.text(mapped[teamID].values[0].value);
+        } else {
+            maleCount.text(0);
+        }
+        var femaleCount = summary.append("div")
+            .attr("class", "col summary-female female");
+        if (teamID in mapped && mapped[teamID].values.length > 1) {
+            femaleCount.text(mapped[teamID].values[1].value);
+        } else {
+            femaleCount.text(0);
+        }
     }
 }
 
