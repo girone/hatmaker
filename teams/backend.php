@@ -22,7 +22,7 @@ function fetch_all_data($obfuscate)
             $r["team_position"] = 0;
         }
         if ($obfuscate) {
-            $r["name"] = obfuscate_name($r["name"]);
+            $r["name"] = $r["name"];
             $r["email"] = "";
         }
         $rows[] = $r;
@@ -30,6 +30,7 @@ function fetch_all_data($obfuscate)
     return $rows;
 }
 
+// This function was used to obfuscate player names when handing in for a project submission.
 function obfuscate_name($name)
 {
     $parts = explode(" ", $name);
