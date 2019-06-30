@@ -25,6 +25,7 @@ function fetch_all_data()
 // Const array modelling a set in PHP7.x. Note that the values of 1 are necessary to make isset() work.
 define('WRITE_FIELDS', array(
     "player_index" => 1,
+    "mail_confirmation_sent" => 1,
     "status" => 1,
     "confirmation_date" => 1,
     "reimburse_date" => 1,

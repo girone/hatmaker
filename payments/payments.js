@@ -147,6 +147,27 @@ function populatePlayerList(data) {
             }
         });
 
+    var mail_confirmation = right_part.append("div")
+        .attr("class", "form-check");
+    var checkbox = mail_confirmation.append("input")
+        .attr("type", "checkbox")
+        .attr("class", "form-check-input")
+        .attr("id", function (d) {
+            return "mail_confirmation_sent_" + d["player_index"];
+        })
+        .property("checked", function (d) {
+            return d["mail_confirmation_sent"];
+        });
+    mail_confirmation.append("label")
+        .attr("class", "form-check-label")
+        .attr("for", function (d) {
+            return "mail_confirmation_sent_" + d["player_index"];
+        })
+        .text("Registration confirmation email sent");
+    checkbox.on("change", function (player) {
+        triggerPlayerUpdate(player);
+    });
+
     right_part.append("p")
         .attr("class", "card-text text-muted")
         .attr("id", function (d) {
@@ -259,11 +280,13 @@ function now() {
 function extractPlayerData(player) {
     var cardID = "player_" + player.player_index;
     var card = d3.select("div.card#" + cardID);
+    var newEmailStatus = card.select("#mail_confirmation_sent_" + player.player_index).property("checked");
     var newStatus = card.select("#selectPaymentStatus_" + player.player_index).node().value;
     var newNotes = card.select("#notes_" + player.player_index).node().value;
     var newPlayer = {
         "player_index": player.player_index,
         "name": player.name,
+        "mail_confirmation_sent": newEmailStatus,
         "status": newStatus,
         "notes": newNotes,
         "last_change": now(),
