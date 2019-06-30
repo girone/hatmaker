@@ -288,7 +288,7 @@ function parseNumber(value) {
 
 function applyGeneralFormatAudit(value) {
     if (typeof value === "string" || value instanceof String) {
-        value = value.replace(/\((Rooky|Mastermind)\)/, "");
+        value = value.replace(/\((Rooky|Mastermind|Brody|Melissa)\)/, "");
         value = value.trim();
         value = parseNumber(value);
     }

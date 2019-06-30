@@ -147,7 +147,7 @@ def format_height(height, gender):
     return s
 
 
-KEY_PATTERN = re.compile(r"\((Rooky|Mastermind)\)", re.IGNORECASE)
+KEY_PATTERN = re.compile(r"\((Rooky|Mastermind|Melissa|Brody)\)", re.IGNORECASE)
 
 
 def parse_int(string):
