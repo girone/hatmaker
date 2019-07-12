@@ -56,5 +56,6 @@ docs/_build/
 # PyBuilder
 target/
 
+mail_credentials.php
 credentials.php
 users.php
