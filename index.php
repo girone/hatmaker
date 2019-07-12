@@ -151,16 +151,7 @@ if (!$_POST['sent']) {
   }
   $con->close();
 
-  if ($registrationPhase != RegistrationPhase::CLOSED) {
-    echo '
-        <div class="alert alert-success">
-          <strong>Player added. Thank you and see you in Freiburg!</strong>
-        </div>
-        <div class="alert alert-info">
-          Did you already add your favourite music to the <a href="https://open.spotify.com/user/evelyn.friedel/playlist/0gANd0sP2vf4TX8Udp4zVB?si=1-cQLGU8R3qOXWlgJu9l_w">spotify list</a>?
-        </div>
-    ';
-  } else {
+  if ($registrationPhase == RegistrationPhase::CLOSED) {
     echo '
         <div class="alert alert-warning">
           <strong>We have already reached the maximum number of players. You have been added to the waiting list. Expect to hear from us about two weeks before the tournament.</strong>
@@ -169,10 +160,10 @@ if (!$_POST['sent']) {
   }
 
   echo '
-      <div class="alert alert-info">
-        <p>Note that there will be no automatic confirmation email, whatsoever. We will be sending you a manuel confirmation within a few days. However, your spot is 99% safe.</p>
-      </div>
-  ';
+        <div class="alert alert-info">
+          Did you already add your favourite music to the <a href="https://open.spotify.com/user/evelyn.friedel/playlist/0gANd0sP2vf4TX8Udp4zVB?si=1-cQLGU8R3qOXWlgJu9l_w">spotify list</a>?
+        </div>
+   ';
 }
 
 ?>
