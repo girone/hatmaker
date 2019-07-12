@@ -8,6 +8,7 @@ abstract class RegistrationPhase {
 }
 
 include("database.php");
+include("confirmationmail.php");
 
 function get_player_count() {
   $con = create_connection();
@@ -92,7 +93,7 @@ if (!$_POST['sent']) {
           <li>The first 144 players are automatically acknowledged. Further players will be put on the waiting list.</li>
           <li>We will send you payment information come the end of July. The playersfee has to be payed at least two weeks before the tournament. If you do not pay in time, you might loose your spot.</li>
           <li>If you already payed and cannot make it for whatever reason, we can reimburse your playersfee if you inform us until two weeks before the tournament. Later cancelations are not guaranteed to get the playersfee back.</li>
-          <li>Any trouble or questions regarding the registration? Contact <a href="mailto:rafaelhanna@yahoo.com">Rafael</a>.
+          <li>Any trouble or questions regarding the registration? Contact <a href="mailto:mischmasch19@gmail.com">Rafael</a>.
           <li><em>Add your favourite music to this <a href="https://open.spotify.com/user/evelyn.friedel/playlist/0gANd0sP2vf4TX8Udp4zVB?si=1-cQLGU8R3qOXWlgJu9l_w">spotify list</a>. We will play the list during the day and on one of our silent-disco channels at the party.</em></li>
           <li>Your data will be treated confidently and stored in a secured database. We will not hand it over to third parties or use it for any other purpose than preparing the tournament. The data will be deleted after the tournament.</li>
         </ul>
@@ -144,29 +145,25 @@ if (!$_POST['sent']) {
     echo format_error(mysqli_error($con));
     die();
   }
+  else
+  {
+	  $smail = sendConfirmationmail($name, $email, $origin, $gender, $experience, $throwing_skill, $fitness, $height, $arrival, $notes, $registrationPhase);
+  }
   $con->close();
 
-  if ($registrationPhase != RegistrationPhase::CLOSED) {
-    echo '
-        <div class="alert alert-success">
-          <strong>Player added. Thank you and see you in Freiburg!</strong>
-        </div>
-        <div class="alert alert-info">
-          Did you already add your favourite music to the <a href="https://open.spotify.com/user/evelyn.friedel/playlist/0gANd0sP2vf4TX8Udp4zVB?si=1-cQLGU8R3qOXWlgJu9l_w">spotify list</a>?
-        </div>
-    ';
-  } else {
+  if ($registrationPhase == RegistrationPhase::CLOSED) {
     echo '
         <div class="alert alert-warning">
           <strong>We have already reached the maximum number of players. You have been added to the waiting list. Expect to hear from us about two weeks before the tournament.</strong>
         </div>
     ';
   }
+
   echo '
-      <div class="alert alert-info">
-        <p>Note that there will be no automatic confirmation email, whatsoever. We will be sending you a manuel confirmation within a few days. However, your spot is 99% safe.</p>
-      </div>
-  ';
+        <div class="alert alert-info">
+          Did you already add your favourite music to the <a href="https://open.spotify.com/user/evelyn.friedel/playlist/0gANd0sP2vf4TX8Udp4zVB?si=1-cQLGU8R3qOXWlgJu9l_w">spotify list</a>?
+        </div>
+   ';
 }
 
 ?>

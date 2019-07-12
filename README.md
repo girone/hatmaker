@@ -2,24 +2,30 @@
 A tool to setup teams for an ultimate frisbee HAT tournament.
 
 ## Prerequisites
-Python3 to handle european special characters.
+*Python3* to handle european special characters.
+
+*Composer* to install PHP dependencies into `vendor/`, e.g. `composer require phpmailer/phpmailer`.
 
 ## Usage
 
-***TODO(Jonas):** Document payments management and other new features.*
+Install the code on your webserver with a decent PHP installation.
 
-1. Fetch the data from the registration database by running the bash script
-```
-./get_data.sh  # creates data.csv
-```
-In order to perform this step, you need to put the credentials file into the
-same directory.
+Can be tested locally with `php -S localhost:8080` and then
+opening the [local website in your browser](http://localhost:8080/).
 
-2. Generate a list of formated player information.
-```
-python3 format_data.py data.csv  > player_list.html
-```
-TODO(girone): Use jquery and/or bootstrap to make the list sortable by
-different attributes.
+## Features
+***TODO(girone): Document new features since 2018.***
 
-3. Open the generated HTML file in a web browser of you choice.
+### Registration
+
+Confirmation email
+
+### Payments Management
+
+### Live Team Assignments
+
+Drag&drop UI
+
+Comparison Charts
+
+
