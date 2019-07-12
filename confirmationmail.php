@@ -20,25 +20,42 @@
 		$mail->SMTPAuth = true;
 		$mail->Username = $mailusrname;
 		$mail->Password = $mailpasswd;
-		
-		//Mail Message with all submitted informations
-		$message = 'Hi ' . $name . ',<br><br>You successfully registered for the MischMasch Hat Tournament with the following Informations:<br>Name: ' . $name . '<br>Hometeam: ' . $origin . '<br>Gender: ' . $gender . '<br>Years of Experience: ' . $experience . '<br>Throwing Skill Level (0-6): ' . $throwing_skill . '<br>Fitness Skill Level (0-6): ' . $fitness . '<br>Height: ' .$height . ' cm<br>Arrival: ' . $arrival . '<br>Additional Notes: ' . $notes;
-		//Tell the player the registration status
+
+		// Format mail with all submitted information.
+		$message = 'Dear ' . $name . ',<br><br>
+
+		you have successfully registered for the MischMasch Hat Tournament with the following information:<br>
+			<dl class="dl-horizontal">
+			    <dt>Name</dt><dd>' . $name . '</dd>
+			    <dt>Hometeam</dt><dd>' . $origin . '</dd>
+			    <dt>Gender</dt><dd>' . $gender . '</dd>
+			    <dt>Years of Experience</dt><dd>' . $experience . '</dd>
+			    <dt>Throwing Skill Level (0-6)</dt><dd>' . $throwing_skill . '</dd>
+			    <dt>Fitness Skill Level (0-6)</dt><dd>' . $fitness . '</dd>
+			    <dt>Heigh</dt><dd> ' .$height . ' cm</dd>
+			    <dt>Arrival</dt><dd>' . $arrival . '</dd>
+			    <dt>Additional Notes</dt><dd>' . $notes . '</dd>
+			</dl><br>';
 		if ($registrationPhase == 1)
 		{
-			$message .= '<br><br>We are happy to see you soon in Freiburg :)<br>Your MischMasch-Team';
+			$message .= '<br>
+
+			--<br>
+			We are happy to see you soon in Freiburg :)<br>
+
+			Your MischMasch-Team';
 		}
 		else if ($registrationPhase == 2)
 		{
-			$message .= '<br><br>We already have a lot of registrations for this years MischMasch, but you are on the waiting list. We will give you a notice if a spot opens up.<br>Your MischMasch-Team';
+			$message .= 'We already have a lot of registrations for this years MischMasch, but you are on the waiting list. We will give you a notice if a spot opens up.<br>Your MischMasch-Team';
 		}
 		else
 		{
-			$message .= '<br><br>We already have a lot of registrations for this years MischMasch, but you are on the waiting list. We will give you a notice if a spot opens up.<br>Your MischMasch-Team';
+			$message .= 'We already have a lot of registrations for this years MischMasch, but you are on the waiting list. We will give you a notice if a spot opens up.<br>Your MischMasch-Team';
 		}
-		
-		echo $message;
-		
+
+		echo '<div class="alert alert-info">' . $message . '</div>';
+
 		$mail->addAddress($tomail);
 		$mail->ContentType = 'text/html; charset=\'utf-8\'\r\n';
 		$mail->Subject = 'MischMasch 19 - Registration';
@@ -50,7 +67,7 @@
 			//echo 'Mailer Error: ' . $mail->ErrorInfo;
 			echo '
 				<div class="alert alert-warning">
-					<strong>Unable to send a confirmation Mail.</strong>
+					<strong>Unable to send a confirmation Mail:</strong> ' . $mail->ErrorInfo . '
 				</div>
 			';
 			return false;
