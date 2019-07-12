@@ -1,12 +1,11 @@
 <?php
-	//add PHP-Mailer: https://github.com/PHPMailer/PHPMailer
+	// Trigger Composer's autoload:
+	require __DIR__ . '/vendor/autoload.php';
+
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\Exception;
 
-	require 'Exception.php';
-	require 'PHPMailer.php';
-	require 'SMTP.php';
-	
+
 	function sendConfirmationmail($name, $tomail, $origin, $gender, $experience, $throwing_skill, $fitness, $height, $arrival, $notes, $registrationPhase)
 	{
 		//include login informations for the gmail account

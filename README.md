@@ -4,7 +4,7 @@ A tool to setup teams for an ultimate frisbee HAT tournament.
 ## Prerequisites
 *Python3* to handle european special characters.
 
-*Composer* to install PHP dependencies into `vendor/`.
+*Composer* to install PHP dependencies into `vendor/`, e.g. `composer require phpmailer/phpmailer`.
 
 ## Usage
 
