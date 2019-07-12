@@ -147,7 +147,6 @@ if (!$_POST['sent']) {
   }
   else
   {
-	  /*send a confirmation mail to the player*/
 	  $smail = sendConfirmationmail($name, $email, $origin, $gender, $experience, $throwing_skill, $fitness, $height, $arrival, $notes, $registrationPhase);
   }
   $con->close();
@@ -168,6 +167,7 @@ if (!$_POST['sent']) {
         </div>
     ';
   }
+
   echo '
       <div class="alert alert-info">
         <p>Note that there will be no automatic confirmation email, whatsoever. We will be sending you a manuel confirmation within a few days. However, your spot is 99% safe.</p>

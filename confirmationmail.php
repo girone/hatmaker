@@ -8,9 +8,9 @@
 
 	function sendConfirmationmail($name, $tomail, $origin, $gender, $experience, $throwing_skill, $fitness, $height, $arrival, $notes, $registrationPhase)
 	{
-		//include login informations for the gmail account
+		// Include login informations for the gmail account.
 		include ("mail_credentials.php");
-		
+
 		$mail = new PHPMailer;
 		$mail->isSMTP();
 		$mail->SetFrom('mischmasch19@gmail.com', 'Rafael Hanna');
@@ -60,11 +60,10 @@
 		$mail->ContentType = 'text/html; charset=\'utf-8\'\r\n';
 		$mail->Subject = 'MischMasch 19 - Registration';
 		$mail->msgHTML($message);
-		
-		//send Mail, check success
+
+		// Send Mail, check success.
 		if (!$mail->send())
 		{
-			//echo 'Mailer Error: ' . $mail->ErrorInfo;
 			echo '
 				<div class="alert alert-warning">
 					<strong>Unable to send a confirmation Mail:</strong> ' . $mail->ErrorInfo . '
